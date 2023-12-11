@@ -5,7 +5,7 @@ Beca [CONACYT BECA08-25](https://www.conacyt.gov.py/view-inventario-de-tesis?key
 * [https://repositorio.conacyt.gov.py/handle/20.500.14066/3172](https://repositorio.conacyt.gov.py/handle/20.500.14066/3172)
 
 
-![SOFTWARE_PRESENTATION](https://github.com/juancarlosmiranda/orange_classification/tree/main/docs/orange_classification_diagrams_1.0.png?raw=true)
+![SOFTWARE_PRESENTATION](https://github.com/juancarlosmiranda/orange_classification/tree/main/docs/img/orange_classification_diagrams_1.0.png?raw=true)
 
  
 ## Resumen
