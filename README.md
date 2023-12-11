@@ -1,9 +1,33 @@
-# AK_FRAEX - Azure Kinect Frame Extractor
+# Clasificación automática de naranjas por tamaño y por defectos utilizando técnicas de visión por computadora
+Tesis presentada a la [Facultad Politécnica, Universidad Nacional de Asunción](https://www.pol.una.py/), como requisito para la obtención del Grado de Máster en Ciencias de la Computación.
+Beca [CONACYT BECA08-25](https://www.conacyt.gov.py/view-inventario-de-tesis?keys=beca08-25) (https://www.conacyt.gov.py/view-inventario-de-tesis?keys=beca08-25). Apoyo financiero de [CONACYT-Paraguay, bajo el programa 14-POS-008](https://datos.conacyt.gov.py/proyectos/nid/209)
+* [https://dx.doi.org/10.13140/RG.2.2.15456.35845](https://dx.doi.org/10.13140/RG.2.2.15456.35845)
+* [https://repositorio.conacyt.gov.py/handle/20.500.14066/3172](https://repositorio.conacyt.gov.py/handle/20.500.14066/3172)
+
+
+![SOFTWARE_PRESENTATION](https://github.com/juancarlosmiranda/orange_classification/tree/main/docs/orange_classification_diagrams_1.0.png?raw=true)
+
+ 
+## Resumen
+En este trabajo, se propone una metodología automática y reproducible utilizando técnicas de visión por computadora para clasificación de naranjas por tamaño y por defectos. Los pasos propuestos para clasificación por tamaño fueron: adquisición de imágenes, calibración, procesamiento y segmentación de imágenes, extracción de características y clasificación. Se aplicaron 2 técnicas de procesamiento y segmentación de imágenes para separar la fruta. Para clasificación se evaluaron 2 modos: clasificación según umbral, clasificación con aplicación de aprendizaje automático. El método de segmentación 2, basado en umbrales en el espacio CIELAB, demostró ser el mejor y se vió menos afectado por los cambios de iluminación en una comparativa visual. La mejor combinación de procesos ensamblados para clasificación fue la que incluyó: el método de segmentación 2, medición del eje menor a partir de 4 imágenes y clasificación con el algoritmo SVM. 
+Los pasos propuestos para detección de defectos fueron: marcación y creación de banco de imágenes, generación de datos para aprendizaje, evaluación de frutas con el algoritmo KNN. La segmentación de defectos consistió en la implementación de 3 variantes combinadas con operaciones de morfología binaria y suavizado. Las regiones fueron sometidas a un proceso de verificación automática contra lo marcado por un experto. La variante 2 basada en el filtro Prewitt demostró una exactitud de 96\%. Para clasificación de defectos se utilizaron características geométricas y de color en conjunto con el algoritmo KNN.
+**Palabras claves:** Visión por computadora, Procesamiento de imágenes, Segmentación, Extracción de características, Clasificación, Aprendizaje automático.
+
+# Automatic grading of oranges by size and by defects using computer vision techniques
+## Abstract
+In this work, an automatic and reproducible methodology is proposed using computer vision techniques for sorting oranges by size and defects. The proposed steps for size classification were: image acquisition, calibration, image processing and segmentation, feature extraction and classification. Two image processing and segmentation techniques were applied to separate the fruit. For classification, 2 modes were evaluated: classification according to threshold, classification with automatic learning application. Segmentation method 2, based on thresholds in the CIELAB space, proved to be the best and was less affected by lighting changes in a visual comparison. The best combination of processes assembled for classification was the one that included: segmentation method 2, measurement of the minor axis from 4 images and classification with the SVM algorithm. 
+The proposed steps for defect detection were: marking and creation of an image bank, generation of data for learning, fruit evaluation with the KNN algorithm. The defect segmentation consisted of the implementation of 3 variants combined with binary morphology and smoothing operations. The regions were subjected to an automatic verification process against the marks of an expert. Variant 2 based on the Prewitt filter showed an accuracy of 96 percent. For defect classification, geometric and color characteristics were used in conjunction with the KNN algorithm.
+**Keywords:** Computer vision, Image processing, Segmentation, Classification, Machine learning.
+
+Schollarship [CONACYT BECA08-25](https://www.conacyt.gov.py/view-inventario-de-tesis?keys=beca08-25) (https://www.conacyt.gov.py/view-inventario-de-tesis?keys=beca08-25). Financial support from [CONACYT-Paraguay, under program # 14-POS-008](https://datos.conacyt.gov.py/proyectos/nid/209)
+* [https://dx.doi.org/10.13140/RG.2.2.15456.35845](https://dx.doi.org/10.13140/RG.2.2.15456.35845)
+* [https://repositorio.conacyt.gov.py/handle/20.500.14066/3172](https://repositorio.conacyt.gov.py/handle/20.500.14066/3172)
+
 
 Python-based GUI tool to extract frames from video files produced with Azure Kinect cameras. Visit the project site
 at [https://pypi.org/project/ak-frame-extractor/](https://pypi.org/project/ak-frame-extractor/)
 
-![SOFTWARE_PRESENTATION](https://github.com/GRAP-UdL-AT/ak_frame_extractor/blob/main/docs/img/ak_frame_extractor_presentation.png?raw=true)
+
 
 ## Contents
 
@@ -216,45 +240,25 @@ Explain about packages distribution.
 
 ## Authorship
 
-This project is contributed by [GRAP-UdL-AT](http://www.grap.udl.cat/en/index.html). Please contact authors to report
-bugs juancarlos.miranda@udl.cat
+Please contact authors to report bugs [https://www.linkedin.com/in/juan-carlos-miranda-py/](https://www.linkedin.com/in/juan-carlos-miranda-py/)
 
 ## Citation
 
 If you find this code useful, please consider citing:
 
 ```
-@article{MIRANDA2022101231,
-title = {AKFruitData: A dual software application for Azure Kinect cameras to acquire and extract informative data in yield tests performed in fruit orchard environments},
-journal = {SoftwareX},
-volume = {20},
-pages = {101231},
-year = {2022},
-issn = {2352-7110},
-doi = {https://doi.org/10.1016/j.softx.2022.101231},
-url = {https://www.sciencedirect.com/science/article/pii/S2352711022001492},
-author = {Juan Carlos Miranda and Jordi Gené-Mola and Jaume Arnó and Eduard Gregorio},
-keywords = {RGB-D camera, Data acquisition, Data extraction, Fruit yield trials, Precision fructiculture},
-abstract = {The emergence of low-cost 3D sensors, and particularly RGB-D cameras, together with recent advances in artificial intelligence, is currently driving the development of in-field methods for fruit detection, size measurement and yield estimation. However, as the performance of these methods depends on the availability of quality fruit datasets, the development of ad-hoc software to use RGB-D cameras in agricultural environments is essential. The AKFruitData software introduced in this work aims to facilitate use of the Azure Kinect RGB-D camera for testing in field trials. This software presents a dual structure that addresses both the data acquisition and the data creation stages. The acquisition software (AK_ACQS) allows different sensors to be activated simultaneously in addition to the Azure Kinect. Then, the extraction software (AK_FRAEX) allows videos generated with the Azure Kinect camera to be processed to create the datasets, making available colour, depth, IR and point cloud metadata. AKFruitData has been used by the authors to acquire and extract data from apple fruit trees for subsequent fruit yield estimation. Moreover, this software can also be applied to many other areas in the framework of precision agriculture, thus making it a very useful tool for all researchers working in fruit growing.}
+@article{miranda2018clasificacion,
+  title={Clasificaci{\'o}n autom{\'a}tica de naranjas por tama{\~n}o y por defectos utilizando t{\'e}cnicas de visi{\'o}n por computadora},
+  journal={Universidad Nacional de Asunci{\'o}n, San Lorenzo},
+  year={2018},    
+  doi = {http://dx.doi.org/10.13140/RG.2.2.15456.35845},
+  url = {https://www.researchgate.net/publication/326551993_CLASIFICACION_AUTOMATICA_DE_NARANJAS_POR_TAMANO_Y_POR_DEFECTOS_UTILIZANDO_TECNICAS_DE_VISION_POR_COMPUTADORA},
+  author={Miranda, Juan Carlos and Legal-Ayala, H},
+  keywords = {computer vision, image processing, segmentation, classification, machine learning},
+  abstract = {...}
 }
 ```
 
 ## Acknowledgements
 
-This work is a result of the RTI2018-094222-B-I00 project [(PAgFRUIT)](https://www.pagfruit.udl.cat/en/) granted by MCIN/AEI and by the European Regional
-Development Fund (ERDF). This work was also supported by the Secretaria d’Universitats i Recerca del Departament
-d’Empresa i Coneixement de la Generalitat de Catalunya under Grant 2017-SGR-646. The Secretariat of Universities and
-Research of the Department of Business and Knowledge of the [Generalitat de Catalunya](https://web.gencat.cat) and Fons Social Europeu (FSE) are
-also thanked for financing Juan Carlos Miranda’s pre-doctoral fellowship [(2020 FI_B 00586)](https://agaur.gencat.cat/). The work of Jordi Gené-Mola
-was supported by the Spanish Ministry of Universities through a Margarita Salas postdoctoral grant funded by the
-European Union - NextGenerationEU. The authors would also like to thank the Institut de Recerca i Tecnologia
-Agroalimentàries [(IRTA)](https://www.irta.cat/es/) for allowing the use of their experimental fields, and in particular Dr. Luís Asín and Dr. Jaume
-Lordán who have contributed to the success of this work.
-
-
-<img src="https://github.com/GRAP-UdL-AT/ak_frame_extractor/blob/main/docs/img/logo_PAgFRUIT.png" height="60px" alt="PAgFRUIT Research Project"/>
-<img src="https://github.com/GRAP-UdL-AT/ak_frame_extractor/blob/main/docs/img/logo_udl.png" height="60px" alt="Universitat de Lleida"/>
-<img src="https://github.com/GRAP-UdL-AT/ak_frame_extractor/blob/main/docs/img/logo_goverment_calonia.png" height="60px" alt="Generalitat de Catalunya"/>
-<img src="https://github.com/GRAP-UdL-AT/ak_frame_extractor/blob/main/docs/img/logo_min_science.png" height="60px" alt="Ministerio de Ciencia, Innovación y Universidades"/>
-<img src="https://github.com/GRAP-UdL-AT/ak_frame_extractor/blob/main/docs/img/logo_UNIO_EUROPEA.png" height="60px" alt="Fons Social Europeu (FSE) "/>
-<img src="https://github.com/GRAP-UdL-AT/ak_frame_extractor/blob/main/docs/img/logo_AGAUR.png" height="60px" alt="AGAUR"/>
+This work is a result of the **BECA08-25** granted by [Consejo Nacional de Ciencia y Tecnología (CONACYT)](https://repositorio.conacyt.gov.py/handle/20.500.14066/).
