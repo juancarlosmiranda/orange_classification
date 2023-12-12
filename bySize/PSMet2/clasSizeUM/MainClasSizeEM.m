@@ -1,5 +1,5 @@
 %% Clasificacion utilizando umbrales fijos, definidos en la funcion clasificador
-% El método Umbra, necesita que al archivo de conjunto completo se agreguen
+% El método Umbral, necesita que al archivo de conjunto completo se agreguen
 % dos columnas. Además de la etiqueta de clase que se agrega normalmente,
 % se debe agregar el eje mayo y el eje menor, para que se pueda comparar lo
 % medido por el experto y lo medido por el software.

@@ -1,4 +1,4 @@
-# Clasificación automática de naranjas por tamaño y por defectos utilizando técnicas de visión por computadora
+# Clasificación automática de naranjas por tamaño y por defectos utilizando técnicas de visión por computadora (ORGANIZANDO REPOSITORIO AÚN FALTA)
 
 ![SOFTWARE_PRESENTATION_01](https://github.com/juancarlosmiranda/orange_classification/blob/main/docs/img/orange_classification_diagrams_01_1.0.png?raw=true)
 
@@ -65,7 +65,7 @@ xxxx
 ## 4.3 Files and folder description
 
 *** TODO: Es necesario colocar la secuencia para el uso de los archivos.
-Esto es u montón de scripts sin una secuencia de pasos. ***
+Esto es un montón de scripts sin una secuencia de pasos. ***
 
 
 Files and modules:
@@ -78,12 +78,35 @@ Files and modules:
 | /byDefects/PSMet2/CompareROI/CompareSegmentation/MainMet4RSDMet1.m, /byDefects/PSMet2/CompareROI/CompareSegmentation/MainMet4RSDMet2.m, /byDefects/PSMet2/CompareROI/CompareSegmentation/MainMet4RSDMet3.m | Genera imagenes de regiones previamente marcadas a MANO. Es un proceso previo a la extraccion automatizada de caracteristicas. Se asume que un experto marco las frutas a mano con colores. Como salida se producen imágenes. | -- |
 | . | . | -- |
 | . | . | -- |
+| . | . | -- |
+| . | . | -- |
+| . | . | -- |
+| . | . | -- |
+
+** byDefects/ **
+| Folders                    | Description            |
+|---------------------------|-------------------------|
+| byDefects/SetCreator/ | 1) OK |
+| byDefects/SegMarkExp/ | 2). |
+| byDefects/SegMarkExpExtraction/ | 3). |
+| byDefects/CompareROI/ | . |
+| byDefects/FruitEvaluation/ | . |
+| byDefects/DefectsSegmentation/ | . |
+| . | . |
+| . | . |
 
 
-
-
-
-
+** bySize/ **
+| Folders                    | Description            |
+|---------------------------|-------------------------|
+| bySize/Calibration4R/ | . |
+| bySize/clasSize2ML/ | . |
+| bySize/clasSize24R/ | . |
+| bySize/clasSizeUM/ | . |
+| bySize/conf/ | . |
+| bySize/Training24R/ | . |
+| . | . |
+| . | . |
 
 
 
