@@ -1,6 +1,8 @@
 # Clasificación automática de naranjas por tamaño y por defectos utilizando técnicas de visión por computadora
 
-![SOFTWARE_PRESENTATION](https://github.com/juancarlosmiranda/orange_classification/blob/main/docs/img/orange_classification_diagrams_01_1.0.png?raw=true)
+![SOFTWARE_PRESENTATION_01](https://github.com/juancarlosmiranda/orange_classification/blob/main/docs/img/orange_classification_diagrams_01_1.0.png?raw=true)
+
+![SOFTWARE_PRESENTATION_02](https://github.com/juancarlosmiranda/orange_classification/blob/main/docs/img/orange_classification_diagrams_02_1.0.png?raw=true)
 
 ## Resumen
 En este trabajo, se propone una metodología automática y reproducible utilizando técnicas de visión por computadora para clasificación de naranjas por tamaño y por defectos. Los pasos propuestos para clasificación por tamaño fueron: adquisición de imágenes, calibración, procesamiento y segmentación de imágenes, extracción de características y clasificación. Se aplicaron 2 técnicas de procesamiento y segmentación de imágenes para separar la fruta. Para clasificación se evaluaron 2 modos: clasificación según umbral, clasificación con aplicación de aprendizaje automático. El método de segmentación 2, basado en umbrales en el espacio CIELAB, demostró ser el mejor y se vió menos afectado por los cambios de iluminación en una comparativa visual. La mejor combinación de procesos ensamblados para clasificación fue la que incluyó: el método de segmentación 2, medición del eje menor a partir de 4 imágenes y clasificación con el algoritmo SVM. 
