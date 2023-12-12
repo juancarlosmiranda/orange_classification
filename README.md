@@ -29,7 +29,7 @@ Schollarship [CONACYT BECA08-25](https://www.conacyt.gov.py/view-inventario-de-t
 
 
 
-## Contents (TO COMPLETE REVIEW THIS AFTER IONSTALL)
+## Contents (TO COMPLETE REVIEW THIS AFTER INSTALL)
 
 1. Pre-requisites.
 2. Functionalities.
@@ -64,6 +64,29 @@ xxxx
 
 ## 4.3 Files and folder description
 
+*** TODO: Es necesario colocar la secuencia para el uso de los archivos.
+Esto es u montón de scripts sin una secuencia de pasos. ***
+
+
+Files and modules:
+
+| Files                    | Description              | OS |
+|---------------------------|-------------------------|---|
+| /byDefects/PSMet2/SetCreator/MainSetCreator.m | Creador de conjuntos de entrenamiento y pruebas. Se encarga de crear un conjunto de entrenamiento y pruebas al azar. Crea un listado inicial de imágenes a partir de un directorio de muestras, las cuales cuentan con su correspondencia de marcación por el experto. | -- |
+| /byDefects/PSMet2/CompareROI/CompareSegmentation/MainMet4RSDMet1.m | Genera imagenes de regiones previamente marcadas a MANO. Es un proceso previo a la extraccion automatizada de caracteristicas. Se asume que un experto marcó las frutas a mano con colores. Como salida se producen imágenes. | -- |
+| /byDefects/PSMet2/SegMarkExpExtraction/MainSegMarkExpExtraction.m | Genera archivos con características de defectos y calyx, los cuales son utilizados para obtener datos de: color, textura y geometria de defectos y calyx. REQUIRE DE UN PROCESO PREVIO, que genera imagnes de defectos en colores y sus siluetas. Cada imagen en un directorio base, cuenta con sub imágenes de regiones e imágenes de siluetas. Ejemplo: 001.jpg es la imagen principal, existen imágenes de las regiones R1..R4 para lo defectos y a su vez exiten imágenes específicas para sus siluetas de defectos. La función asume que hubo un procesamiento previo, en el cual se generaron imágenes desde las marcas en colores dibujadas por e experto. | -- |
+| /byDefects/PSMet2/CompareROI/CompareSegmentation/MainMet4RSDMet1.m, /byDefects/PSMet2/CompareROI/CompareSegmentation/MainMet4RSDMet2.m, /byDefects/PSMet2/CompareROI/CompareSegmentation/MainMet4RSDMet3.m | Genera imagenes de regiones previamente marcadas a MANO. Es un proceso previo a la extraccion automatizada de caracteristicas. Se asume que un experto marco las frutas a mano con colores. Como salida se producen imágenes. | -- |
+| . | . | -- |
+| . | . | -- |
+
+
+
+
+
+
+
+
+
 Folder description:
 
 | Folders                    | Description            |
@@ -72,11 +95,7 @@ Folder description:
 | [docs/](https://github.com/juancarlosmiranda/orange_classification/tree/main/docs/) | Documentation |
 | . | . |
 
-Environment files:
 
-| Files                    | Description              | OS |
-|---------------------------|-------------------------|---|
-| xxxxxxx.xxx | a description here | WIN |
 
 
 ## Authorship

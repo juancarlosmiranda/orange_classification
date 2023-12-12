@@ -9,13 +9,18 @@ TotalFilas=tamanoTablaArchivos(1);
 
 for(contadorRandom=1:1:TotalFilas)
     %% copiando desde imagenes originales a test
-    archivoCopiarFuente=strcat(pathEntradaImagenesFuente,tablaDSTArchivos(contadorRandom).name)
-    archivoCopiarDestino=strcat(pathEntradaImagenesDestino,tablaDSTArchivos(contadorRandom).name)
+    archivoCopiarFuente=fullfile(pathEntradaImagenesFuente,tablaDSTArchivos(contadorRandom).name);
+    archivoCopiarDestino=fullfile(pathEntradaImagenesDestino,tablaDSTArchivos(contadorRandom).name);
     
     %% comando de copia
-    comando = { 'cp','-f',archivoCopiarFuente, archivoCopiarDestino};
-    command=strjoin(comando)
-    [status,cmdout] = system(command);    
+    fprintf("COPYING FILES %s %s \n",archivoCopiarFuente, archivoCopiarDestino);
+    [status,msg] = copyfile(archivoCopiarFuente,archivoCopiarDestino);
+    
+    % 12/12/2023 deprecated because it is Linux oriented command line
+    % supplanted by MATLAB command for file operations
+    %comando = { 'cp','-f',archivoCopiarFuente, archivoCopiarDestino};
+    %command=strjoin(comando)
+    %[status,cmdout] = system(command);    
 
 end % (contadorRandom=1:1:TotalFilas)
 

@@ -3,7 +3,7 @@
 % COMPUTER VISION TECHNIQUES 2018
 % juancarlosmiranda81@gmail.com
 % ########################################################################
-% IMPLEMENTA MEJORAS EN LA EXTRACCION DE LS DEFECTOS, DADO QE TOMA LAS
+% IMPLEMENTA MEJORAS EN LA EXTRACCION DE LOS DEFECTOS, DADO QE TOMA LAS
 % IMAGENES ORIGINALES EN RGB Y SEGMENTA LOS VALORES MARCADOS POR EL EXPERTO
 %
 % Genera imagenes de regiones previamente marcadas por un experto en forma
