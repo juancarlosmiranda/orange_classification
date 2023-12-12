@@ -17,3 +17,6 @@ Traducir campos de Training\conf\20170916configuracion.xml
 Traducir comentarios del texto.
 Traducir los datos del .csv.
 Separar dataset de salidas
+
+
+
