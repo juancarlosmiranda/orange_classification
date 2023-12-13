@@ -62,6 +62,16 @@ Create your folder environment.
 xxxx
 ```
 
+```
+|__/DATASET/
+       |__/inputToLearn/ -> BD de datos inicial
+       |__/inputMarked/ -> BD on correspondencia marcadas
+       |__/inputTest -> se borra y se crea con las imagenes
+       |__/inputTraining -> se borra y se crea con las imagenes
+
+```
+
+
 ## 4.3 Files and folder description
 
 *** TODO: Es necesario colocar la secuencia para el uso de los archivos.

@@ -18,64 +18,63 @@ function [ ] = ProcesesMarks(pathEntrada, pathEntradaMarca, pathAplicacion, nomb
 % -----------------------------------------------------------------------
 
 %% Datos de configuración archivos
-imagenInicial=strcat(pathEntrada,nombreImagenP); % imagen original para obtener los valores de colores
-imagenMarca=strcat(pathEntradaMarca,nombreImagenP); % imagen con marcas hechas por el experto
+imagenInicial=fullfile(pathEntrada,nombreImagenP); % imagen original para obtener los valores de colores
+imagenMarca=fullfile(pathEntradaMarca,nombreImagenP); % imagen con marcas hechas por el experto
 
 %% DIRECTORIOS DE GUARDADO
-pathAplicacionBR=strcat(pathAplicacion,'IBR/'); %imagen inicial, background removal siluetas en 1 imagen
-pathAplicacionROI=strcat(pathAplicacion,'IROI/'); %imagen inicial, regiones de interes a color con fondo removido de 1 imagen.
-pathAplicacionROIMarca=strcat(pathAplicacion,'MROI/'); %imagen marcada, regiones de interes a color 1 imagen
+pathAplicacionBR=fullfile(pathAplicacion,'IBR'); %imagen inicial, background removal siluetas en 1 imagen
+pathAplicacionROI=fullfile(pathAplicacion,'IROI'); %imagen inicial, regiones de interes a color con fondo removido de 1 imagen.
+pathAplicacionROIMarca=fullfile(pathAplicacion,'MROI'); %imagen marcada, regiones de interes a color 1 imagen
 
 
-pathAplicacion2=strcat(pathAplicacion,'ISFrutas/'); %siluetas de frutas 1..4 de imagen inicial
-pathAplicacion3=strcat(pathAplicacion,'IRM/'); %imagenes fondo removido 1..4 de imagen inicial
-pathAplicacionRemMarca=strcat(pathAplicacion,'MRM/'); %imagenes fondo removido de marcas azules 1..4
+pathAplicacion2=fullfile(pathAplicacion,'ISFrutas'); %siluetas de frutas 1..4 de imagen inicial
+pathAplicacion3=fullfile(pathAplicacion,'IRM'); %imagenes fondo removido 1..4 de imagen inicial
+pathAplicacionRemMarca=fullfile(pathAplicacion,'MRM'); %imagenes fondo removido de marcas azules 1..4
 
 
 %% CONFIGURACIONES DEFECTOS MASCARA Y COLOR
-pathAplicacionCALROI=strcat(pathAplicacion,'ROICalyxC/'); % 1 imagen con 4 marcas en magenta
-pathAplicacionCALROIBin=strcat(pathAplicacion,'ROICalyxBin/'); % 1 imagen con 4 marcas en binario
-pathAplicacionDEFROI=strcat(pathAplicacion,'ROIDefC/'); %1 imagen con 4 marcas en azul
-pathAplicacionDEFROIBin=strcat(pathAplicacion,'ROIDefBin/'); % % 1 imagen con 4 marcas en binario
+pathAplicacionCALROI=fullfile(pathAplicacion,'ROICalyxC'); % 1 imagen con 4 marcas en magenta
+pathAplicacionCALROIBin=fullfile(pathAplicacion,'ROICalyxBin'); % 1 imagen con 4 marcas en binario
+pathAplicacionDEFROI=fullfile(pathAplicacion,'ROIDefC'); %1 imagen con 4 marcas en azul
+pathAplicacionDEFROIBin=fullfile(pathAplicacion,'ROIDefBin'); % % 1 imagen con 4 marcas en binario
 
-pathCalyxColor=strcat(pathAplicacion,'MCalyxColor/'); %almacenado de calyx en color
-pathCalyxBinario=strcat(pathAplicacion,'MCalyxBin/'); %almacenado de calyx en binario
+pathCalyxColor=fullfile(pathAplicacion,'MCalyxColor'); %almacenado de calyx en color
+pathCalyxBinario=fullfile(pathAplicacion,'MCalyxBin'); %almacenado de calyx en binario
 
-pathDefColor=strcat(pathAplicacion,'MDefColor/'); %almacenado de defectos color
-pathDefBinario=strcat(pathAplicacion,'MDefBin/'); %almacenado de defectos binario
-
+pathDefColor=fullfile(pathAplicacion,'MDefColor'); %almacenado de defectos color
+pathDefBinario=fullfile(pathAplicacion,'MDefBin'); %almacenado de defectos binario
 
 % --- NOMBRE DE IMAGENES INTERMEDIAS ---
 % con fondo removido
-nombreImagenBR=strcat(pathAplicacionBR,nombreImagenP,'_','BR.jpg'); %para indicar silueta del fondo removido
-nombreImagenROI=strcat(pathAplicacionROI,nombreImagenP,'_','RO.jpg'); %para indicar el fondo removido y ROI
-nombreImagenROIMarca=strcat(pathAplicacionROIMarca,nombreImagenP,'_','MRO.jpg'); %para indicar el fondo removido y ROI
+nombreImagenBR=fullfile(pathAplicacionBR,strcat(nombreImagenP,'_','BR.jpg')); %para indicar silueta del fondo removido
+nombreImagenROI=fullfile(pathAplicacionROI,strcat(nombreImagenP,'_','RO.jpg')); %para indicar el fondo removido y ROI
+nombreImagenROIMarca=fullfile(pathAplicacionROIMarca,strcat(nombreImagenP,'_','MRO.jpg')); %para indicar el fondo removido y ROI
 
-nombreImagenF=strcat(pathAplicacionROI,nombreImagenP,'_','I.jpg'); %previa a la inversa
+nombreImagenF=fullfile(pathAplicacionROI,strcat(nombreImagenP,'_','I.jpg')); %previa a la inversa
 
 %prefijo para imagenes de fondo removido y siluetas de fondos removidos en
 %deteccion de objetos
-nombreImagenSiluetaN=strcat(pathAplicacion2,nombreImagenP,'_','sN');
-nombreImagenRemovida=strcat(pathAplicacion3,nombreImagenP,'_','rm');
-nombreImagenRemovidaMarca=strcat(pathAplicacionRemMarca,nombreImagenP,'_','Mrm');
+nombreImagenSiluetaN=fullfile(pathAplicacion2,strcat(nombreImagenP,'_','sN'));
+nombreImagenRemovida=fullfile(pathAplicacion3,strcat(nombreImagenP,'_','rm'));
+nombreImagenRemovidaMarca=fullfile(pathAplicacionRemMarca,strcat(nombreImagenP,'_','Mrm'));
 
 
 %DEFINICION DE NOMBRES DE IMAGENES PARA DEFECTOS SEGMENTADO EN COLOR Y EN
 %BINARIO
-nombreImagenCALROI=strcat(pathAplicacionCALROI,nombreImagenP,'_','DR.jpg'); %para indicar CALIZ en magenta
-nombreImagenCALROIBin=strcat(pathAplicacionCALROIBin,nombreImagenP,'_','DRB.jpg'); %para indicar CALIZ en magenta
+nombreImagenCALROI=fullfile(pathAplicacionCALROI,strcat(nombreImagenP,'_','DR.jpg')); %para indicar CALIZ en magenta
+nombreImagenCALROIBin=fullfile(pathAplicacionCALROIBin,strcat(nombreImagenP,'_','DRB.jpg')); %para indicar CALIZ en magenta
 
 
-nombreImagenDEFROI=strcat(pathAplicacionDEFROI,nombreImagenP,'_','DR.jpg'); %para indicar DEFECTOS EN AZUL
-nombreImagenDEFROIBin=strcat(pathAplicacionDEFROIBin,nombreImagenP,'_','DRB.jpg'); %para indicar DEFECTOS EN AZUL
+nombreImagenDEFROI=fullfile(pathAplicacionDEFROI,strcat(nombreImagenP,'_','DR.jpg')); %para indicar DEFECTOS EN AZUL
+nombreImagenDEFROIBin=fullfile(pathAplicacionDEFROIBin,strcat(nombreImagenP,'_','DRB.jpg')); %para indicar DEFECTOS EN AZUL
 
 
 
-nombreImagenCalColor=strcat(pathCalyxColor,nombreImagenP,'_','DC.jpg'); % imagen numerada de cada ROI 1..4  en color calyx  
-nombreImagenCalBin=strcat(pathCalyxBinario,nombreImagenP,'_','CALB'); % imagen numerada de cada ROI 1..4 mascara binaria calyx
+nombreImagenCalColor=fullfile(pathCalyxColor,strcat(nombreImagenP,'_','DC.jpg')); % imagen numerada de cada ROI 1..4  en color calyx  
+nombreImagenCalBin=fullfile(pathCalyxBinario,strcat(nombreImagenP,'_','CALB')); % imagen numerada de cada ROI 1..4 mascara binaria calyx
 
-nombreImagenDefColor=strcat(pathDefColor,nombreImagenP,'_','DC.jpg'); % imagen numerada de cada ROI 1..4  en color calyx  
-nombreImagenDefBin=strcat(pathDefBinario,nombreImagenP,'_','DEFB'); % imagen numerada de cada ROI 1..4 mascara binaria calyx
+nombreImagenDefColor=fullfile(pathDefColor,strcat(nombreImagenP,'_','DC.jpg')); % imagen numerada de cada ROI 1..4  en color calyx  
+nombreImagenDefBin=fullfile(pathDefBinario,strcat(nombreImagenP,'_','DEFB')); % imagen numerada de cada ROI 1..4 mascara binaria calyx
 
 
 

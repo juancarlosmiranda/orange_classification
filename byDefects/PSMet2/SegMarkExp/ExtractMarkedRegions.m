@@ -20,33 +20,33 @@ function [ ] = ExtractMarkedRegions(pathEntrada, pathAplicacion, nombreImagenP)
 % -----------------------------------------------------------------------
 
 %% Datos de configuración archivos
-imagenInicial=strcat(pathEntrada,nombreImagenP); %para escritura en archivo de resultados
+imagenInicial=fullfile(pathEntrada,nombreImagenP); %para escritura en archivo de resultados
 
 
-pathAplicacion3=strcat(pathAplicacion,'IRM/'); %imagen generada previamente con fondo removido
+pathAplicacion3=fullfile(pathAplicacion,'IRM'); %imagen generada previamente con fondo removido
 
 
 %pathAplicacion4=strcat(pathAplicacion,'sDefectos/'); %imagen intermedia con frutas y defectos
 %pathAplicacion5=strcat(pathAplicacion,'defectos/'); %solamente los defectos aislados
-pathAplicacion6=strcat(pathAplicacion,'cDefectos/');
+pathAplicacion6=fullfile(pathAplicacion,'cDefectos');
 %pathAplicacion7=strcat(pathAplicacion,'contornos/'); %contornos de frutas
 
 %% CONFIGURACIONES DEFECTOS MASCARA Y COLOR
-pathCalyxColor=strcat(pathAplicacion,'cCalyx/'); %almacenado de calyx en color
-pathCalyxBinario=strcat(pathAplicacion,'MCalyxBin/'); %almacenado de calyx en binario
+pathCalyxColor=fullfile(pathAplicacion,'cCalyx'); %almacenado de calyx en color
+pathCalyxBinario=fullfile(pathAplicacion,'MCalyxBin'); %almacenado de calyx en binario
 
-pathDefColor=strcat(pathAplicacion,'cDefColor/'); %almacenado de defectos color
-pathDefBinario=strcat(pathAplicacion,'MDefBin/'); %almacenado de defectos binario
+pathDefColor=fullfile(pathAplicacion,'cDefColor'); %almacenado de defectos color
+pathDefBinario=fullfile(pathAplicacion,'MDefBin'); %almacenado de defectos binario
 
 
 %pathTodosBin=strcat(pathAplicacion,'todosBin/'); %juntado
 
 
 % nombres de archivos con objetos removidos
-nombreImagenRemovida1=strcat(pathAplicacion3,nombreImagenP,'_','rm1.jpg');
-nombreImagenRemovida2=strcat(pathAplicacion3,nombreImagenP,'_','rm2.jpg');
-nombreImagenRemovida3=strcat(pathAplicacion3,nombreImagenP,'_','rm3.jpg');
-nombreImagenRemovida4=strcat(pathAplicacion3,nombreImagenP,'_','rm4.jpg');
+nombreImagenRemovida1=fullfile(pathAplicacion3,strcat(nombreImagenP,'_','rm1.jpg'));
+nombreImagenRemovida2=fullfile(pathAplicacion3,strcat(nombreImagenP,'_','rm2.jpg'));
+nombreImagenRemovida3=fullfile(pathAplicacion3,strcat(nombreImagenP,'_','rm3.jpg'));
+nombreImagenRemovida4=fullfile(pathAplicacion3,strcat(nombreImagenP,'_','rm4.jpg'));
 
 
 %nombreImagenRemovidaMarca1=strcat(pathAplicacionRemMarca,nombreImagenP,'_','Mrm1.jpg');
@@ -68,12 +68,11 @@ nombreImagenRemovida4=strcat(pathAplicacion3,nombreImagenP,'_','rm4.jpg');
 %    nombreImagenDefectos4=strcat(pathAplicacion5,nombreImagenP,'_','soM4.jpg');
 
     %% salida defectos en COLOR
-    nombreImagenDefectosC1=strcat(pathAplicacion6,nombreImagenP,'_','soC1.jpg');
-    nombreImagenDefectosC2=strcat(pathAplicacion6,nombreImagenP,'_','soC2.jpg');
-    nombreImagenDefectosC3=strcat(pathAplicacion6,nombreImagenP,'_','soC3.jpg');
-    nombreImagenDefectosC4=strcat(pathAplicacion6,nombreImagenP,'_','soC4.jpg');
-
-    
+    nombreImagenDefectosC1=fullfile(pathAplicacion6,strcat(nombreImagenP,'_','soC1.jpg'));
+    nombreImagenDefectosC2=fullfile(pathAplicacion6,strcat(nombreImagenP,'_','soC2.jpg'));
+    nombreImagenDefectosC3=fullfile(pathAplicacion6,strcat(nombreImagenP,'_','soC3.jpg'));
+    nombreImagenDefectosC4=fullfile(pathAplicacion6,strcat(nombreImagenP,'_','soC4.jpg'));
+   
     
     %% salida contornos
 %    nombreImagenContorno1=strcat(pathAplicacion7,nombreImagenP,'_','CM1.jpg');
@@ -84,15 +83,15 @@ nombreImagenRemovida4=strcat(pathAplicacion3,nombreImagenP,'_','rm4.jpg');
 
     %DEFINICION DE NOMBRES DE IMAGENES PARA CALYX SEGMENTADO EN COLOR Y EN
     %BINARIO
-    nombreImagenCalyxColor1=strcat(pathCalyxColor,nombreImagenP,'_','CALC1.jpg'); % imagen en color calyx
-    nombreImagenCalyxColor2=strcat(pathCalyxColor,nombreImagenP,'_','CALC2.jpg');
-    nombreImagenCalyxColor3=strcat(pathCalyxColor,nombreImagenP,'_','CALC3.jpg');
-    nombreImagenCalyxColor4=strcat(pathCalyxColor,nombreImagenP,'_','CALC4.jpg');    
+    nombreImagenCalyxColor1=fullfile(pathCalyxColor,strcat(nombreImagenP,'_','CALC1.jpg')); % imagen en color calyx
+    nombreImagenCalyxColor2=fullfile(pathCalyxColor,strcat(nombreImagenP,'_','CALC2.jpg'));
+    nombreImagenCalyxColor3=fullfile(pathCalyxColor,strcat(nombreImagenP,'_','CALC3.jpg'));
+    nombreImagenCalyxColor4=fullfile(pathCalyxColor,strcat(nombreImagenP,'_','CALC4.jpg'));    
 
-    nombreImagenCalyxBin1=strcat(pathCalyxBinario,nombreImagenP,'_','CALB1.jpg'); %mascara binaria calyx
-    nombreImagenCalyxBin2=strcat(pathCalyxBinario,nombreImagenP,'_','CALB2.jpg');
-    nombreImagenCalyxBin3=strcat(pathCalyxBinario,nombreImagenP,'_','CALB3.jpg');
-    nombreImagenCalyxBin4=strcat(pathCalyxBinario,nombreImagenP,'_','CALB4.jpg');    
+    nombreImagenCalyxBin1=fullfile(pathCalyxBinario,strcat(nombreImagenP,'_','CALB1.jpg')); %mascara binaria calyx
+    nombreImagenCalyxBin2=fullfile(pathCalyxBinario,strcat(nombreImagenP,'_','CALB2.jpg'));
+    nombreImagenCalyxBin3=fullfile(pathCalyxBinario,strcat(nombreImagenP,'_','CALB3.jpg'));
+    nombreImagenCalyxBin4=fullfile(pathCalyxBinario,strcat(nombreImagenP,'_','CALB4.jpg'));    
 
     
 
@@ -103,10 +102,10 @@ nombreImagenRemovida4=strcat(pathAplicacion3,nombreImagenP,'_','rm4.jpg');
 %    nombreImagenDefColor3=strcat(pathDefColor,nombreImagenP,'_','DEFC3.jpg');
 %    nombreImagenDefColor4=strcat(pathDefColor,nombreImagenP,'_','DEFC4.jpg');    
 
-    nombreImagenDefBin1=strcat(pathDefBinario,nombreImagenP,'_','DEFB1.jpg'); %mascara binaria calyx
-    nombreImagenDefBin2=strcat(pathDefBinario,nombreImagenP,'_','DEFB2.jpg');
-    nombreImagenDefBin3=strcat(pathDefBinario,nombreImagenP,'_','DEFB3.jpg');
-    nombreImagenDefBin4=strcat(pathDefBinario,nombreImagenP,'_','DEFB4.jpg');    
+    nombreImagenDefBin1=fullfile(pathDefBinario,strcat(nombreImagenP,'_','DEFB1.jpg')); %mascara binaria calyx
+    nombreImagenDefBin2=fullfile(pathDefBinario,strcat(nombreImagenP,'_','DEFB2.jpg'));
+    nombreImagenDefBin3=fullfile(pathDefBinario,strcat(nombreImagenP,'_','DEFB3.jpg'));
+    nombreImagenDefBin4=fullfile(pathDefBinario,strcat(nombreImagenP,'_','DEFB4.jpg'));    
     
     
     %% siluetas juntadas

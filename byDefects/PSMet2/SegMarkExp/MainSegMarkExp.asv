@@ -102,8 +102,6 @@ removeFiles(fullfile(pathAplicacion,'cCalyx','*.jpg'));
 listado=dir(fullfile(pathEntradaMarca,'*.jpg')); %recorre el listado de las imagenes marcadas
 %% lectura en forma de bach del directorio de la cámara
 for n=1:size(listado)
-    %TODO:13/12/2023 add banner with user information total images
-    %processed!!
     fprintf('SEPARANDO REGIONES MARCADAS MANUALMENTE POR EL EXPERTO-> %s \n',listado(n).name);    
     nombreImagenP=listado(n).name;    
     %Se utiliza para separar las marcas hechas por expertos, los cuales
@@ -119,4 +117,4 @@ for n=1:size(listado)
 end %
 
 fprintf('SE HAN SEPARADO LAS REGIONES MARCADAS POR EL EXPERTO \n');
-fprintf('Debe correr el proceso para extraer las características PROGRAM_NAME_HERE!!!! \n');
+fprintf('Debe correr el proceso para extraer las características \n');

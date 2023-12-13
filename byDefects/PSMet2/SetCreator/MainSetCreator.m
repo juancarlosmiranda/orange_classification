@@ -25,7 +25,7 @@ clc; clear all; close all;
 
 %HOME=strcat(pwd,'/');
 % IMPORTANT!!! CONFIGURE HERE THE MAIN FOLDER FOR YOUR PROJECT
-HOME=fullfile('C:','Users','Usuari','development','orange_classification'); 
+HOME=fullfile('C:','Users','Usuari','development','orange_classification');
 pathPrincipal=fullfile(HOME,'OrangeResults','byDefects','PSMet2','SetCreator');
 pathResultados=fullfile(pathPrincipal,'output');
 
