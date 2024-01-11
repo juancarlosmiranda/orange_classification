@@ -71,6 +71,9 @@ xxxx
 
 ```
 
+1) Descarga del DATASET con imágenes tomadas en laboratorio y marcaciones manuales realizadas por el experto.
+2) /byDefects/PSMet2/SetCreator/MainSetCreator.m, para crear pre-procesar el conjunto de datos.
+3) 
 
 ## 4.3 Files and folder description
 

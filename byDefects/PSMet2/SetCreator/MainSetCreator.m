@@ -40,7 +40,7 @@ nombreArchivoSetCompleto='setCompleto.csv'; % todo: 12/12/2023 change this name
 proporcionTraining=70;
 
  %% Definicion de estructura de directorios 
-pathEntradaImagenes=fullfile(HOME,'OrangeResults','inputToLearn');
+pathEntradaImagenes=fullfile(HOME,'OrangeResults','inputToLearn'); % imagenes originales, inputMarked imagenes marcadas por experto DATASET
 pathEntradaImagenesMarcas=fullfile(HOME,'OrangeResults','inputMarked');
 pathEntradaImagenesTest=fullfile(HOME,'OrangeResults','inputTest');
 pathEntradaImagenesTraining=fullfile(HOME,'OrangeResults','inputTraining');

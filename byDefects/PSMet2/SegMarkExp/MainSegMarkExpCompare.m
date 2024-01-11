@@ -3,6 +3,9 @@
 % COMPUTER VISION TECHNIQUES 2018
 % juancarlosmiranda81@gmail.com
 % ########################################################################
+%
+% TODO: verificar este código que PARECE REPETIDO
+%
 % IMPLEMENTA MEJORAS EN LA EXTRACCION DE LOS DEFECTOS, DADO QE TOMA LAS
 % IMAGENES ORIGINALES EN RGB Y SEGMENTA LOS VALORES MARCADOS POR EL EXPERTO
 %

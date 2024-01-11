@@ -26,8 +26,8 @@ pathEntradaImagenes=fullfile(HOME,'OrangeResults','inputToLearn');
 pathEntradaMarca=fullfile(HOME,'OrangeResults','inputTraining');
 pathConfiguracion=fullfile(pathPrincipal,'conf');
 pathAplicacion=fullfile(pathPrincipal,'tmpToLearn'); %se utiliza para situar las imagenes de calibracion
-pathAplicacionSiluetas=fullfile(pathAplicacion,'sFrutas');
-pathResultados=fullfile(pathPrincipal,'output');%se guardan los resultados
+%pathAplicacionSiluetas=fullfile(pathAplicacion,'sFrutas');
+%pathResultados=fullfile(pathPrincipal,'output');%se guardan los resultados
 
 nombreImagenP='nombreImagenP';
 
@@ -79,6 +79,8 @@ canalLMin = 0.0; canalLMax = 96.653; canalAMin = -23.548; canalAMax = 16.303; ca
 % ----- FIN Definicion de topes
 
 %% Remover archivos antiguos, borrar archivos antiguos
+% TODO: SE DEBE CREAR UN SCRIPT QUE HAGA NUEVAMENTE LA ESTRUCTURA DE
+% tmpToLearn/
 fprintf('LIMPIANDO IMAGENES ANTIGUAS \n');
 removeFiles(fullfile(pathAplicacion,'sFrutas','*.jpg'));
 removeFiles(fullfile(pathAplicacion,'ROIDefC','*.jpg'));
@@ -97,7 +99,7 @@ removeFiles(fullfile(pathAplicacion,'IRM','*.jpg'));
 removeFiles(fullfile(pathAplicacion,'IBR','*.jpg'));
 removeFiles(fullfile(pathAplicacion,'cDefectos','*.jpg'));
 removeFiles(fullfile(pathAplicacion,'cCalyx','*.jpg'));
-
+%pause
 %% --------------------------------------------------------------------
 listado=dir(fullfile(pathEntradaMarca,'*.jpg')); %recorre el listado de las imagenes marcadas
 %% lectura en forma de bach del directorio de la cámara
