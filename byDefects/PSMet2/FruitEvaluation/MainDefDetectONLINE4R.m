@@ -7,26 +7,29 @@
 % un clasificador de defectos previamente entrenado. Al final se obtiene un
 % listado con las clasificaciones de lo detectado.
 
+
+
 %% Ajuste de parámetros iniciales
 clc; clear all; close all;
  
  %% Definicion de estructura de directorios 
-HOME=strcat(pwd,'/');
-pathPrincipal=strcat(HOME,'OrangeResults/byDefects/PSMet2/FruitEvaluation/'); %
-pathEntradaImagenesTest=strcat(HOME,'OrangeResults/inputTest/');
-pathConfiguracion=strcat(pathPrincipal,'conf/');
-pathAplicacion=strcat(pathPrincipal,'tmpToLearn/'); %
-pathAplicacionSiluetas=strcat(pathAplicacion,'sFrutas/');
-pathResultados=strcat(pathPrincipal,'output/');%se guardan los resultados
+%HOME=strcat(pwd,'/');
+HOME=fullfile('C:','Users','Usuari','development','orange_classification');
+pathPrincipal=fullfile(HOME,'OrangeResults','byDefects','PSMet2','FruitEvaluation'); %
+pathEntradaImagenesTest=fullfile(HOME,'OrangeResults','inputTest');
+pathConfiguracion=fullfile(pathPrincipal,'conf');
+pathAplicacion=fullfile(pathPrincipal,'tmpToLearn'); % TODO: VEr porque este está anidado en el path del modulo
+pathAplicacionSiluetas=fullfile(pathAplicacion,'sFrutas');
+pathResultados=fullfile(pathPrincipal,'output');%se guardan los resultados
 
 nombreImagenP='nombreImagenP';
 
- %% Nombres de archivos de configuracion
- % trabajan con métodos para equivalencia con las 4 vistas
+%% Nombres de archivos de configuracion
+% trabajan con métodos para equivalencia con las 4 vistas
  
- %%
- archivoConfiguracion=strcat(pathConfiguracion,'20170916configuracion.xml'); %Para coordenadas iniciales en tratamiento de imagenes
- archivoCalibracion=strcat(pathConfiguracion,'20170916calibracion.xml'); %para indicar al usuario en la parte final la calibracion
+%%
+archivoConfiguracion=fullfile(pathConfiguracion,'20170916configuracion.xml'); %Para coordenadas iniciales en tratamiento de imagenes
+archivoCalibracion=fullfile(pathConfiguracion,'20170916calibracion.xml'); %para indicar al usuario en la parte final la calibracion
   
  %% Definicion de los cuadros, según numeración 
 Fila1=readConfiguration('Fila1', archivoConfiguracion);
@@ -72,26 +75,26 @@ canalLMin = 0.0; canalLMax = 96.653; canalAMin = -23.548; canalAMax = 16.303; ca
 
 %% CONFIGURACIONES PARA DETECCION DE DEFECTOS
 tamanoManchas=1000; %se utiliza para extracción de contornos. Los contornos se encuentran arriba de 1000 pixeles
-archivoVectorDef=strcat(pathResultados,'aCandidatos.csv'); %archivo de salida candidatos a defectos
+archivoVectorDef=fullfile(pathResultados,'aCandidatos.csv'); %archivo de salida candidatos a defectos
 
 % ----- FIN Definicion de topes
 %% Remover archivos antiguos, borrar archivos antiguos
 fprintf('LIMPIANDO IMAGENES ANTIGUAS \n');
 removeFiles(archivoVectorDef);
-removeFiles(strcat(pathAplicacion,'sFrutas/','*.jpg'));
-removeFiles(strcat(pathAplicacion,'sDefectos/','*.jpg'));
-removeFiles(strcat(pathAplicacion,'roi/','*.jpg'));
-removeFiles(strcat(pathAplicacion,'removido/','*.jpg'));
-removeFiles(strcat(pathAplicacion,'deteccion/','*.jpg'));
-removeFiles(strcat(pathAplicacion,'defectos/','*.jpg'));
-removeFiles(strcat(pathAplicacion,'contornos/','*.jpg'));
-removeFiles(strcat(pathAplicacion,'cDefectos/','*.jpg'));
-removeFiles(strcat(pathAplicacion,'br/','*.jpg'));
+removeFiles(fullfile(pathAplicacion,'sFrutas','*.jpg'));
+removeFiles(fullfile(pathAplicacion,'sDefectos','*.jpg'));
+removeFiles(fullfile(pathAplicacion,'roi','*.jpg'));
+removeFiles(fullfile(pathAplicacion,'removido','*.jpg'));
+removeFiles(fullfile(pathAplicacion,'deteccion','*.jpg'));
+removeFiles(fullfile(pathAplicacion,'defectos','*.jpg'));
+removeFiles(fullfile(pathAplicacion,'contornos','*.jpg'));
+removeFiles(fullfile(pathAplicacion,'cDefectos','*.jpg'));
+removeFiles(fullfile(pathAplicacion,'br','*.jpg'));
 
 
 %% --------------------------------------------------------------------
 %carga del listado de nombres
-listado=dir(strcat(pathEntradaImagenesTest,'*.jpg'));
+listado=dir(fullfile(pathEntradaImagenesTest,'*.jpg'));
 
 %% lectura en forma de bach del directorio de la cámara
 for n=1:size(listado)
@@ -109,4 +112,5 @@ end %
 
 fprintf('\n -------------------------------- \n');
 fprintf('Se procesaron un total de %i archivos \n',n);
+fprintf('Verificar los resultados del análisis en %s \n', archivoVectorDef)
 fprintf('\n -------------------------------- \n');

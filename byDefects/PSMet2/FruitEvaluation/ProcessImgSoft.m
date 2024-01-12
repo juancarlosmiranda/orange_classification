@@ -16,27 +16,27 @@ function [ ] = ProcessImgSoft(pathEntrada, pathAplicacion, nombreImagenP, ArrayC
 % -----------------------------------------------------------------------
 
 %% Datos de configuración archivos
-imagenInicial=strcat(pathEntrada,nombreImagenP);
+imagenInicial=fullfile(pathEntrada,nombreImagenP);
 
 
 %% DIRECTORIOS DE GUARDADO
-pathAplicacionBR=strcat(pathAplicacion,'br/'); %background removal
-pathAplicacionROI=strcat(pathAplicacion,'roi/'); %region of interest
+pathAplicacionBR=fullfile(pathAplicacion,'br'); %background removal
+pathAplicacionROI=fullfile(pathAplicacion,'roi'); %region of interest
 
-pathAplicacion2=strcat(pathAplicacion,'sFrutas/'); %siluetas de frutas
-pathAplicacion3=strcat(pathAplicacion,'removido/'); %imagenes fondo removido
+pathAplicacion2=fullfile(pathAplicacion,'sFrutas'); %siluetas de frutas
+pathAplicacion3=fullfile(pathAplicacion,'removido'); %imagenes fondo removido
 
 % --- NOMBRE DE IMAGENES INTERMEDIAS ---
 % con fondo removido
-nombreImagenBR=strcat(pathAplicacionBR,nombreImagenP,'_','BR.jpg'); %para indicar silueta del fondo removido
-nombreImagenROI=strcat(pathAplicacionROI,nombreImagenP,'_','RO.jpg'); %para indicar el fondo removido y ROI
-%nombreImagenF=strcat(pathAplicacionROI,nombreImagenP,'_','F.jpg'); %para sacar  el fondo
-nombreImagenF=strcat(pathAplicacionROI,nombreImagenP,'_','I.jpg'); %previa a la inversa
+nombreImagenBR=fullfile(pathAplicacionBR,strcat(nombreImagenP,'_','BR.jpg')); %para indicar silueta del fondo removido
+nombreImagenROI=fullfile(pathAplicacionROI,strcat(nombreImagenP,'_','RO.jpg')); %para indicar el fondo removido y ROI
+%nombreImagenF=fullfile(pathAplicacionROI,strcat(nombreImagenP,'_','F.jpg')); %para sacar  el fondo
+nombreImagenF=fullfile(pathAplicacionROI,strcat(nombreImagenP,'_','I.jpg')); %previa a la inversa
 
 %prefijo para imagenes de fondo removido y siluetas de fondos removidos en
 %deteccion de objetos
-nombreImagenSiluetaN=strcat(pathAplicacion2,nombreImagenP,'_','sN');
-nombreImagenRemovida=strcat(pathAplicacion3,nombreImagenP,'_','rm');
+nombreImagenSiluetaN=fullfile(pathAplicacion2,strcat(nombreImagenP,'_','sN'));
+nombreImagenRemovida=fullfile(pathAplicacion3,strcat(nombreImagenP,'_','rm'));
 
 
 

@@ -12,11 +12,12 @@ function [ ] = detectROICandidates2( pathPrincipal, numROI, nombreImagenRemovida
 etiqueta='CANDIDATO';
 
 %%pathPrincipal='/home/usuario/ml/clasDefectos4/'; 
-HOME=strcat(pwd,'/');
-pathResultados=strcat(HOME,'OrangeResults/byDefects/PSMet2/FruitEvaluation/','output/'); %
+%HOME=fullfile(pwd,'/');
+HOME=fullfile('C:','Users','Usuari','development','orange_classification');
+pathResultados=fullfile(HOME,'OrangeResults','byDefects','PSMet2','FruitEvaluation','output'); %
 %pathResultados=strcat('/home/usuario/ml/clasDefectos4/','output/');%
 
-pathTraining=strcat(HOME,'OrangeResults/byDefects/PSMet2/SegMarkExpExtraction/','output/'); %
+pathTraining=fullfile(HOME,'OrangeResults','byDefects','PSMet2','SegMarkExpExtraction','output'); %
 
 %pathResultados=strcat('/home/usuario/ml/clasDefectos4/','output/');%se guardan los resultados
 %%pathResultados=strcat(pathPrincipal,'output/');%se guardan los resultados
@@ -83,7 +84,7 @@ numeroVecinos=5;
 formatSpec='%s%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%s';
 
 nombreArchivoTraining='BDDEFECTOSCALYX.csv';
-fileHandlerTraining=strcat(pathTraining,nombreArchivoTraining); %handle para conjunto de entrenamiento
+fileHandlerTraining=fullfile(pathTraining,nombreArchivoTraining); %handle para conjunto de entrenamiento
 % se cargan los datos en una tabla
 tablaDSTraining = readtable(fileHandlerTraining,'Delimiter',',','Format',formatSpec);
 %se cargan las etiquetas de clasificacion

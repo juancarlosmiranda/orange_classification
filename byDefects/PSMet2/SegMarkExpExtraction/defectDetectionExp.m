@@ -114,42 +114,39 @@ if (size(seleccion,2)==0)
     
 else
 %% ------------------------
-for n=1:size(seleccion,2)
-    contadorObjetos=contadorObjetos+1;
-    coordenadasAPintar=round(propiedades(seleccion(n)).BoundingBox); %coordenadas de pintado
-    %% recorta las imagenes
-
-    ISiluetaROI = imcrop(IFRB1,coordenadasAPintar);
-    IFondoR = imcrop(ImROI,coordenadasAPintar);
-    
-    %% INICIO extraer caracteristicas
-    % las siluetas ya denen venir binarizadas con Otzu.
-    [ promedioRGBR, promedioRGBG, promedioRGBB, desviacionRGBR, desviacionRGBG, desviacionRGBB ] = extractMeanCImgRGB( IFondoR, ISiluetaROI);
-%    fprintf('%i, %f, %f, %f, %f, %f, %f \n',contadorObjetos, promedioR, promedioG, promedioB, desviacionR, desviacionG, desviacionB);
-
-    [ promedioLABL, promedioLABA, promedioLABB, desviacionLABL, desviacionLABA, desviacionLABB ] = extractMeanCImgLAB( IFondoR, ISiluetaROI);
-%    fprintf('%f, %f, %f, %f, %f, %f \n', promedioL, promedioA, promedioB, desviacionL, desviacionA, desviacionB);
-
-    [ promedioHSVH, promedioHSVS, promedioHSVV, desviacionHSVH, desviacionHSVS, desviacionHSVV ] = extractMeanCImgHSV( IFondoR, ISiluetaROI);
-%    fprintf('%f, %f, %f, %f, %f, %f \n', promedioH, promedioS, promedioV, desviacionH, desviacionS, desviacionV);
-
-%    fprintf('contador objetos %i \n', contadorObjetos);    
-    [ sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor ] = extractDefCarGeoImg(ISiluetaROI);
-%    fprintf('%10i, %10.4f, %10.4f, %10.4f, %10.4f, \n',  sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor);    
-    
-    [ entropia, inercia, energia  ] = extractCTextures( IFondoR, ISiluetaROI);
-    
-    fprintf('%s, %10i, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %s \n', nombreImagenOriginal, numeroROI, contadorObjetos, promedioRGBR, promedioRGBG, promedioRGBB, desviacionRGBR, desviacionRGBG, desviacionRGBB, promedioLABL, promedioLABA, promedioLABB, desviacionLABL, desviacionLABA, desviacionLABB, promedioHSVH, promedioHSVS, promedioHSVV, desviacionHSVH, desviacionHSVS, desviacionHSVV, sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor, entropia, inercia, energia, etiqueta); 
-    %% FIN extraer caracteristicas  
-%fprintf('En el archivo %s antes de correr el clasificador de DEFECTOS\n', archivoVectorDef);
-    %% guardar el archivo
-%    fila=sprintf('%s, %10i ,%10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %s \n', nombreImagenOriginal, numeroROI, contadorObjetos, promedioRGBR, promedioRGBG, promedioRGBB, desviacionRGBR, desviacionRGBG, desviacionRGBB, promedioLABL, promedioLABA, promedioLABB, desviacionLABL, desviacionLABA, desviacionLABB, promedioHSVH, promedioHSVS, promedioHSVV, desviacionHSVH, desviacionHSVS, desviacionHSVV, sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor, entropia, inercia, energia, etiqueta); 
-%    guardarAVDefCalyx2( archivoVectorDef, fila)
-    
-    fila=sprintf('%s, %10i, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10i, %10i, %10i, %s \n', nombreImagenOriginal, numeroROI, contadorObjetos, promedioRGBR, promedioRGBG, promedioRGBB, desviacionRGBR, desviacionRGBG, desviacionRGBB, promedioLABL, promedioLABA, promedioLABB, desviacionLABL, desviacionLABA, desviacionLABB, promedioHSVH, promedioHSVS, promedioHSVV, desviacionHSVH, desviacionHSVS, desviacionHSVV, sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor, entropia, inercia, energia, coordenadasAPintar(1), coordenadasAPintar(2), coordenadasAPintar(3), coordenadasAPintar(4), etiqueta);
-    saveAVDefCalyx2( archivoVectorDef, fila);
-    
-end % fin de ciclo
+    for n=1:size(seleccion,2)
+        contadorObjetos=contadorObjetos+1;
+        coordenadasAPintar=round(propiedades(seleccion(n)).BoundingBox); %coordenadas de pintado
+        %% recorta las imagenes
+        ISiluetaROI = imcrop(IFRB1,coordenadasAPintar);
+        IFondoR = imcrop(ImROI,coordenadasAPintar);
+        
+        %% INICIO extraer caracteristicas
+        % las siluetas ya denen venir binarizadas con Otzu.
+        [ promedioRGBR, promedioRGBG, promedioRGBB, desviacionRGBR, desviacionRGBG, desviacionRGBB ] = extractMeanCImgRGB( IFondoR, ISiluetaROI);
+        %    fprintf('%i, %f, %f, %f, %f, %f, %f \n',contadorObjetos, promedioR, promedioG, promedioB, desviacionR, desviacionG, desviacionB);
+        
+        [ promedioLABL, promedioLABA, promedioLABB, desviacionLABL, desviacionLABA, desviacionLABB ] = extractMeanCImgLAB( IFondoR, ISiluetaROI);
+        %    fprintf('%f, %f, %f, %f, %f, %f \n', promedioL, promedioA, promedioB, desviacionL, desviacionA, desviacionB);
+        
+        [ promedioHSVH, promedioHSVS, promedioHSVV, desviacionHSVH, desviacionHSVS, desviacionHSVV ] = extractMeanCImgHSV( IFondoR, ISiluetaROI);
+        %    fprintf('%f, %f, %f, %f, %f, %f \n', promedioH, promedioS, promedioV, desviacionH, desviacionS, desviacionV);
+        
+        %    fprintf('contador objetos %i \n', contadorObjetos);
+        [ sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor ] = extractDefCarGeoImg(ISiluetaROI);
+        %    fprintf('%10i, %10.4f, %10.4f, %10.4f, %10.4f, \n',  sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor);
+        
+        [ entropia, inercia, energia  ] = extractCTextures( IFondoR, ISiluetaROI);
+        fprintf('%s, %10i, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %s \n', nombreImagenOriginal, numeroROI, contadorObjetos, promedioRGBR, promedioRGBG, promedioRGBB, desviacionRGBR, desviacionRGBG, desviacionRGBB, promedioLABL, promedioLABA, promedioLABB, desviacionLABL, desviacionLABA, desviacionLABB, promedioHSVH, promedioHSVS, promedioHSVV, desviacionHSVH, desviacionHSVS, desviacionHSVV, sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor, entropia, inercia, energia, etiqueta);
+        %% FIN extraer caracteristicas
+        %fprintf('En el archivo %s antes de correr el clasificador de DEFECTOS\n', archivoVectorDef);
+        %% guardar el archivo
+        %    fila=sprintf('%s, %10i ,%10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %s \n', nombreImagenOriginal, numeroROI, contadorObjetos, promedioRGBR, promedioRGBG, promedioRGBB, desviacionRGBR, desviacionRGBG, desviacionRGBB, promedioLABL, promedioLABA, promedioLABB, desviacionLABL, desviacionLABA, desviacionLABB, promedioHSVH, promedioHSVS, promedioHSVV, desviacionHSVH, desviacionHSVS, desviacionHSVV, sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor, entropia, inercia, energia, etiqueta);
+        %    guardarAVDefCalyx2( archivoVectorDef, fila)
+        
+        fila=sprintf('%s, %10i, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10i, %10i, %10i, %s \n', nombreImagenOriginal, numeroROI, contadorObjetos, promedioRGBR, promedioRGBG, promedioRGBB, desviacionRGBR, desviacionRGBG, desviacionRGBB, promedioLABL, promedioLABA, promedioLABB, desviacionLABL, desviacionLABA, desviacionLABB, promedioHSVH, promedioHSVS, promedioHSVV, desviacionHSVH, desviacionHSVS, desviacionHSVV, sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor, entropia, inercia, energia, coordenadasAPintar(1), coordenadasAPintar(2), coordenadasAPintar(3), coordenadasAPintar(4), etiqueta);
+        saveAVDefCalyx2( archivoVectorDef, fila);
+    end % fin de ciclo
 
 %% ------------------------
        

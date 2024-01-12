@@ -90,7 +90,7 @@ Files and modules:
 | /byDefects/PSMet2/SegMarkExpExtraction/MainSegMarkExpExtraction.m | Genera archivos con características de defectos y calyx, los cuales son utilizados para obtener datos de: color, textura y geometria de defectos y calyx. REQUIRE DE UN PROCESO PREVIO, que genera imagnes de defectos en colores y sus siluetas. Cada imagen en un directorio base, cuenta con sub imágenes de regiones e imágenes de siluetas. Ejemplo: 001.jpg es la imagen principal, existen imágenes de las regiones R1..R4 para lo defectos y a su vez exiten imágenes específicas para sus siluetas de defectos. La función asume que hubo un procesamiento previo, en el cual se generaron imágenes desde las marcas en colores dibujadas por e experto. | -- |
 | /byDefects/PSMet2/CompareROI/CompareSegmentation/MainMet4RSDMet1.m, /byDefects/PSMet2/CompareROI/CompareSegmentation/MainMet4RSDMet2.m, /byDefects/PSMet2/CompareROI/CompareSegmentation/MainMet4RSDMet3.m | Genera imagenes de regiones previamente marcadas a MANO. Es un proceso previo a la extraccion automatizada de caracteristicas. Se asume que un experto marco las frutas a mano con colores. Como salida se producen imágenes. | -- |
 | . | . | -- |
-| . | . | -- |
+| /byDefects/PSMet2/FruitEvaluation/ | Se generan datos obtenidos luego de aplicar un método de segmentación y un clasificador de defectos previamente entrenado. Al final se obtiene un listado con las clasificaciones de lo detectado. | -- |
 | . | . | -- |
 | . | . | -- |
 | . | . | -- |
