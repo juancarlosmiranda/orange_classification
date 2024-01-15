@@ -32,7 +32,7 @@
 % MainSetCreator.m
 % 
 
-%% Ajuste de parámetros iniciales
+%% Initial parameter setting
 clc; clear all; close all;
 
 % IMPORTANT!!! CONFIGURE HERE THE MAIN FOLDER FOR YOUR PROJECT
@@ -55,8 +55,10 @@ imageExtension='*.jpg';
 
 
 %% Defining the directory structure
+% original dataset
 pathImages=fullfile(HOME,'OrangeResults','inputToLearn'); % imagenes originales, inputMarked imagenes marcadas por experto DATASET
 pathImagesMasks=fullfile(HOME,'OrangeResults','inputMarked');
+% pre-training dataset
 pathImagesTest=fullfile(HOME,'OrangeResults','inputTest');
 pathImagesTraining=fullfile(HOME,'OrangeResults','inputTraining');
 

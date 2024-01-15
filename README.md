@@ -63,11 +63,14 @@ xxxx
 ```
 
 ```
+
 |__/DATASET/
-       |__/inputToLearn/ -> BD de datos inicial
-       |__/inputMarked/ -> BD on correspondencia marcadas
-       |__/inputTest -> se borra y se crea con las imagenes
-       |__/inputTraining -> se borra y se crea con las imagenes
+       |__/inputToLearn/ -> RGB images
+       |__/inputMarked/ -> RGB images with masks
+
+|__/PREPROCESSED_DATASET/
+       |__/inputTest -> folder with images for tests
+       |__/inputTraining -> folder with images for training.
 
 ```
 
