@@ -41,6 +41,11 @@ Colocar las etiquetas DEFECTOS Y CALYX en variables, porque están hardcoded
 ## Folders to check
 Carpeta con los respectivos módulos.
 
+Verificar la carpeta bySize/ y byDefects/
+
+
+byDefects/
+---------
 CompareROI/
 DefectsSegmentation/
 

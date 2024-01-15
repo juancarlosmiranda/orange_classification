@@ -1,31 +1,34 @@
 function [ ] = copyDirectory( tablaDSTArchivos, pathEntradaImagenesFuente, pathEntradaImagenesDestino)
-% ########################################################################
-% Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
-% COMPUTER VISION TECHNIQUES 2018
-% juancarlosmiranda81@gmail.com
-% ########################################################################
-tamanoTablaArchivos=size(tablaDSTArchivos);
-TotalFilas=tamanoTablaArchivos(1);
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
+%
+% Giveng a table with filenames, iterate over this table and copy files from source to destination path
 
-for(contadorRandom=1:1:TotalFilas)
-    %% copiando desde imagenes originales a test
-    archivoCopiarFuente=fullfile(pathEntradaImagenesFuente,tablaDSTArchivos(contadorRandom).name);
-    archivoCopiarDestino=fullfile(pathEntradaImagenesDestino,tablaDSTArchivos(contadorRandom).name);
+% INPUT: tables with filenames, source and destination paths
+% OUTPUT: images copied
+
+% Use:
+% 
+% copyDirectory( tableDSTraining, pathImagesMasks, pathImagesTraining);
+% 
+tableSize=size(tablaDSTArchivos);
+totalRows=tableSize(1);
+
+for(rowCounter=1:1:totalRows)
+    %% copying from source to destination
+    sourceFilenamePath=fullfile(pathEntradaImagenesFuente,tablaDSTArchivos(rowCounter).name);
+    destinationFilenamePath=fullfile(pathEntradaImagenesDestino,tablaDSTArchivos(rowCounter).name);
     
-    %% comando de copia
-    fprintf("COPYING FILES %s %s \n",archivoCopiarFuente, archivoCopiarDestino);
-    [status,msg] = copyfile(archivoCopiarFuente,archivoCopiarDestino);
-    
-    % 12/12/2023 deprecated because it is Linux oriented command line
-    % supplanted by MATLAB command for file operations
-    %comando = { 'cp','-f',archivoCopiarFuente, archivoCopiarDestino};
-    %command=strjoin(comando)
-    %[status,cmdout] = system(command);    
-
-end % (contadorRandom=1:1:TotalFilas)
-
-
-
+    fprintf("COPYING FILES %s %s \n",sourceFilenamePath, destinationFilenamePath);
+    [status,msg] = copyfile(sourceFilenamePath,destinationFilenamePath);   
+end
 
 end
 

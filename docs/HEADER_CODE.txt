@@ -1,46 +1,43 @@
 # TEMPLATE EMPTY HEADER
-"""
-Project:
-Author:
-Date:
-Description:
-...
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
+%
+%
+%
+% Use:
 
-Use:
-"""
-
-# TEMPLATE PROJECT
-"""
-Project: ak-video-analyser Azure Kinect Video Analyser
-Github repository: https://github.com/juancarlosmiranda/ak_video_analyser
-
-Author: Juan Carlos Miranda
-* https://juancarlosmiranda.github.io/
-* https://github.com/juancarlosmiranda
-
-Date: February 2021
-Description:
-
-Use:
-
-"""
 
 
 # HEADER FOR BASH SCRIPTS
-# Project: ak-video-analyser Azure Kinect Video Analyser
 #
-# Github repository: https://github.com/juancarlosmiranda/ak_video_analyser
-# Author: Juan Carlos Miranda
-# https://juancarlosmiranda.github.io/
-# https://github.com/juancarlosmiranda
+# Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING COMPUTER VISION TECHNIQUES
+#
+# Author: Juan Carlos Miranda https://github.com/juancarlosmiranda
+#
+# Date: 2018
+#
+# Description:
+#
+# Use:
 #
 
 
-REM HEADER FOR WINDOW SYSTEMS
-REM Project: ak-video-analyser Azure Kinect Video Analyser
+# HEADER FOR BASH SCRIPTS
 REM
-REM  Github repository: https://github.com/juancarlosmiranda/ak_video_analyser
-REM  Author: Juan Carlos Miranda
-REM  https://juancarlosmiranda.github.io/
-REM  https://github.com/juancarlosmiranda
+REM Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING COMPUTER VISION TECHNIQUES
+REM
+REM Author: Juan Carlos Miranda https://github.com/juancarlosmiranda
+REM
+REM Date: 2018
+REM
+REM Description:
+REM
+REM Use:
 REM
