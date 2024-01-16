@@ -53,3 +53,8 @@ DefectsSegmentation/
 ~SegMarkExp [OK]~
 ~SegMarkExpExtraction [OK]~
 ~FruitEvaluation [OK]~
+
+
+Hacer un mapa de las coordenadas XY.
+Hacer un listado de los conceptos aplicados para generar una receta con 
+tareas habituales MATLAB

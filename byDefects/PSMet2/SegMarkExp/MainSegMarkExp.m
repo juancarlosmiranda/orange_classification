@@ -55,6 +55,7 @@ LchannelMin = 0.0; LChannelMax = 96.653; AChannelMin = -23.548; AChannelMax = 16
 % original dataset
 pathImages=fullfile(HOME,'OrangeResults','inputToLearn');
 pathImagesMasks=fullfile(HOME,'OrangeResults','inputMarked');
+
 % pre-training dataset
 pathImagesTraining=fullfile(HOME,'OrangeResults','inputTraining');
 
@@ -63,29 +64,29 @@ pathImagesTraining=fullfile(HOME,'OrangeResults','inputTraining');
 Fila1=readConfiguration('Fila1', configurationFile);
 FilaAbajo=readConfiguration('FilaAbajo', configurationFile);
 
-%Cuadro 1 abajo
-Cuadro1_lineaGuiaInicialFila=readConfiguration('Cuadro1_lineaGuiaInicialFila', configurationFile);
-Cuadro1_lineaGuiaInicialColumna=readConfiguration('Cuadro1_lineaGuiaInicialColumna', configurationFile);
-Cuadro1_espacioFila=readConfiguration('Cuadro1_espacioFila', configurationFile);
-Cuadro1_espacioColumna=readConfiguration('Cuadro1_espacioColumna', configurationFile);
+% Rectangle 1 downside
+rectangle1_Y=readConfiguration('Cuadro1_lineaGuiaInicialFila', configurationFile);
+rectangle1_X=readConfiguration('Cuadro1_lineaGuiaInicialColumna', configurationFile);
+rectangle1_H=readConfiguration('Cuadro1_espacioFila', configurationFile);
+rectangle1_W=readConfiguration('Cuadro1_espacioColumna', configurationFile);
 
-%Cuadro 2 izquierda
-Cuadro2_lineaGuiaInicialFila=readConfiguration('Cuadro2_lineaGuiaInicialFila', configurationFile);
-Cuadro2_lineaGuiaInicialColumna=readConfiguration('Cuadro2_lineaGuiaInicialColumna', configurationFile);
-Cuadro2_espacioFila=readConfiguration('Cuadro2_espacioFila', configurationFile);
-Cuadro2_espacioColumna=readConfiguration('Cuadro2_espacioColumna', configurationFile);
+% Rectangle 2 left side
+rectangle2_Y=readConfiguration('Cuadro2_lineaGuiaInicialFila', configurationFile);
+rectangle2_X=readConfiguration('Cuadro2_lineaGuiaInicialColumna', configurationFile);
+rectangle2_H=readConfiguration('Cuadro2_espacioFila', configurationFile);
+rectangle2_W=readConfiguration('Cuadro2_espacioColumna', configurationFile);
 
-%Cuadro 3 centro
-Cuadro3_lineaGuiaInicialFila=readConfiguration('Cuadro3_lineaGuiaInicialFila', configurationFile);
-Cuadro3_lineaGuiaInicialColumna=readConfiguration('Cuadro3_lineaGuiaInicialColumna', configurationFile);
-Cuadro3_espacioFila=readConfiguration('Cuadro3_espacioFila', configurationFile);
-Cuadro3_espacioColumna=readConfiguration('Cuadro3_espacioColumna', configurationFile);
+% Rectangle 3 center
+rectangle3_Y=readConfiguration('Cuadro3_lineaGuiaInicialFila', configurationFile);
+rectangle3_X=readConfiguration('Cuadro3_lineaGuiaInicialColumna', configurationFile);
+rectangle3_H=readConfiguration('Cuadro3_espacioFila', configurationFile);
+rectangle3_W=readConfiguration('Cuadro3_espacioColumna', configurationFile);
 
-%Cuadro 4 derecha
-Cuadro4_lineaGuiaInicialFila=readConfiguration('Cuadro4_lineaGuiaInicialFila', configurationFile);
-Cuadro4_lineaGuiaInicialColumna=readConfiguration('Cuadro4_lineaGuiaInicialColumna', configurationFile);
-Cuadro4_espacioFila=readConfiguration('Cuadro4_espacioFila', configurationFile);
-Cuadro4_espacioColumna=readConfiguration('Cuadro4_espacioColumna', configurationFile);
+% Rectangle 4 right side
+rectangle4_Y=readConfiguration('Cuadro4_lineaGuiaInicialFila', configurationFile);
+rectangle4_X=readConfiguration('Cuadro4_lineaGuiaInicialColumna', configurationFile);
+rectangle4_H=readConfiguration('Cuadro4_espacioFila', configurationFile);
+rectangle4_W=readConfiguration('Cuadro4_espacioColumna', configurationFile);
 
 %% Load first into memory to be fast
 % Definition of a rectangle region
@@ -98,10 +99,10 @@ Cuadro4_espacioColumna=readConfiguration('Cuadro4_espacioColumna', configuration
 % Y
 % V
 
-rectangleList=[Cuadro1_lineaGuiaInicialColumna, Cuadro1_lineaGuiaInicialFila, Cuadro1_espacioColumna, Cuadro1_espacioFila;
-Cuadro2_lineaGuiaInicialColumna, Cuadro2_lineaGuiaInicialFila, Cuadro2_espacioColumna, Cuadro2_espacioFila;
-Cuadro3_lineaGuiaInicialColumna, Cuadro3_lineaGuiaInicialFila, Cuadro3_espacioColumna, Cuadro3_espacioFila;
-Cuadro4_lineaGuiaInicialColumna, Cuadro4_lineaGuiaInicialFila, Cuadro4_espacioColumna, Cuadro4_espacioFila;
+rectangleList=[rectangle1_X, rectangle1_Y, rectangle1_W, rectangle1_H;
+rectangle2_X, rectangle2_Y, rectangle2_W, rectangle2_H;
+rectangle3_X, rectangle3_Y, rectangle3_W, rectangle3_H;
+rectangle4_X, rectangle4_Y, rectangle4_W, rectangle4_H;
 0,0,0,0
 ];
 
@@ -132,7 +133,8 @@ delete(fullfile(outputPath,'cCalyx',imageExtension));
 %% Reading training folder with images. Iterates over training images (masks)
 imageList=dir(fullfile(pathImagesTraining,imageExtension));
 imageNameP='imageNameP';
-imageCount=size(imageList);
+listSize=size(imageList);
+imageCount=listSize(1);
 for n=1:imageCount
     fprintf('\n Separating regions marked manually for training -> %s \n',imageList(n).name);    
     imageNameP=imageList(n).name;

@@ -9,9 +9,13 @@ function [ ] = ProcessMarks(pathImages, pathMasks, outputPath, imageNameP, recta
 %
 % Description:
 %
-% For each image, the background is separated, segmenting the four regions according to frames defined in the image acquisition.
-% Background is removed from the acquired images using thresholds for channels in LAB space. And the following intermediate results (images) are generated:
-% * Binary regions of interest of the fruit and its reflections in the mirror.
+% For each image, the background is separated, segmenting the four regions
+% according to frames defined in the image acquisition.
+% Background is removed from the acquired images using thresholds for
+% channels in LAB space. And the following intermediate results (images)
+% are generated:
+% * Binary regions of interest of the fruit and its reflections in the
+%   mirror.
 % * Color images without background.
 % * Background silhouettes removed.
 % * Extraction of geometric features from binary images.
@@ -27,121 +31,117 @@ function [ ] = ProcessMarks(pathImages, pathMasks, outputPath, imageNameP, recta
 colourImage=fullfile(pathImages,imageNameP); % original image to extract colour values
 maskImage=fullfile(pathMasks,imageNameP); % image with manually made marks (masks for calyx and defects)
 
-%% DIRECTORIOS DE GUARDADO
-outputPathBR=fullfile(outputPath,'IBR'); %imagen inicial, background removal siluetas en 1 imagen
-pathAplicacionROI=fullfile(outputPath,'IROI'); %imagen inicial, regiones de interes a color con fondo removido de 1 imagen.
-pathAplicacionROIMarca=fullfile(outputPath,'MROI'); %imagen marcada, regiones de interes a color 1 imagen
+%% Ouput folders
+outputPathBR=fullfile(outputPath,'IBR'); % main image with binary fruit shapes (4 regions) and background removed.
+outputPathROI=fullfile(outputPath,'IROI'); % main color image with 4 regions of interest (ROI) and background removed.
+outputPathROIMasks=fullfile(outputPath,'MROI'); % main color image with 4 regions of interest (ROI), defects and colour masks, background removed.
+
+outputPathIS=fullfile(outputPath,'ISFrutas'); % fruit shapes 1..4 cut out from the main image
+outputPathIRM=fullfile(outputPath,'IRM'); % fruits with background removed 1..4 cut out from the main image
+outputPathRemMask=fullfile(outputPath,'MRM'); % fruits with background removed and colour mask for calyx and defects, regions 1..4
 
 
-pathAplicacion2=fullfile(outputPath,'ISFrutas'); %siluetas de frutas 1..4 de imagen inicial
-pathAplicacion3=fullfile(outputPath,'IRM'); %imagenes fondo removido 1..4 de imagen inicial
-pathAplicacionRemMarca=fullfile(outputPath,'MRM'); %imagenes fondo removido de marcas azules 1..4
+%% Settings for defects/calyx classes, colour and mask images
+outputPathCALROI=fullfile(outputPath,'ROICalyxC'); % main colour image with masks for calyx, background removed
+outputPathCALROIBin=fullfile(outputPath,'ROICalyxBin'); % main binary image with masks for calyx
+outputPathDEFROI=fullfile(outputPath,'ROIDefC'); % main colour image with masked defects
+outputPathDEFROIBin=fullfile(outputPath,'ROIDefBin'); % % 1 imagen con 4 marcas en binario
 
+% calyx masks
+pathCalyxColor=fullfile(outputPath,'MCalyxColor'); % calyx masks with background removed in regions 1..4
+pathCalyxBinary=fullfile(outputPath,'MCalyxBin'); % binary calyx masks with background removed in regions 1..4
+% defects masks
+pathDefColor=fullfile(outputPath,'MDefColor'); % defects masks with background removed in regions 1..4
+pathDefBinary=fullfile(outputPath,'MDefBin'); % binary defects masks with background removed in regions 1..4
 
-%% CONFIGURACIONES DEFECTOS MASCARA Y COLOR
-pathAplicacionCALROI=fullfile(outputPath,'ROICalyxC'); % 1 imagen con 4 marcas en magenta
-pathAplicacionCALROIBin=fullfile(outputPath,'ROICalyxBin'); % 1 imagen con 4 marcas en binario
-pathAplicacionDEFROI=fullfile(outputPath,'ROIDefC'); %1 imagen con 4 marcas en azul
-pathAplicacionDEFROIBin=fullfile(outputPath,'ROIDefBin'); % % 1 imagen con 4 marcas en binario
+% --- Results with intermediate images ---
+% background removed
+imageNameBR=fullfile(outputPathBR,strcat(imageNameP,'_','BR.jpg')); % shapes with background removed
+imageNameROI=fullfile(outputPathROI,strcat(imageNameP,'_','RO.jpg')); % colour shapes and background removed
+imageNameROIMarca=fullfile(outputPathROIMasks,strcat(imageNameP,'_','MRO.jpg')); % para indicar el fondo removido y ROI
+imageNameF=fullfile(outputPathROI,strcat(imageNameP,'_','I.jpg')); % prior to reverse image
 
-pathCalyxColor=fullfile(outputPath,'MCalyxColor'); %almacenado de calyx en color
-pathCalyxBinario=fullfile(outputPath,'MCalyxBin'); %almacenado de calyx en binario
+% Definition of prefixes for colour and binary images with background
+% removed, which are used in object detection
+imageNameShapeN=fullfile(outputPathIS,strcat(imageNameP,'_','sN'));
+imageNameRemoved=fullfile(outputPathIRM,strcat(imageNameP,'_','rm'));
+imageNameRemovedMask=fullfile(outputPathRemMask,strcat(imageNameP,'_','Mrm'));
 
-pathDefColor=fullfile(outputPath,'MDefColor'); %almacenado de defectos color
-pathDefBinario=fullfile(outputPath,'MDefBin'); %almacenado de defectos binario
+% Defining file names for color and binary defect regions.
+imageNameCALROI=fullfile(outputPathCALROI,strcat(imageNameP,'_','DR.jpg')); % Calyx marked in magenta colour
+imageNameCALROIBin=fullfile(outputPathCALROIBin,strcat(imageNameP,'_','DRB.jpg')); % Calyx masks in white colour
 
-% --- NOMBRE DE IMAGENES INTERMEDIAS ---
-% con fondo removido
-nombreImagenBR=fullfile(outputPathBR,strcat(imageNameP,'_','BR.jpg')); %para indicar silueta del fondo removido
-nombreImagenROI=fullfile(pathAplicacionROI,strcat(imageNameP,'_','RO.jpg')); %para indicar el fondo removido y ROI
-nombreImagenROIMarca=fullfile(pathAplicacionROIMarca,strcat(imageNameP,'_','MRO.jpg')); %para indicar el fondo removido y ROI
+imageNameDEFROI=fullfile(outputPathDEFROI,strcat(imageNameP,'_','DR.jpg')); % Defects marked in blue colour
+imageNameDEFROIBin=fullfile(outputPathDEFROIBin,strcat(imageNameP,'_','DRB.jpg')); % Defects marked in white colour
 
-nombreImagenF=fullfile(pathAplicacionROI,strcat(imageNameP,'_','I.jpg')); %previa a la inversa
+imageNameCalColor=fullfile(pathCalyxColor,strcat(imageNameP,'_','DC.jpg')); % Calyx, numbered image for ROI 1..4 in colour
+imageNameCalBin=fullfile(pathCalyxBinary,strcat(imageNameP,'_','CALB')); % Calyx, numbered image for ROI 1..4 binary masks
 
-%prefijo para imagenes de fondo removido y siluetas de fondos removidos en
-%deteccion de objetos
-nombreImagenSiluetaN=fullfile(pathAplicacion2,strcat(imageNameP,'_','sN'));
-nombreImagenRemovida=fullfile(pathAplicacion3,strcat(imageNameP,'_','rm'));
-nombreImagenRemovidaMarca=fullfile(pathAplicacionRemMarca,strcat(imageNameP,'_','Mrm'));
-
-
-%DEFINICION DE NOMBRES DE IMAGENES PARA DEFECTOS SEGMENTADO EN COLOR Y EN
-%BINARIO
-nombreImagenCALROI=fullfile(pathAplicacionCALROI,strcat(imageNameP,'_','DR.jpg')); %para indicar CALIZ en magenta
-nombreImagenCALROIBin=fullfile(pathAplicacionCALROIBin,strcat(imageNameP,'_','DRB.jpg')); %para indicar CALIZ en magenta
-
-
-nombreImagenDEFROI=fullfile(pathAplicacionDEFROI,strcat(imageNameP,'_','DR.jpg')); %para indicar DEFECTOS EN AZUL
-nombreImagenDEFROIBin=fullfile(pathAplicacionDEFROIBin,strcat(imageNameP,'_','DRB.jpg')); %para indicar DEFECTOS EN AZUL
-
-
-
-nombreImagenCalColor=fullfile(pathCalyxColor,strcat(imageNameP,'_','DC.jpg')); % imagen numerada de cada ROI 1..4  en color calyx  
-nombreImagenCalBin=fullfile(pathCalyxBinario,strcat(imageNameP,'_','CALB')); % imagen numerada de cada ROI 1..4 mascara binaria calyx
-
-nombreImagenDefColor=fullfile(pathDefColor,strcat(imageNameP,'_','DC.jpg')); % imagen numerada de cada ROI 1..4  en color calyx  
-nombreImagenDefBin=fullfile(pathDefBinario,strcat(imageNameP,'_','DEFB')); % imagen numerada de cada ROI 1..4 mascara binaria calyx
-
-
+imageNameDefColor=fullfile(pathDefColor,strcat(imageNameP,'_','DC.jpg')); % Defects, numbered image for ROI 1..4 in colour
+imageNameDefBin=fullfile(pathDefBinary,strcat(imageNameP,'_','DEFB')); % Defects, , numbered image for ROI 1..4 binary masks
 
 
 %% -- BEGIN IMAGE PROCESSING ----------------------------------
-%% ----- INICIO Definicion de topes
-% Para definicion de rectangulos PREVIAMENTE CONFIGURADOS PARA DETECTAR EL
-% NUMERO DE IMAGEN A PARTIR DE UNA IMGEN GENERAL CON ESPEJOS
+%% ----- Definition of limits for rectangles
+% Settings for definition of previously configured rectangles during the
+% calibration process. It is used to detect the region from a main image
+% with mirrors (see 3.2 Adquisición de imágenes int the Thesis Book).
+
 Cuadro1_lineaGuiaInicialColumna=rectangleList(1,1);
 Cuadro1_lineaGuiaInicialFila=rectangleList(1,2);
 Cuadro1_espacioColumna=rectangleList(1,3);
 Cuadro1_espacioFila=rectangleList(1,4);
 
-fprintf('BR -> Segmentación de fondo --> \n'); %salida una imagen con 4 siluetas
-BRemovalLAB(colourImage, nombreImagenBR, nombreImagenF, objectAreaBR, lChannelMin, lChannelMax, aChannelMin, aChannelMax, bChannelMax, bChannelMin,Cuadro1_lineaGuiaInicialColumna, Cuadro1_lineaGuiaInicialFila-2, Cuadro1_espacioColumna, Cuadro1_espacioFila);
+fprintf('BR -> Main image, background segmentation applying the LAB colour space --> \n'); % output an image with 4 shapes
+BRemovalLAB(colourImage, imageNameBR, imageNameF, objectAreaBR, lChannelMin, lChannelMax, aChannelMin, aChannelMax, bChannelMax, bChannelMin,Cuadro1_lineaGuiaInicialColumna, Cuadro1_lineaGuiaInicialFila-2, Cuadro1_espacioColumna, Cuadro1_espacioFila);
 
-%% Removiendo fondo
-fprintf('BR -> Removiendo fondo, separacion ROI--> \n'); %salida una imagen con 4 objetos
-backgroundRemoval4(colourImage, nombreImagenBR, nombreImagenROI);
-backgroundRemoval4(maskImage, nombreImagenBR, nombreImagenROIMarca);
-
-
-%% Calyx segmentado
-fprintf('DR -> SEGMENTANDO CALIZ MARCADO POR EXPERTO EN 4 ROI, separacion ROI--> \n'); %salida una imagen con 4 objetos
-channel1Min = 216.000;
-channel1Max = 255.000;
-channel2Min = 0.000;
-channel2Max = 132.000;
-channel3Min = 201.000;
-channel3Max = 255.000;
-SegmentDefMarksRGB(maskImage, nombreImagenCALROI, nombreImagenCALROIBin, channel1Min, channel1Max, channel2Min, channel2Max, channel3Min, channel3Max);
+%% Background removal
+fprintf('BR -> Main image, background removal, separation of regions of interest (ROI) --> \n'); % output an image with 4 shapes
+backgroundRemoval4(colourImage, imageNameBR, imageNameROI);
+backgroundRemoval4(maskImage, imageNameBR, imageNameROIMarca);
 
 
-%% Defectos segmentados
-fprintf('DR -> SEGMENTANDO AREAS DE DEFECTOS MARCADOS POR EXPERTO EN 4 ROI, separacion ROI--> \n'); %salida una imagen con 4 objetos
-channel1Min = 0.000;
-channel1Max = 15.000;
-channel2Min = 0.000;
-channel2Max = 11.000;
-channel3Min = 231.000;
-channel3Max = 255.000;
+%% Parameters for CALYX segmentation under the RGB colour space
+fprintf('DR -> Segmenting CALYX marked by expert in the 4 ROIs, ROI separation --> \n'); % output an image with 4 shapes
+% RGB channels min and max values
+rChannelMin = 216.000;
+rChannelMax = 255.000;
+gChannelMin = 0.000;
+gChannelMax = 132.000;
+bChannelMin = 201.000;
+bChannelMax = 255.000;
+
+SegmentDefMarksRGB(maskImage, imageNameCALROI, imageNameCALROIBin, rChannelMin, rChannelMax, gChannelMin, gChannelMax, bChannelMin, bChannelMax);
 
 
-SegmentDefMarksRGB(maskImage, nombreImagenDEFROI, nombreImagenDEFROIBin, channel1Min, channel1Max, channel2Min, channel2Max, channel3Min, channel3Max);
+%% Parameters for DEFECTS segmentation under the RGB colour space
+fprintf('DR -> Segmenting DEFECTS marked by expert in the 4 ROIs, ROI separation --> \n'); % output an image with 4 shapes
+% RGB channels min and max values
+rChannelMin = 0.000;
+rChannelMax = 15.000;
+gChannelMin = 0.000;
+gChannelMax = 11.000;
+bChannelMin = 231.000;
+bChannelMax = 255.000;
 
-%% Recortes de ROI
-fprintf('BR -> Detección de objetos en cuadros. Recortando ROI y siluetas ROI --> \n'); %salida 4 imagenes de un objeto cada una
-%asigna numeros de objetos segun la pertenencia al cuadro
-objectDetection2( nombreImagenBR, nombreImagenROI, nombreImagenSiluetaN, nombreImagenRemovida, rectangleList ); 
-objectDetection2( nombreImagenBR, nombreImagenROIMarca, nombreImagenSiluetaN, nombreImagenRemovidaMarca, rectangleList ); 
+SegmentDefMarksRGB(maskImage, imageNameDEFROI, imageNameDEFROIBin, rChannelMin, rChannelMax, gChannelMin, gChannelMax, bChannelMin, bChannelMax);
+
+%% Region of interest cuts
+fprintf('BR -> Object detection inside rectangles. Cropping ROI and ROI shapes --> \n'); % output 4 images of an object each
+% assigns numbers of objects according to their membership in the box
+objectDetection2( imageNameBR, imageNameROI, imageNameShapeN, imageNameRemoved, rectangleList ); 
+objectDetection2( imageNameBR, imageNameROIMarca, imageNameShapeN, imageNameRemovedMask, rectangleList ); 
 
 
-%recorta en base a siluetas caliz
-objectDetectionCut( nombreImagenBR, nombreImagenCALROI, nombreImagenCalColor, rectangleList );
-objectDetectionCut( nombreImagenBR, nombreImagenCALROIBin, nombreImagenCalBin, rectangleList );
+% cut based on calyx shapes
+objectDetectionCut( imageNameBR, imageNameCALROI, imageNameCalColor, rectangleList );
+objectDetectionCut( imageNameBR, imageNameCALROIBin, imageNameCalBin, rectangleList );
 
-% recorta en base a siluetas defectos
-objectDetectionCut( nombreImagenBR, nombreImagenDEFROI, nombreImagenDefColor, rectangleList );
-objectDetectionCut( nombreImagenBR, nombreImagenDEFROIBin, nombreImagenDefBin, rectangleList );
+% cut based on defects shapes
+objectDetectionCut( imageNameBR, imageNameDEFROI, imageNameDefColor, rectangleList );
+objectDetectionCut( imageNameBR, imageNameDEFROIBin, imageNameDefBin, rectangleList );
 
 %% -- END IMAGE PROCESSING ----------------------------------
 
-end %end ProcesamientoImagen
+end
 
