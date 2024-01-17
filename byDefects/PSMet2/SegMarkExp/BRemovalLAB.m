@@ -64,9 +64,9 @@ coordinatesToPaint=[xmin, ymin, width, height];
 IB2((coordinatesToPaint(2)-2):(coordinatesToPaint(2)+2),coordinatesToPaint(1):(coordinatesToPaint(1)+(coordinatesToPaint(3)-1)))=0;
 
 % noise removal at the bottom of the image
-[filasTotal,columnasTotal]=size(IB2);
-topeFilas=coordinatesToPaint(2)+(coordinatesToPaint(4)-1);
-IB2(topeFilas:filasTotal,1:columnasTotal)=0;
+[totalRows,totalColumns]=size(IB2);
+limitRow=coordinatesToPaint(2)+(coordinatesToPaint(4)-1);
+IB2(limitRow:totalRows,1:totalColumns)=0;
 
 % Eliminate elements whose area is equal to the parameter, leave large elements.
 IB3=bwareaopen(IB2,objectSize);
