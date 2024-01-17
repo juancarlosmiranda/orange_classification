@@ -87,13 +87,13 @@ imageNameDefBin=fullfile(pathDefBinary,strcat(imageNameP,'_','DEFB')); % Defects
 % calibration process. It is used to detect the region from a main image
 % with mirrors (see 3.2 Adquisición de imágenes int the Thesis Book).
 
-Cuadro1_lineaGuiaInicialColumna=rectangleList(1,1);
-Cuadro1_lineaGuiaInicialFila=rectangleList(1,2);
-Cuadro1_espacioColumna=rectangleList(1,3);
-Cuadro1_espacioFila=rectangleList(1,4);
+rectangle1_X=rectangleList(1,1);
+rectangle1_Y=rectangleList(1,2);
+rectangle1_W=rectangleList(1,3);
+rectangle1_H=rectangleList(1,4);
 
 fprintf('BR -> Main image, background segmentation applying the LAB colour space --> \n'); % output an image with 4 shapes
-BRemovalLAB(colourImage, imageNameBR, imageNameF, objectAreaBR, lChannelMin, lChannelMax, aChannelMin, aChannelMax, bChannelMax, bChannelMin,Cuadro1_lineaGuiaInicialColumna, Cuadro1_lineaGuiaInicialFila-2, Cuadro1_espacioColumna, Cuadro1_espacioFila);
+BRemovalLAB(colourImage, imageNameBR, imageNameF, objectAreaBR, lChannelMin, lChannelMax, aChannelMin, aChannelMax, bChannelMax, bChannelMin,rectangle1_X, rectangle1_Y-2, rectangle1_W, rectangle1_H);
 
 %% Background removal
 fprintf('BR -> Main image, background removal, separation of regions of interest (ROI) --> \n'); % output an image with 4 shapes

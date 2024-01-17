@@ -53,19 +53,19 @@ IB1 = imerode(reverseMask,SE);
 % Filling holes in the figure
 IB2 = imfill(IB1,'holes');
 
-% Adds a black line to eliminate noise
-coordinatesToPaint=[xmin, ymin, width, height];
-% definition of the black pixelated line area, separate the oranges from 
-% rectangle 1, solve the overlap of the rectangle 1 and rectangle 3
+% noise removal colocar linea pixelada en negro para elimnar ruidos 
+coordenadasAPintar=[xmin, ymin, width, height];
+% definition of the black pixelated line area, separate the oranges from rectangle 1, solve the overlap of the
+% rectangle 1 and rectangle 3
 
 % definicion de la zona linea pixelada en negro
 % separar a las naranjas del cuadro 1, soluciona la superposicion del
 % cuadro 1 y del cuadro 3
-IB2((coordinatesToPaint(2)-2):(coordinatesToPaint(2)+2),coordinatesToPaint(1):(coordinatesToPaint(1)+(coordinatesToPaint(3)-1)))=0;
+IB2((coordenadasAPintar(2)-2):(coordenadasAPintar(2)+2),coordenadasAPintar(1):(coordenadasAPintar(1)+(coordenadasAPintar(3)-1)))=0;
 
 % noise removal at the bottom of the image
 [filasTotal,columnasTotal]=size(IB2);
-topeFilas=coordinatesToPaint(2)+(coordinatesToPaint(4)-1);
+topeFilas=coordenadasAPintar(2)+(coordenadasAPintar(4)-1);
 IB2(topeFilas:filasTotal,1:columnasTotal)=0;
 
 % Eliminate elements whose area is equal to the parameter, leave large elements.

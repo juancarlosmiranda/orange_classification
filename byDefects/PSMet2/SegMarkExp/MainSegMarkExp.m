@@ -49,8 +49,6 @@ objectAreaBR=5000; % Area value to filter silhouettes and object detection (gran
 % Setting thresholds for LAB colour space values
 LchannelMin = 0.0; LChannelMax = 96.653; AChannelMin = -23.548; AChannelMax = 16.303; BChannelMin = -28.235; BChannelMax = -1.169; %parametros de umbralizacion de fondo
 
-
-
 %% Defining the directory structure
 % original dataset
 pathImages=fullfile(HOME,'OrangeResults','inputToLearn');
@@ -61,8 +59,8 @@ pathImagesTraining=fullfile(HOME,'OrangeResults','inputTraining');
 
   
 %% Definition of rectangles according to numbering
-Fila1=readConfiguration('Fila1', configurationFile);
-FilaAbajo=readConfiguration('FilaAbajo', configurationFile);
+% Fila1=readConfiguration('Fila1', configurationFile);
+% FilaAbajo=readConfiguration('FilaAbajo', configurationFile);
 
 % Rectangle 1 downside
 rectangle1_Y=readConfiguration('Cuadro1_lineaGuiaInicialFila', configurationFile);
@@ -100,11 +98,11 @@ rectangle4_W=readConfiguration('Cuadro4_espacioColumna', configurationFile);
 % V
 
 rectangleList=[rectangle1_X, rectangle1_Y, rectangle1_W, rectangle1_H;
-rectangle2_X, rectangle2_Y, rectangle2_W, rectangle2_H;
-rectangle3_X, rectangle3_Y, rectangle3_W, rectangle3_H;
-rectangle4_X, rectangle4_Y, rectangle4_W, rectangle4_H;
-0,0,0,0
-];
+    rectangle2_X, rectangle2_Y, rectangle2_W, rectangle2_H;
+    rectangle3_X, rectangle3_Y, rectangle3_W, rectangle3_H;
+    rectangle4_X, rectangle4_Y, rectangle4_W, rectangle4_H;
+    0,0,0,0
+    ];
 
 
 %% Cleaning temporal files
