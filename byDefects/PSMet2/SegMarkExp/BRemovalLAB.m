@@ -58,9 +58,6 @@ coordinatesToPaint=[xmin, ymin, width, height];
 % definition of the black pixelated line area, separate the oranges from 
 % rectangle 1, solve the overlap of the rectangle 1 and rectangle 3
 
-% definicion de la zona linea pixelada en negro
-% separar a las naranjas del cuadro 1, soluciona la superposicion del
-% cuadro 1 y del cuadro 3
 IB2((coordinatesToPaint(2)-2):(coordinatesToPaint(2)+2),coordinatesToPaint(1):(coordinatesToPaint(1)+(coordinatesToPaint(3)-1)))=0;
 
 % noise removal at the bottom of the image

@@ -1,9 +1,13 @@
 function [ ] = objectDetection2( imageNameFR, imageNameROI, imageNameSilhouetteN, imageNameRemoved, ArrayRectangles)
-% ########################################################################
-% Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
-% COMPUTER VISION TECHNIQUES 2018
-% juancarlosmiranda81@gmail.com
-% ########################################################################
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
 %
 % OUTPUTS= imageNameSilhouetteN, imageNameRemoved
 % Receive a segmented image in black and white, this is used as

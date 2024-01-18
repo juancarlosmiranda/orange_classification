@@ -105,27 +105,6 @@ rectangleList=[rectangle1_X, rectangle1_Y, rectangle1_W, rectangle1_H;
     0,0,0,0
     ];
 
-% Temporal data folder hierarchy
-% 
-%|__/HOME/DATASET/
-%   |__/sFrutas
-%   |__/ROIDefC
-%   |__/ROIDefBin
-%   |__/ROICalyxC
-%   |__/ROICalyxBin
-%   |__/MROI
-%   |__/MRM
-%   |__/MDefColor
-%   |__/MDefBin
-%   |__/MCalyxColor
-%   |__/MCalyxBin
-%   |__/ISFrutas
-%   |__/IROI
-%   |__/IRM
-%   |__/IBR
-%   |__/cDefectos
-%   |__/cCalyx
-%
 
 %% Cleaning temporal files
 % TODO: Create a script for definition of a folder hierarchy
@@ -150,6 +129,24 @@ delete(fullfile(outputPath,'cDefectos',imageExtension));
 delete(fullfile(outputPath,'cCalyx',imageExtension));
 
 
+
+|__/sFrutas
+|__/ROIDefC
+delete(fullfile(outputPath,'ROIDefBin
+delete(fullfile(outputPath,'ROICalyxC
+delete(fullfile(outputPath,'ROICalyxBin
+delete(fullfile(outputPath,'MROI
+delete(fullfile(outputPath,'MRM
+delete(fullfile(outputPath,'MDefColor
+delete(fullfile(outputPath,'MDefBin
+delete(fullfile(outputPath,'MCalyxColor
+delete(fullfile(outputPath,'MCalyxBin
+delete(fullfile(outputPath,'ISFrutas
+delete(fullfile(outputPath,'IROI
+delete(fullfile(outputPath,'IRM
+delete(fullfile(outputPath,'IBR
+delete(fullfile(outputPath,'cDefectos
+delete(fullfile(outputPath,'cCalyx
 
 %% --------------------------------------------------------------------
 %% Reading training folder with images. Iterates over training images (masks)
