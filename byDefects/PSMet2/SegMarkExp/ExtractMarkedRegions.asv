@@ -31,13 +31,21 @@ function [ ] = ExtractMarkedRegions(inputPath, mainPath, imageNameP)
 %% Initial parameter setting
 initialImage=fullfile(inputPath,imageNameP); % to write results
 outputPathIRM=fullfile(mainPath,'IRM'); % fruits with background removed 1..4 cut out from the main image
-outputPathcDefects=fullfile(mainPath,'cDefectos');
 
-%% Settings for masks and colour images
+%pathAplicacion4=strcat(pathAplicacion,'sDefectos/'); %imagen intermedia con frutas y defectos
+%pathAplicacion5=strcat(pathAplicacion,'defectos/'); %solamente los defectos aislados
+outputPathcDefects=fullfile(mainPath,'cDefectos');
+%pathAplicacion7=strcat(pathAplicacion,'contornos/'); %contornos de frutas
+
+%% CONFIGURACIONES DEFECTOS MASCARA Y COLOR
 pathColourCalyx=fullfile(mainPath,'cCalyx'); % to keep the calyx in colour
 pathBinaryCalyx=fullfile(mainPath,'MCalyxBin'); % to keep the calyx in binary image
 pathDefColor=fullfile(mainPath,'cDefColor'); % to keep the defects in colour
 pathDefBinary=fullfile(mainPath,'MDefBin'); % to keep the defects in binary image
+
+
+%pathTodosBin=strcat(pathAplicacion,'todosBin/'); %juntado
+
 
 % filenames with removed objects
 imageNameRemoved1=fullfile(outputPathIRM,strcat(imageNameP,'_','rm1.jpg'));
@@ -45,11 +53,38 @@ imageNameRemoved2=fullfile(outputPathIRM,strcat(imageNameP,'_','rm2.jpg'));
 imageNameRemoved3=fullfile(outputPathIRM,strcat(imageNameP,'_','rm3.jpg'));
 imageNameRemoved4=fullfile(outputPathIRM,strcat(imageNameP,'_','rm4.jpg'));
 
+
+%nombreImagenRemovidaMarca1=strcat(pathAplicacionRemMarca,nombreImagenP,'_','Mrm1.jpg');
+%nombreImagenRemovidaMarca2=strcat(pathAplicacionRemMarca,nombreImagenP,'_','Mrm2.jpg');
+%nombreImagenRemovidaMarca3=strcat(pathAplicacionRemMarca,nombreImagenP,'_','Mrm3.jpg');
+%nombreImagenRemovidaMarca4=strcat(pathAplicacionRemMarca,nombreImagenP,'_','Mrm4.jpg');
+
+
+    %% salida segmentacion
+%    nombreImagenSalida1=strcat(pathAplicacion4,nombreImagenP,'_','so1.jpg');
+%    nombreImagenSalida2=strcat(pathAplicacion4,nombreImagenP,'_','so2.jpg');
+%    nombreImagenSalida3=strcat(pathAplicacion4,nombreImagenP,'_','so3.jpg');
+%    nombreImagenSalida4=strcat(pathAplicacion4,nombreImagenP,'_','so4.jpg');
+
+    %% salida defectos
+%    nombreImagenDefectos1=strcat(pathAplicacion5,nombreImagenP,'_','soM1.jpg');
+%    nombreImagenDefectos2=strcat(pathAplicacion5,nombreImagenP,'_','soM2.jpg');
+%    nombreImagenDefectos3=strcat(pathAplicacion5,nombreImagenP,'_','soM3.jpg');
+%    nombreImagenDefectos4=strcat(pathAplicacion5,nombreImagenP,'_','soM4.jpg');
+
 %% output with color defects
 imageNameDefectsC1=fullfile(outputPathcDefects,strcat(imageNameP,'_','soC1.jpg'));
 imageNameDefectsC2=fullfile(outputPathcDefects,strcat(imageNameP,'_','soC2.jpg'));
 imageNameDefectsC3=fullfile(outputPathcDefects,strcat(imageNameP,'_','soC3.jpg'));
 imageNameDefectsC4=fullfile(outputPathcDefects,strcat(imageNameP,'_','soC4.jpg'));
+   
+    
+    %% salida contornos
+%    nombreImagenContorno1=strcat(pathAplicacion7,nombreImagenP,'_','CM1.jpg');
+%    nombreImagenContorno2=strcat(pathAplicacion7,nombreImagenP,'_','CM2.jpg');
+%    nombreImagenContorno3=strcat(pathAplicacion7,nombreImagenP,'_','CM3.jpg');
+%    nombreImagenContorno4=strcat(pathAplicacion7,nombreImagenP,'_','CM4.jpg');
+    
 
 % Definition of image names for calyx segmented in color and binary
 imageNameCalyxColour1=fullfile(pathColourCalyx,strcat(imageNameP,'_','CALC1.jpg')); % calyx colour image
@@ -61,29 +96,45 @@ imageNameCalyxBin1=fullfile(pathBinaryCalyx,strcat(imageNameP,'_','CALB1.jpg'));
 imageNameCalyxBin2=fullfile(pathBinaryCalyx,strcat(imageNameP,'_','CALB2.jpg'));
 imageNameCalyxBin3=fullfile(pathBinaryCalyx,strcat(imageNameP,'_','CALB3.jpg'));
 imageNameCalyxBin4=fullfile(pathBinaryCalyx,strcat(imageNameP,'_','CALB4.jpg'));    
+    
+    %DEFINICION DE NOMBRES DE IMAGENES PARA DEFECTOS SEGMENTADO EN COLOR Y EN
+    %BINARIO
+%    nombreImagenDefColor1=strcat(pathDefColor,nombreImagenP,'_','DEFC1.jpg'); % imagen en color calyx
+%    nombreImagenDefColor2=strcat(pathDefColor,nombreImagenP,'_','DEFC2.jpg');
+%    nombreImagenDefColor3=strcat(pathDefColor,nombreImagenP,'_','DEFC3.jpg');
+%    nombreImagenDefColor4=strcat(pathDefColor,nombreImagenP,'_','DEFC4.jpg');    
 
 imageNameDefBin1=fullfile(pathDefBinary,strcat(imageNameP,'_','DEFB1.jpg')); % defects binary mask
 imageNameDefBin2=fullfile(pathDefBinary,strcat(imageNameP,'_','DEFB2.jpg'));
 imageNameDefBin3=fullfile(pathDefBinary,strcat(imageNameP,'_','DEFB3.jpg'));
 imageNameDefBin4=fullfile(pathDefBinary,strcat(imageNameP,'_','DEFB4.jpg'));    
     
+    
+    %% siluetas juntadas
+%    nombreMascaraFinal1=strcat(pathTodosBin,nombreImagenP,'_','B1.jpg');
+%    nombreMascaraFinal2=strcat(pathTodosBin,nombreImagenP,'_','B2.jpg');    
+%    nombreMascaraFinal3=strcat(pathTodosBin,nombreImagenP,'_','B3.jpg');    
+%    nombreMascaraFinal4=strcat(pathTodosBin,nombreImagenP,'_','B4.jpg');    
+    
+    
 %% Granulometry
 % spotSize=1000; % 1000 pixels obtains good contour
    
 %% -- BEGIN DEFECTS FEATURES EXTRACTION ----------------------------------
-%% Mask segmentation to obtain isolated defects from the region of interest
-
-%% Separation of painted calyx
-fprintf('Separation of painted in CALYX--> \n');
+%% Mask segmentation to obtain isolated defects Segmentacion de mascara para obtener defectos aislados de ROI
+%fprintf('Segmentacion de mascara para obtener defectos aislados de ROI CALYX--> \n');
+%% Separación de calyx pintado
+fprintf('Separation of CALYX painted in CALYX--> \n');
 backgroundRemoval4(imageNameRemoved1, imageNameCalyxBin1, imageNameCalyxColour1);
 backgroundRemoval4(imageNameRemoved2, imageNameCalyxBin2, imageNameCalyxColour2);
 backgroundRemoval4(imageNameRemoved3, imageNameCalyxBin3, imageNameCalyxColour3);
 backgroundRemoval4(imageNameRemoved4, imageNameCalyxBin4, imageNameCalyxColour4);
 
    
-%% Separation of painted defects
-fprintf('Separation of painted defects in colour images --> \n');
-% here, defects are separated using masks marked by an expert
+%% Separación de DEFECTOS pintado
+fprintf('Separación de DEFECTOS pintados en color DEFECTOS--> \n');
+% aqui se apartan las manchas en colores, tomando la máscara marcada por el
+% experto.
 backgroundRemoval4(imageNameRemoved1, imageNameDefBin1, imageNameDefectsC1);
 backgroundRemoval4(imageNameRemoved2, imageNameDefBin2, imageNameDefectsC2);
 backgroundRemoval4(imageNameRemoved3, imageNameDefBin3, imageNameDefectsC3);
