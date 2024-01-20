@@ -8,7 +8,9 @@ function [ output_args ] = backgroundRemoval4( ColorImageName, MaskImageName, Ba
 % Update:  December 2023
 %
 % Description:
-% It removes the background by only obtaining the pixels according to a binary mask, it improves the speed since Matlab works better with morphological operations
+% It removes the background by only obtaining the pixels according to a 
+% binary mask, it improves the speed since Matlab works better with 
+% morphological operations.
 %
 % Usage:
 %
