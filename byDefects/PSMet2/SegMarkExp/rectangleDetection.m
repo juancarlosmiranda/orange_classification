@@ -1,21 +1,27 @@
 function [ result ] = rectangleDetection(ArrayRectangles, xmin, ymin)
-% ########################################################################
-% Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
-% COMPUTER VISION TECHNIQUES 2018
-% juancarlosmiranda81@gmail.com
-% ########################################################################
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
 %
 % Detect the frame number in which a coordinate is found.
 % It assumes previously configured frames that divide the screen into four,
 % is considered a box 0,0,0,0 as end of list mark. The function
 % returns the frame number of 1..4 or N. This function is used in the
 % object detection.
-
+% Usage:
+%
+%
 
 [totalRows, totalCol]=size(ArrayRectangles);
 
-%% REcorrer tabla con cuadros para detectar el punto inicial
-n=1; %indice detector de objetos
+%% Iterate over a table wth rectangles to detect the first coodinate
+n=1; % object detection index
 for (n=1:totalRows) 
      columnBegin=ArrayRectangles(n,1); columnEnd=ArrayRectangles(n,1)+ArrayRectangles(n,3);
      rowBegin=ArrayRectangles(n,2); rowEnd=ArrayRectangles(n,2)+ArrayRectangles(n,4);
@@ -36,11 +42,13 @@ end% for
 
 %%results
 if(n==totalRows)
-%    fprintf('xmin=%i ymin=%i NO ENCAJA\n', xmin, ymin);
+%    fprintf('xmin=%i ymin=%i does not fit \n', xmin, ymin); ONLY FOR DEBUG
+%    PURPOSES
     result='N';
 else
-%    fprintf('EL CUADRO ES %i\n', n);
-    result=int2str(n); %devuelve en forma de cadena
+%    fprintf('The rectangle is %i\n', n); ONLY FOR DEBUG
+%    PURPOSES
+    result=int2str(n); % it returns a results as string format
 end %
 
-end %deteccionCuadros
+end % end of rectangle detection

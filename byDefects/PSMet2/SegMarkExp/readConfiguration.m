@@ -1,27 +1,31 @@
 function [ result ] = readConfiguration( labelSearch, fileConfig)
-% ########################################################################
-% Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
-% COMPUTER VISION TECHNIQUES 2018
-% juancarlosmiranda81@gmail.com
-% ########################################################################
-% --------------------------------------------
-%% Lectura de XML
-%Valores a buscar en el XML
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
+% This function reads configuration files saved as XML format.
+%
+% Reading from XML file
+% Values to search inside the XML
 
-xDoc = xmlread(fullfile(fileConfig)); %Lectura del archivo
+xDoc = xmlread(fullfile(fileConfig)); % Reading in file
 
 % get all item list
 ItemList = xDoc.getElementsByTagName('listitem');
 
-%Go through the elements
+% Go through the elements
 for k = 0:ItemList.getLength-1
    currentItem = ItemList.item(k); %listItem actual
    
    % Get the label element. In this file, each
    % listitem contains only one label.
    labelList = currentItem.getElementsByTagName('label');
-   selectedItem = labelList.item(0);
-      
+   selectedItem = labelList.item(0);     
        
    if strcmp(selectedItem.getFirstChild.getData, labelSearch)
        labelList = currentItem.getElementsByTagName('value');
@@ -29,7 +33,7 @@ for k = 0:ItemList.getLength-1
        valueLabel = char(selectedItem.getFirstChild.getData);
        break;
    end %if strcmp  
-end %fin del for
+end % end for
 
 
 
@@ -43,6 +47,4 @@ end
 
 result=str2num(valueLabel);
 
-% -------------------------------------------
-end %fin de funcion
-
+end

@@ -35,7 +35,7 @@
 %% Initial parameter setting
 clc; clear all; close all;
  
-%% Setting script operating parameters
+%% Definition of script operating parameters
 HOME=fullfile('C:','Users','Usuari','development','orange_classification');
 mainPath=fullfile(HOME,'OrangeResults','byDefects','PSMet2','SegMarkExp');
 configurationPath=fullfile(mainPath,'conf');
@@ -50,7 +50,7 @@ objectAreaBR=5000; % Area value to filter silhouettes and object detection (gran
 % parameters
 LchannelMin = 0.0; LChannelMax = 96.653; AChannelMin = -23.548; AChannelMax = 16.303; BChannelMin = -28.235; BChannelMax = -1.169; 
 
-%% Setting up the directory folder structure
+%% Defining the directory structure
 % original dataset
 pathImages=fullfile(HOME,'OrangeResults','inputToLearn');
 pathImagesMasks=fullfile(HOME,'OrangeResults','inputMarked');
@@ -87,7 +87,7 @@ rectangle4_X=readConfiguration('Cuadro4_lineaGuiaInicialColumna', configurationF
 rectangle4_H=readConfiguration('Cuadro4_espacioFila', configurationFile);
 rectangle4_W=readConfiguration('Cuadro4_espacioColumna', configurationFile);
 
-%% Loading rectangles into memory to be fast
+%% Load first into memory to be fast
 % Definition of a rectangle region
 %[X,Y,W,H] top-left corner X,Y; W=horizontal width, H= vertical height
 % * ---------> X
@@ -167,7 +167,6 @@ for n=1:imageCount
     %end;
 end %
 
-%% Printing summary report
 fprintf('---------\n');
 fprintf('Summary report \n');
 fprintf('---------\n');
