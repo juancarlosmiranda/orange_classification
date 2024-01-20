@@ -1,156 +1,164 @@
-% ########################################################################
-% Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
-% COMPUTER VISION TECHNIQUES 2018
-% juancarlosmiranda81@gmail.com
-% ########################################################################
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
+%
 %{
-% Genera archivos con características de defectos y calyx, los cuales son utilizados
-para obtener datos de: color, textura y geometria de defectos y calyx.
-REQUIRE DE UN PROCESO PREVIO, que genera imagnes de defectos en colores y sus siluetas.
+Generates files with geometric and color characteristics (values
+numerical) for defects and calyx in fruits. The numerical values are
+used to obtain data on: color, texture and geometry of the
+defects and calyx.
 
-Cada imagen en un directorio base, cuenta con sub imágenes de regiones e
+This script assumes that there was a previous processing, in which
+images from color marks drawn by an expert. For which the
+preprocessing to generate images of defects and calyx in fruits
+It can be done with the "MainSegMarkExp.m" program.
+
+Each image in a base directory has subimages of regions and
+silhouette images. Example:
+* 001.jpg is the main image, there are images of regions R1..R4
+for defects and in turn there are specific images for their silhouettes
+of defects.
+
+Genera archivos con características geométricas y de color (valores 
+numéricos) para  defectos y calyx en frutas. Los valores numéricos son 
+utilizados para obtener datos de: color, textura y geometria de los 
+defectos y calyx.
+
+Este script asume que hubo un procesamiento previo, en el cual se generaron
+imágenes desde marcas en colores dibujadas por un experto. Por lo cual el 
+procesado previo para generar imágenes de defectos y calyx en frutas 
+puede hacerse con el programa XXXX.
+
+Cada imagen en un directorio base, cuenta con sub imágenes de regiones e 
 imágenes de siluetas. Ejemplo:
-001.jpg es la imagen principal, existen imágenes de las regiones R1..R4
+* 001.jpg es la imagen principal, existen imágenes de las regiones R1..R4
 para lo defectos y a su vez exiten imágenes específicas para sus siluetas
 de defectos.
-La función asume que hubo un procesamiento previo, en el cual se generaron
-imágenes desde las marcas en colores dibujadas por e experto.
-%}
 
-%% Ajuste de parámetros iniciales
+%}
+% Usage:
+% MainSegMarkExpExtraction.m
+%
+
+
+%% Initial parameter setting
 clc; clear all; close all;
  
- %% Definicion de estructura de directorios 
-%HOME=strcat(pwd,'/');
+%% Defining the directory structure
 HOME=fullfile('C:','Users','Usuari','development','orange_classification');
-pathPrincipal=fullfile(HOME,'OrangeResults','byDefects','PSMet2','SegMarkExp'); %Toma como entradas las imágenes generadas con el proceso anterior
-pathPrincipal2=fullfile(HOME,'OrangeResults', 'byDefects','PSMet2','SegMarkExpExtraction'); %
+mainPath=fullfile(HOME,'OrangeResults', 'byDefects','PSMet2','SegMarkExpExtraction');
+% Takes as input images generated in a previous step with MainSegMarkExp.m
+inputPath=fullfile(HOME,'OrangeResults','byDefects','PSMet2','SegMarkExp');
+pathImagesTraining=fullfile(HOME,'OrangeResults','inputTraining');
+outputPath=fullfile(inputPath,'tmpToLearn'); % temporal data folder
+imageFormat='.jpg';
+imageFilter=strcat('*',imageFormat);
 
-% pathPrincipal='/home/usuario/ml/clasDefectos4/';
-pathEntradaImagenesTraining=fullfile(HOME,'OrangeResults','inputTraining');
-%pathEntradaImagenesTraining='/home/usuario/ml/inputToLearnEntrenar/';
- 
-%pathAplicacion=strcat(pathPrincipal,'tmpToLearn/MARCAS/'); %directorio de alojamiento de imagenes
-pathAplicacion=fullfile(pathPrincipal,'tmpToLearn'); %directorio de alojamiento de imagenes
- 
- 
 %% Definicion de variables para resguardo de defectos y calyx
-%pathcDefectos=strcat(pathAplicacion,'cDefectos/'); %defectos en color
-%pathdefBin=strcat(pathAplicacion,'defBin/'); %siluetas de defectos en binario
+pathcDefectos=fullfile(outputPath,'cDefectos'); %defectos en color
+pathDefBinary=fullfile(outputPath,'MDefBin'); % binary defects masks with background removed in regions 1..4
  
-pathcDefectos=fullfile(pathAplicacion,'cDefectos'); %defectos en color
-pathdefBin=fullfile(pathAplicacion,'MDefBin'); %siluetas de defectos en binario
-
- 
-%pathcalyxColor=strcat(pathAplicacion,'calyxColor/'); %calyx en color
-%pathcalyxBin=strcat(pathAplicacion,'calyxBin/'); %siluetas de calyx en binario
-pathcalyxColor=fullfile(pathAplicacion,'cCalyx'); %calyx en color
-pathcalyxBin=fullfile(pathAplicacion,'MCalyxBin'); %siluetas de calyx en binario
- 
-nombreImagenP='nombreImagenP';
+pathColourCalyx=fullfile(outputPath,'cCalyx'); % to keep the calyx in colour
+pathBinaryCalyx=fullfile(outputPath,'MCalyxBin'); % binary calyx masks with background removed in regions 1..4
 
 % color de defectos para las regiones R1..R4
-postfijocDefectos1='_soC1.jpg';
-postfijocDefectos2='_soC2.jpg';
-postfijocDefectos3='_soC3.jpg';
-postfijocDefectos4='_soC4.jpg';
+suffixDefects1=strcat('_soC1',imageFormat);
+suffixDefects2=strcat('_soC2',imageFormat);
+suffixDefects3=strcat('_soC3',imageFormat);
+suffixDefects4=strcat('_soC4',imageFormat);
   
 % siluetas defectos para las regiones R1..R4
-postfijodefBin1='_DEFB1.jpg';
-postfijodefBin2='_DEFB2.jpg';
-postfijodefBin3='_DEFB3.jpg';
-postfijodefBin4='_DEFB4.jpg';
+suffixDefBin1=strcat('_DEFB1',imageFormat);
+suffixDefBin2=strcat('_DEFB2',imageFormat);
+suffixDefBin3=strcat('_DEFB3',imageFormat);
+suffixDefBin4=strcat('_DEFB4',imageFormat);
 
 % COLOR DE CALYX
-postfijocalyxColor1='_CALC1.jpg';
-postfijocalyxColor2='_CALC2.jpg';
-postfijocalyxColor3='_CALC3.jpg';
-postfijocalyxColor4='_CALC4.jpg';
+suffixCalyxColor1=strcat('_CALC1',imageFormat);
+suffixCalyxColor2=strcat('_CALC2',imageFormat);
+suffixCalyxColor3=strcat('_CALC3',imageFormat);
+suffixCalyxColor4=strcat('_CALC4',imageFormat);
   
 % BINARIO DE CALYX
-postfijocalyxBin1='_CALB1.jpg';
-postfijocalyxBin2='_CALB2.jpg';
-postfijocalyxBin3='_CALB3.jpg';
-postfijocalyxBin4='_CALB4.jpg';
+suffixCalyxBin1=strcat('_CALB1',imageFormat);
+suffixCalyxBin2=strcat('_CALB2',imageFormat);
+suffixCalyxBin3=strcat('_CALB3',imageFormat);
+suffixCalyxBin4=strcat('_CALB4',imageFormat);
  
-pathResultados=fullfile(pathPrincipal2,'output');%directorio para resultados
-%archivoVectorCalyx=strcat(pathResultados,'aCalyx.csv'); %archivo de salida para calyx
-%archivoVectorDef=strcat(pathResultados,'aDef.csv'); %archivo de salida para defectos
-archivoBDDEFECTOSCALYX=fullfile(pathResultados,'BDDEFECTOSCALYX.csv'); %salida completa
+outputResults=fullfile(mainPath,'output');% directory for folders
+fileDBDefectsCalyx=fullfile(outputResults,'BDDEFECTOSCALYX.csv'); %both labels: DEFECTS AND CALYX
 
-%% Nombres de archivos de configuracion
-% trabajan con métodos para equivalencia con las 4 vistas
+%% Removing old features files
+delete(fileDBDefectsCalyx);
 
-%% Remover archivos antiguos, borrar archivos antiguos
-%removeFiles(archivoVectorCalyx); %elimina caracteristicas anteriores
-%removeFiles(archivoVectorDef);
-removeFiles(archivoBDDEFECTOSCALYX);
+%% Reading training folder with images. Iterates over training images (masks)
+imageList=dir(fullfile(pathImagesTraining,imageFilter));
+imageNameP='imageNameP';
+listSize=size(imageList);
+imageCount=listSize(1);
 
-%% --------------------------------------------------------------------
-%carga del listado de nombres
-listado=dir(fullfile(pathEntradaImagenesTraining,'*.jpg'));
-
-
-%% lectura en forma de bach del directorio de la cámara
-for n=1:size(listado)
-    fprintf('Extrayendo características para entrenamiento-> %s \n',listado(n).name);
-    nombreImagenP=listado(n).name;
-    %    fin = strfind(nombreImagenP, '_');
-    %    nombreImagenOriginal=nombreImagenP(1:fin-1);
+%% Reading training folder with images. Iterates over training images (masks)
+for n=1:size(imageList)
+    fprintf('Extracting numerical features for training-> %s \n',imageList(n).name);
+    originalImage=imageList(n).name;
     
-    nombreImagenOriginal=nombreImagenP;
-    %% Procesamiento de calyx en color y binario
-    % Se asume que existen imágenes con o sin defectos por cada region
+    %% Image processing for calyx in colour and binary images
+    % It is assumed that there are images with or without defects for each region.
     % R1..R4.
-    nombreImagencalyxColor1=fullfile(pathcalyxColor,strcat(nombreImagenOriginal,postfijocalyxColor1));
-    nombreImagencalyxColor2=fullfile(pathcalyxColor,strcat(nombreImagenOriginal,postfijocalyxColor2));
-    nombreImagencalyxColor3=fullfile(pathcalyxColor,strcat(nombreImagenOriginal,postfijocalyxColor3));
-    nombreImagencalyxColor4=fullfile(pathcalyxColor,strcat(nombreImagenOriginal,postfijocalyxColor4));
+    imageNameColourCalyx1=fullfile(pathColourCalyx,strcat(originalImage,suffixCalyxColor1));
+    imageNameColourCalyx2=fullfile(pathColourCalyx,strcat(originalImage,suffixCalyxColor2));
+    imageNameColourCalyx3=fullfile(pathColourCalyx,strcat(originalImage,suffixCalyxColor3));
+    imageNameColourCalyx4=fullfile(pathColourCalyx,strcat(originalImage,suffixCalyxColor4));
     
-    nombreImagencalyxBin1=fullfile(pathcalyxBin,strcat(nombreImagenOriginal,postfijocalyxBin1));
-    nombreImagencalyxBin2=fullfile(pathcalyxBin,strcat(nombreImagenOriginal,postfijocalyxBin2));
-    nombreImagencalyxBin3=fullfile(pathcalyxBin,strcat(nombreImagenOriginal,postfijocalyxBin3));
-    nombreImagencalyxBin4=fullfile(pathcalyxBin,strcat(nombreImagenOriginal,postfijocalyxBin4));
+    imageNameBinCalyx1=fullfile(pathBinaryCalyx,strcat(originalImage,suffixCalyxBin1));
+    imageNameBinCalyx2=fullfile(pathBinaryCalyx,strcat(originalImage,suffixCalyxBin2));
+    imageNameBinCalyx3=fullfile(pathBinaryCalyx,strcat(originalImage,suffixCalyxBin3));
+    imageNameBinCalyx4=fullfile(pathBinaryCalyx,strcat(originalImage,suffixCalyxBin4));
     
-    %% llamado para la extraccion de calyx
-    etiqueta='CALYX';
-    defectDetectionExp( 1, nombreImagencalyxBin1, nombreImagencalyxColor1, archivoBDDEFECTOSCALYX, nombreImagenOriginal, etiqueta);
-    defectDetectionExp( 2, nombreImagencalyxBin2, nombreImagencalyxColor2, archivoBDDEFECTOSCALYX, nombreImagenOriginal, etiqueta);
-    defectDetectionExp( 3, nombreImagencalyxBin3, nombreImagencalyxColor3, archivoBDDEFECTOSCALYX, nombreImagenOriginal, etiqueta);
-    defectDetectionExp( 4, nombreImagencalyxBin4, nombreImagencalyxColor4, archivoBDDEFECTOSCALYX, nombreImagenOriginal, etiqueta);
+    %% Calyx features extraction
+    label='CALYX';
+    defectDetectionExp( 1, imageNameBinCalyx1, imageNameColourCalyx1, fileDBDefectsCalyx, originalImage, label);
+    defectDetectionExp( 2, imageNameBinCalyx2, imageNameColourCalyx2, fileDBDefectsCalyx, originalImage, label);
+    defectDetectionExp( 3, imageNameBinCalyx3, imageNameColourCalyx3, fileDBDefectsCalyx, originalImage, label);
+    defectDetectionExp( 4, imageNameBinCalyx4, imageNameColourCalyx4, fileDBDefectsCalyx, originalImage, label);
     
-    %% procesamiento de defectos en color y en binario
-    nombreImagencDefectos1=fullfile(pathcDefectos,strcat(nombreImagenOriginal,postfijocDefectos1));
-    nombreImagencDefectos2=fullfile(pathcDefectos,strcat(nombreImagenOriginal,postfijocDefectos2));
-    nombreImagencDefectos3=fullfile(pathcDefectos,strcat(nombreImagenOriginal,postfijocDefectos3));
-    nombreImagencDefectos4=fullfile(pathcDefectos,strcat(nombreImagenOriginal,postfijocDefectos4));
+    %% Image processing for defects in colour and binary images
+    % It is assumed that there are images with or without defects for each region.
+    % R1..R4.    
+    imageNameColourDefects1=fullfile(pathcDefectos,strcat(originalImage,suffixDefects1));
+    imageNameColourDefects2=fullfile(pathcDefectos,strcat(originalImage,suffixDefects2));
+    imageNameColourDefects3=fullfile(pathcDefectos,strcat(originalImage,suffixDefects3));
+    imageNameColourDefects4=fullfile(pathcDefectos,strcat(originalImage,suffixDefects4));   
     
-    % siluetas
-    nombreImagendefBin1=fullfile(pathdefBin,strcat(nombreImagenOriginal, postfijodefBin1));
-    nombreImagendefBin2=fullfile(pathdefBin,strcat(nombreImagenOriginal, postfijodefBin2));
-    nombreImagendefBin3=fullfile(pathdefBin,strcat(nombreImagenOriginal, postfijodefBin3));
-    nombreImagendefBin4=fullfile(pathdefBin,strcat(nombreImagenOriginal, postfijodefBin4));
-    
-    
-    %% llamado para la extraccion de defectos
-    
-    etiqueta='DEFECTOS';
-    defectDetectionExp( 1, nombreImagendefBin1, nombreImagencDefectos1, archivoBDDEFECTOSCALYX, nombreImagenOriginal, etiqueta);
-    defectDetectionExp( 2, nombreImagendefBin2, nombreImagencDefectos2, archivoBDDEFECTOSCALYX, nombreImagenOriginal, etiqueta);
-    defectDetectionExp( 3, nombreImagendefBin3, nombreImagencDefectos3, archivoBDDEFECTOSCALYX, nombreImagenOriginal, etiqueta);
-    defectDetectionExp( 4, nombreImagendefBin4, nombreImagencDefectos4, archivoBDDEFECTOSCALYX, nombreImagenOriginal, etiqueta);
+    imageNameBinDefects1=fullfile(pathDefBinary,strcat(originalImage, suffixDefBin1));
+    imageNameBinDefects2=fullfile(pathDefBinary,strcat(originalImage, suffixDefBin2));
+    imageNameBinDefects3=fullfile(pathDefBinary,strcat(originalImage, suffixDefBin3));
+    imageNameBinDefects4=fullfile(pathDefBinary,strcat(originalImage, suffixDefBin4));
     
     
+    %% Defects features extraction    
+    label='DEFECTOS'; % TODO, change label to DEFECT
+    defectDetectionExp( 1, imageNameBinDefects1, imageNameColourDefects1, fileDBDefectsCalyx, originalImage, label);
+    defectDetectionExp( 2, imageNameBinDefects2, imageNameColourDefects2, fileDBDefectsCalyx, originalImage, label);
+    defectDetectionExp( 3, imageNameBinDefects3, imageNameColourDefects3, fileDBDefectsCalyx, originalImage, label);
+    defectDetectionExp( 4, imageNameBinDefects4, imageNameColourDefects4, fileDBDefectsCalyx, originalImage, label);    
     %if n==1
     %     break;
     %end;
-end %
+end
 
-total=size(listado);
-
-fprintf('\n -------------------------------- \n');
-fprintf('Se procesaron un total de %i archivos del directorio %s \n',total(1), pathEntradaImagenesTraining);
-fprintf('Los DEFECTOS se guardaron en el archivo %s \n', archivoBDDEFECTOSCALYX);
-%fprintf('En el archivo %s se guardaron los DEFECTOS\n', archivoVectorDef);
-%fprintf('En el archivo %s se guardaron los CALYX\n', archivoVectorCalyx);
-fprintf('\n -------------------------------- \n');
+%% Printing summary report
+fprintf('---------\n');
+fprintf('Summary report \n');
+fprintf('---------\n');
+fprintf('The regions marked (masks) by the expert have been converted to numerical values (features). \n');
+fprintf('DEFECTS have been saved in file  %s \n', fileDBDefectsCalyx);
+fprintf('Temporal images obtained with this process can be analyzed in %s \n', outputPath);
+fprintf('A total of %i images have been analyzed from %s \n', imageCount, pathImagesTraining);
+fprintf('You must run the process to evaluate images "XXXX.m"! \n');

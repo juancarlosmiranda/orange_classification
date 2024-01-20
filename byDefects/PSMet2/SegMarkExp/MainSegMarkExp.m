@@ -54,7 +54,6 @@ LchannelMin = 0.0; LChannelMax = 96.653; AChannelMin = -23.548; AChannelMax = 16
 % original dataset
 pathImages=fullfile(HOME,'OrangeResults','inputToLearn');
 pathImagesMasks=fullfile(HOME,'OrangeResults','inputMarked');
-
 % pre-training dataset
 pathImagesTraining=fullfile(HOME,'OrangeResults','inputTraining');
 
