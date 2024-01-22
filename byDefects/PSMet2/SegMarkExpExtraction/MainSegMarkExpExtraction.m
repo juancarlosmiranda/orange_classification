@@ -33,7 +33,7 @@ defectos y calyx.
 Este script asume que hubo un procesamiento previo, en el cual se generaron
 imágenes desde marcas en colores dibujadas por un experto. Por lo cual el 
 procesado previo para generar imágenes de defectos y calyx en frutas 
-puede hacerse con el programa XXXX.
+puede hacerse con el programa "MainSegMarkExp.m".
 
 Cada imagen en un directorio base, cuenta con sub imágenes de regiones e 
 imágenes de siluetas. Ejemplo:
@@ -157,8 +157,8 @@ end
 fprintf('---------\n');
 fprintf('Summary report \n');
 fprintf('---------\n');
-fprintf('The regions marked (masks) by the expert have been converted to numerical values (features). \n');
-fprintf('DEFECTS have been saved in file  %s \n', fileDBDefectsCalyx);
 fprintf('Temporal images obtained with this process can be analyzed in %s \n', outputPath);
 fprintf('A total of %i images have been analyzed from %s \n', imageCount, pathImagesTraining);
+fprintf('The regions marked (masks) by the expert have been converted to numerical values (features). \n');
+fprintf('DEFECTS have been saved in file  %s \n', fileDBDefectsCalyx);
 fprintf('You must run the process to evaluate images "XXXX.m"! \n');
