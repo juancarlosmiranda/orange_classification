@@ -67,25 +67,25 @@ pathDefBinary=fullfile(outputPath,'MDefBin'); % binary defects masks with backgr
 pathColourCalyx=fullfile(outputPath,'cCalyx'); % to keep the calyx in colour
 pathBinaryCalyx=fullfile(outputPath,'MCalyxBin'); % binary calyx masks with background removed in regions 1..4
 
-% color de defectos para las regiones R1..R4
+% defect color for regions R1..R4
 suffixDefects1=strcat('_soC1',imageFormat);
 suffixDefects2=strcat('_soC2',imageFormat);
 suffixDefects3=strcat('_soC3',imageFormat);
 suffixDefects4=strcat('_soC4',imageFormat);
   
-% siluetas defectos para las regiones R1..R4
+% Defect silhouettes for regions R1..R4
 suffixDefBin1=strcat('_DEFB1',imageFormat);
 suffixDefBin2=strcat('_DEFB2',imageFormat);
 suffixDefBin3=strcat('_DEFB3',imageFormat);
 suffixDefBin4=strcat('_DEFB4',imageFormat);
 
-% COLOR DE CALYX
+% CALYX COLOR
 suffixCalyxColor1=strcat('_CALC1',imageFormat);
 suffixCalyxColor2=strcat('_CALC2',imageFormat);
 suffixCalyxColor3=strcat('_CALC3',imageFormat);
 suffixCalyxColor4=strcat('_CALC4',imageFormat);
   
-% BINARIO DE CALYX
+% CALYX BINARY
 suffixCalyxBin1=strcat('_CALB1',imageFormat);
 suffixCalyxBin2=strcat('_CALB2',imageFormat);
 suffixCalyxBin3=strcat('_CALB3',imageFormat);

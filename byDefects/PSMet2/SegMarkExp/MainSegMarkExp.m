@@ -52,7 +52,7 @@ LchannelMin = 0.0; LChannelMax = 96.653; AChannelMin = -23.548; AChannelMax = 16
 
 %% Setting up the directory folder structure
 % original dataset
-pathImages=fullfile(HOME,'OrangeResults','inputToLearn');
+pathImagesLearn=fullfile(HOME,'OrangeResults','inputToLearn');
 pathImagesMasks=fullfile(HOME,'OrangeResults','inputMarked');
 % pre-training dataset
 pathImagesTraining=fullfile(HOME,'OrangeResults','inputTraining');
@@ -157,9 +157,9 @@ for n=1:imageCount
     fprintf('\n Separating regions marked manually for training -> %s \n',imageList(n).name);    
     imageNameP=imageList(n).name;
     %It is used to separate the marks made by experts, who segmented the defects in the fruits with blue color. At the same time, the original images are available, in order to obtain real characteristics of the defects in the fruits.
-    ProcessMarks(pathImages, pathImagesTraining, outputPath, imageNameP, rectangleList, objectAreaBR, LchannelMin, LChannelMax, AChannelMin, AChannelMax, BChannelMin, BChannelMax )
+    ProcessMarks(pathImagesLearn, pathImagesTraining, outputPath, imageNameP, rectangleList, objectAreaBR, LchannelMin, LChannelMax, AChannelMin, AChannelMax, BChannelMin, BChannelMax )
     %Creates binary images, and colour segmented images
-    ExtractMarkedRegions(pathImages, outputPath, imageNameP)
+    ExtractMarkedRegions(pathImagesLearn, outputPath, imageNameP)
     % enable this for debug
     %if n==1
     %    break;
