@@ -78,7 +78,7 @@ if (objectSelectedListSize==0)
     entropy=0.0;
     inertia=0.0;
     energy=0.0;
-    label='VACIO';
+    label='VACIO';  % TODO: 01/02/2024 translate this label to English
     x=0; 
     y=0;
     w=0;

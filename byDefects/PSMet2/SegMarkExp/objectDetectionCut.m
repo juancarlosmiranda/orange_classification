@@ -44,7 +44,7 @@ for n=1:size(objectsSelected,2)
     %% cropping images
     IBackgroundR = imcrop(ImROI,coodinatesToPaint);
     %% rectangle number detection
-    rectangleNumber=rectangleDetection(rectangleArray, coodinatesToPaint(1), coodinatesToPaint(2)); %asigma el numero de cuadro que corresponde a la imagen
+    rectangleNumber=rectangleDetection(rectangleArray, coodinatesToPaint(1), coodinatesToPaint(2)); % assigns the frame number that corresponds to the image
 
     if(rectangleNumber=='N')
         outputBR=strcat(imageNameRemoved, rectangleNumber, int2str(objectCounter),'.jpg');

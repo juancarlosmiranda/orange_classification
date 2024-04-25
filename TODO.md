@@ -49,10 +49,22 @@ byDefects/
 CompareROI/
 DefectsSegmentation/
 
-~SetCreator [OK]~
-~SegMarkExp [OK]~
-~SegMarkExpExtraction [OK]~
+Orden de ejecucion
+1) ~SetCreator [OK]~
+2) ~SegMarkExp [OK]~
+3) ~SegMarkExpExtraction [OK]~
+
 ~FruitEvaluation [OK]~
+
+
+bySize
+---------
+Calibration4R/
+clasSize2ML/
+clasSize24R/
+clasSizeUM/
+conf/
+Training24R/
 
 
 Hacer un mapa de las coordenadas XY.

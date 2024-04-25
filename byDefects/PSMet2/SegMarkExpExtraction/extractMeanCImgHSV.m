@@ -1,74 +1,80 @@
-function [ promedioH, promedioS, promedioV, desviacionH, desviacionS, desviacionV ] = extraerCPromImgHSV( IRecorteRGB, IMascaraC)
-% ########################################################################
-% Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
-% COMPUTER VISION TECHNIQUES 2018
-% juancarlosmiranda81@gmail.com
-% ########################################################################
-% Extraer color promedio de una imagen, utilizando una silueta para
-% cuantificar el color y los valores que se extraen. 
-% El resultado se trabaja en el espacio de color HSV.
+function [ meanH, meanS, meanV, stdDevH, stdDevS, stdDevV ] = extractMeanCImgHSV( IRGBCropped, IMaskC)
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
+%
+% This function calculates the average colour of an image, using a mask to 
+% quantify the colour and values that are extracted.
+% The result is obtained converting images to the HSV color space.
+%
 
-PRIMER_PLANO=1;
+% Usage:
+% [ meanH, meanS, meanV, stdDevH, stdDevS, stdDevV ] = extractMeanCImgHSV(
+% IRGBCropped, IMaskC);
+%
+% Foreground values are 1, background values are 0
+FOREGROUND=1;
 
-%Lectura de la imagen con fondo
-IRecorteHSV=rgb2hsv(IRecorteRGB); % hsv
-IMascara=IMascaraC;
+% Reading background image
+IHSVCropped=rgb2hsv(IRGBCropped); % HSV colour space
+IMask=IMaskC;
 
-[filasTope, columnasTope, ~]=size(IRecorteRGB);
+[rowSize, colSize, ~]=size(IRGBCropped);
 
-sumaH=double(0.0);
-sumaS=double(0.0);
-sumaV=double(0.0);
-contadorPixeles=double(0.0);
+sumH=double(0.0);
+sumS=double(0.0);
+sumV=double(0.0);
+pixelCounter=double(0.0);
 
-%variables para el calculo de varianza
-sumaVarianzaH=double(0.0);
-varianzaH=double(0.0);
-sumaVarianzaS=double(0.0);
-varianzaS=double(0.0);
-sumaVarianzaV=double(0.0);
-varianzaV=double(0.0);
+% variables for calculating variance
+varianceSumH=double(0.0);
+varianceSumS=double(0.0);
+varianceSumV=double(0.0);
 
-%recorrer la imagen mascara
-for f=1:1:filasTope
-    for c=1:1:columnasTope
-        % Leer de la imagen mascara si el valor es diferente a cero
-        pixelMascara=IMascara(f,c);
-        if pixelMascara == PRIMER_PLANO
-            sumaH=double(IRecorteHSV(f,c,1))+sumaH;
-            sumaS=double(IRecorteHSV(f,c,2))+sumaS;
-            sumaV=double(IRecorteHSV(f,c,3))+sumaV; 
-            contadorPixeles=contadorPixeles+1;
-        end %if        
-    end %for columnas
-end %for filas
+% iterating over the mask
+for f=1:1:rowSize
+    for c=1:1:colSize
+        % Read from the mask image if the value is different from zero
+        pixelMask=IMask(f,c);
+        if pixelMask == FOREGROUND
+            sumH=double(IHSVCropped(f,c,1))+sumH;
+            sumS=double(IHSVCropped(f,c,2))+sumS;
+            sumV=double(IHSVCropped(f,c,3))+sumV; 
+            pixelCounter=pixelCounter+1;
+        end
+    end
+end
 
 % --------------------------------------
-%valores de los promedios porcanales
+% mean values calculated by channels
 %---------------------------------------
-promedioH=double(sumaH/contadorPixeles); %promedio canal H
-promedioS=double(sumaS/contadorPixeles); %promedio canal S
-promedioV=double(sumaV/contadorPixeles); %promedio canal V
+meanH=double(sumH/pixelCounter); % mean H channel
+meanS=double(sumS/pixelCounter); % mean S channel
+meanV=double(sumV/pixelCounter); % mean V channel
 
 %------------------------------------------------------------------------
-% Varianza muestral
+% sample variance
 %------------------------------------------------------------------------
-for f=1:1:filasTope
-    for c=1:1:columnasTope
-        % Leer de la imagen mascara si el valor es diferente a cero
-        pixelMascara=IMascara(f,c);
-        if pixelMascara == PRIMER_PLANO            
-            sumaVarianzaH=sumaVarianzaH+(IRecorteHSV(f,c,1)-promedioH)^2;
-            sumaVarianzaS=sumaVarianzaS+(IRecorteHSV(f,c,2)-promedioS)^2;
-            sumaVarianzaV=sumaVarianzaV+(IRecorteHSV(f,c,3)-promedioV)^2;            
-        end %if        
-    end %for columnas
-end %for filas
+for f=1:1:rowSize
+    for c=1:1:colSize
+        % Read from the mask image, and checking if the value is different from zero.
+        pixelMask=IMask(f,c);
+        if pixelMask == FOREGROUND            
+            varianceSumH=varianceSumH+(IHSVCropped(f,c,1)-meanH)^2;
+            varianceSumS=varianceSumS+(IHSVCropped(f,c,2)-meanS)^2;
+            varianceSumV=varianceSumV+(IHSVCropped(f,c,3)-meanV)^2;            
+        end
+    end
+end
 % -----------------------------------------------------------------------
-desviacionH=sqrt(sumaVarianzaH/(contadorPixeles));
-desviacionS=sqrt(sumaVarianzaS/(contadorPixeles));
-desviacionV=sqrt(sumaVarianzaV/(contadorPixeles));
+stdDevH=sqrt(varianceSumH/(pixelCounter));
+stdDevS=sqrt(varianceSumS/(pixelCounter));
+stdDevV=sqrt(varianceSumV/(pixelCounter));
 
-end %fin de la funcion
-
-
+end

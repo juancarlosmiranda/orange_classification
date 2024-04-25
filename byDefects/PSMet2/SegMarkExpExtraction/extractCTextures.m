@@ -1,14 +1,21 @@
-function [ entropia, inercia, energia  ] = extraerCTexturas( IRecorteRGB, IMascaraC)
-% ########################################################################
-% Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
-% COMPUTER VISION TECHNIQUES 2018
-% juancarlosmiranda81@gmail.com
-% ########################################################################
-% Obtiene características de textura a partir de una imagen de color
+function [ entropy, inertia, energy  ] = extractCTextures( IRGBCropped, IMaskC)
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
+%
+%
+% Usage:
+% Get texture features from a color image
 
-entropia=0.0; 
-inercia=0.0; 
-energia=0.0;
-end %fin de la funcion
+entropy=0.0; 
+inertia=0.0; 
+energy=0.0;
+end
 
 

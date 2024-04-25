@@ -1,81 +1,85 @@
-function [ promedioL, promedioA, promedioB, desviacionL, desviacionA, desviacionB ] = extractMeanCImgLAB( IRecorteRGB, IMascaraC)
-% ########################################################################
-% Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
-% COMPUTER VISION TECHNIQUES 2018
-% juancarlosmiranda81@gmail.com
-% ########################################################################
-% Extraer color promedio de una imagen, utilizando una silueta para
-% cuantificar el color y los valores que se extraen. 
-% El resultado se trabaja en el espacio de color HSV.
+function [ meanL, meanA, meanB, stdL, stdA, stdB ] = extractMeanCImgLAB( IRGBCropped, IMaskC)
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
+%
+% This function calculates the average colour of an image, using a mask to 
+% quantify the colour and values that are extracted.
+% The result is obtained converting images to the LAB color space.
+%
 
-PRIMER_PLANO=1;
+% Usage:
+% [ meanL, meanA, meanB, stdL, stdA, stdB ] = extractMeanCImgLAB( IRGBCropped, IMaskC);
+%
+% Foreground values are 1, background values are 0
 
-%Lectura de la imagen con fondo
-IRecorteLAB=rgb2lab(IRecorteRGB); % hsv
+FOREGROUND=1;
 
-IMascara=IMascaraC;
+% Reading background image
+ILABCropped=rgb2lab(IRGBCropped); % LAB colour space
 
-[filasTope, columnasTope, ~]=size(IRecorteRGB);
+IMask=IMaskC;
 
-sumaL=double(0.0);
-sumaA=double(0.0);
-sumaB=double(0.0);
-contadorPixeles=double(0.0);
+[rowSize, colSize, ~]=size(IRGBCropped);
 
-%variables para el calculo de varianza
-sumaVarianzaL=double(0.0);
-varianzaL=double(0.0);
-sumaVarianzaA=double(0.0);
-varianzaA=double(0.0);
-sumaVarianzaB=double(0.0);
-varianzaB=double(0.0);
+sumL=double(0.0);
+sumA=double(0.0);
+sumB=double(0.0);
+pixelCounter=double(0.0);
 
-%recorrer la imagen mascara
-for f=1:1:filasTope
-    for c=1:1:columnasTope
-%        % Leer de la imagen mascara si el valor es diferente a cero
-        pixelMascara=IMascara(f,c);
+% variables for calculating variance
+varianceSumL=double(0.0);
+varianceSumA=double(0.0);
+varianceSumB=double(0.0);
 
-        if pixelMascara == PRIMER_PLANO
-            sumaL=double(IRecorteLAB(f,c,1))+sumaL;
-            sumaA=double(IRecorteLAB(f,c,2))+sumaA;
-            sumaB=double(IRecorteLAB(f,c,3))+sumaB; 
-            contadorPixeles=contadorPixeles+1;
-        end %if        
-    end %for columnas
-end %for filas
+% iterating over the mask
+for f=1:1:rowSize
+    for c=1:1:colSize
+        % Read from the mask image if the value is different from zero
+        pixelMask=IMask(f,c);
+        if pixelMask == FOREGROUND
+            sumL=double(ILABCropped(f,c,1))+sumL;
+            sumA=double(ILABCropped(f,c,2))+sumA;
+            sumB=double(ILABCropped(f,c,3))+sumB; 
+            pixelCounter=pixelCounter+1;
+        end
+    end
+end
 
 
 % --------------------------------------
-%valores de los promedios porcanales
+% mean values calculated by channels
 %---------------------------------------
-promedioL=double(sumaL/contadorPixeles); %promedio canal L
-promedioA=double(sumaA/contadorPixeles); %promedio canal A
-promedioB=double(sumaB/contadorPixeles); %promedio canal B
+meanL=double(sumL/pixelCounter); % mean L channel
+meanA=double(sumA/pixelCounter); % mean A channel
+meanB=double(sumB/pixelCounter); % mean B channel
 
 %------------------------------------------------------------------------
-% Varianza muestral
+% Sample variance
 %------------------------------------------------------------------------
-for f=1:1:filasTope
-    for c=1:1:columnasTope
-%        % Leer de la imagen mascara si el valor es diferente a cero
-        pixelMascara=IMascara(f,c);
-        if pixelMascara == PRIMER_PLANO            
-            sumaVarianzaL=sumaVarianzaL+(IRecorteLAB(f,c,1)-promedioL)^2;
-            sumaVarianzaA=sumaVarianzaA+(IRecorteLAB(f,c,2)-promedioA)^2;
-            sumaVarianzaB=sumaVarianzaB+(IRecorteLAB(f,c,3)-promedioB)^2;            
-        end %if        
-    end %for columnas
-end %for filas
+for f=1:1:rowSize
+    for c=1:1:colSize
+        % Read from the mask image if the value is different from zero
+        pixelMask=IMask(f,c);
+        if pixelMask == FOREGROUND            
+            varianceSumL=varianceSumL+(ILABCropped(f,c,1)-meanL)^2;
+            varianceSumA=varianceSumA+(ILABCropped(f,c,2)-meanA)^2;
+            varianceSumB=varianceSumB+(ILABCropped(f,c,3)-meanB)^2;            
+        end
+    end
+end
 % -----------------------------------------------------------------------
-%cálculo de la varianza por canal H
-%sumaBarianzaS
-desviacionL=sqrt(sumaVarianzaL/(contadorPixeles));
-desviacionA=sqrt(sumaVarianzaA/(contadorPixeles));
-desviacionB=sqrt(sumaVarianzaB/(contadorPixeles));
 
-%% resultados finales
+stdL=sqrt(varianceSumL/(pixelCounter));
+stdA=sqrt(varianceSumA/(pixelCounter));
+stdB=sqrt(varianceSumB/(pixelCounter));
 
-end %fin de la funcion
+end
 
 

@@ -44,19 +44,17 @@ for n=1:size(selection,2)
     IBackgroundR = imcrop(ImROI,coordinatesToPaint);
     %% Detection of the rectangle number
     %fprintf('---BEGINNING RECTANGLES DETECTION ---\n');
-    rectangleNumber=rectangleDetection(ArrayRectangles, coordinatesToPaint(1), coordinatesToPaint(2)); %asigma el numero de cuadro que corresponde a la imagen
+    rectangleNumber=rectangleDetection(ArrayRectangles, coordinatesToPaint(1), coordinatesToPaint(2)); % assigns the frame number that corresponds to the image
     %fprintf('---END RECTANGLES DETECTION ---\n');
     if(rectangleNumber=='N')
-%        fprintf('IGUAL A N... \n');        
         outputSilhouetteN=strcat(imageNameSilhouetteN, rectangleNumber, int2str(objectCounter),'.jpg');
         outputRemoved=strcat(imageNameRemoved, rectangleNumber, int2str(objectCounter),'.jpg');
     else
-%        fprintf('No es igual a N \n');
         outputSilhouetteN=strcat(imageNameSilhouetteN, rectangleNumber,'.jpg');
         outputRemoved=strcat(imageNameRemoved, rectangleNumber,'.jpg');        
     end %if(rectangleNumber=='N')
 
-    %% guarda las imagenes recortadas, tanto la ROI como la silueta de cada objeto
+    %% saves the cropped images, both the ROI and the silhouette of each object
     imwrite(ISilhouetteROI,outputSilhouetteN,'jpg');
     imwrite(IBackgroundR,outputRemoved,'jpg');    
 end % end for...

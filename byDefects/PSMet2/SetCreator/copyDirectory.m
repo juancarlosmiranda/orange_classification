@@ -9,7 +9,7 @@ function [ ] = copyDirectory( tablaDSTArchivos, pathEntradaImagenesFuente, pathE
 %
 % Description:
 %
-% Giveng a table with filenames, iterate over this table and copy files from source to destination path
+% Given a table with filenames, iterate over this table and copy files from source to destination path
 
 % INPUT: tables with filenames, source and destination paths
 % OUTPUT: images copied

@@ -9,6 +9,7 @@
 % Description:
 %
 % Training and Test Set Builder
+% ------------------------------
 % Starting from a data set with images taken with a camera, it randomly 
 % divides the files to create test and training sets.
 % The initial dataset, for each image, has an RGB image and its 
@@ -16,6 +17,7 @@
 % 001.jpg corresponds to a binary mask 001.jpg marked by the expert.
 %
 % Creador de conjuntos de entrenamiento y pruebas
+% ------------------------------
 % A partir de un conjunto de datos con imágenes tomadas con una cámara, 
 % divide reparte al azar los arhivos para creat conjuntos de pruebas y de entrenamiento.
 % El dataset inicial, por cada imágenes se cuenta con una imagen RGB y su 

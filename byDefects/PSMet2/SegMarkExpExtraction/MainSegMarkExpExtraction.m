@@ -161,4 +161,4 @@ fprintf('Temporal images obtained with this process can be analyzed in %s \n', o
 fprintf('A total of %i images have been analyzed from %s \n', imageCount, pathImagesTraining);
 fprintf('The regions marked (masks) by the expert have been converted to numerical values (features). \n');
 fprintf('DEFECTS have been saved in file  %s \n', fileDBDefectsCalyx);
-fprintf('You must run the process to evaluate images "XXXX.m"! \n');
+fprintf('You must run the process to evaluate images "FruitEvaluation\MainDefDetectONLINE4R.m"! \n');
