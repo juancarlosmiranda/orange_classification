@@ -180,7 +180,7 @@ for n=1:size(seleccion,2)
     
 
     %% FIN extraer caracteristicas  
-    fprintf('In file %s before running the DEFECTS classifier \n', archivoVectorDef);
+    fprintf('En el archivo %s antes de correr el clasificador de DEFECTOS\n', archivoVectorDef);
     
     %% ---------------  CLASIFICACION DEL DEFECTO -------------------------
     cellRegistro = {nombreImagenOriginal, promedioRGBR, promedioRGBG, promedioRGBB, desviacionRGBR, desviacionRGBG, desviacionRGBB, promedioLABL, promedioLABA, promedioLABB, desviacionLABL, desviacionLABA, desviacionLABB, promedioHSVH, promedioHSVS, promedioHSVV, desviacionHSVH, desviacionHSVS, desviacionHSVV, sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor, entropia, inercia, energia, etiqueta};
@@ -192,7 +192,7 @@ for n=1:size(seleccion,2)
     objetoComparar = arrayTest(1,1:11) %objeto a comparar
 
     %% Ejecucion de prediccion
-    fprintf('CLASSIFYING CANDIDATE REGIONS --> \n');
+    fprintf('Clasificando REGIONES CANDIDATAS --> \n');
     clasificacionObjeto = predict(Clasificador,objetoComparar);
     fprintf('indiceTest=%i ,cs=>%s|\n', contadorObjetos, char(clasificacionObjeto(1)));
 

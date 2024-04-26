@@ -52,7 +52,7 @@ for n=1:size(selection,2)
         outputRemoved=strcat(imageNameRemoved, rectangleNumber,'.jpg');        
     end %if(rectangleNumber=='N')
 
-    %% guarda las imagenes recortadas, tanto la ROI como la silueta de cada objeto
+    %% saves the cropped images, both the ROI and the silhouette of each object
     imwrite(ISilhouetteROI,outputSilhouetteN,'jpg');
     imwrite(IBackgroundR,outputRemoved,'jpg');    
 end

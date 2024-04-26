@@ -116,3 +116,6 @@ detectROICandidates2( outputPath, 3, imageNameRemoved3 ,imageNameBinDefects3, im
 detectROICandidates2( outputPath, 4, imageNameRemoved4 ,imageNameBinDefects4, imageNameColourDefectsC4, imageNameColourDetection4,fileVectorDef, imageNameP);
 % -----------------------------------------------------------------------
 end %end proceso completo
+
+%C:\Users\Usuari\development\orange_classification\OrangeResults\byDefects\PSMet2\SegMarkExpExtraction\output
+%C:\Users\Usuari\development\orange_classification\byDefects\PSMet2\FruitEvaluation\OrangeResults\byDefects\PSMet2\SegMarkExpExtraction\output\BDDEFECTOSCALYX.csv
