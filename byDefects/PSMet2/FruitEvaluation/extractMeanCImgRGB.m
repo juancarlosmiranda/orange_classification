@@ -1,78 +1,81 @@
-function [ promedioR, promedioG, promedioB, desviacionR, desviacionG, desviacionB ] = extractMeanCImgRGB( IRecorteRGB, IMascaraC)
-% ########################################################################
-% Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
-% COMPUTER VISION TECHNIQUES 2018
-% juancarlosmiranda81@gmail.com
-% ########################################################################
-% Extraer color promedio de una imagen, utilizando una silueta para
-% cuantificar el color y los valores que se extraen. 
-% El resultado se trabaja en el espacio de color HSV.
+function [ meanR, meanG, meanB, stdDevR, stdDevG, stdDevB ] = extractMeanCImgRGB( IRGBCropped, IMaskC)
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
+%
+% This function calculates the average colour of an image, using a mask to 
+% quantify the colour and values that are extracted.
+% The result is obtained converting images to the RGB color space.
+%
 
-PRIMER_PLANO=1;
+% Usage:
+% [ meanRGBR, meanRGBG, meanRGBB, stdRGBR, stdRGBG, stdRGBB ] = extractMeanCImgRGB( IBackgroundR, IShapeROI);
+%
+% Foreground values are 1, background values are 0
+FOREGROUND=1;
 
-%Lectura de la imagen con fondo
-IMascara=IMascaraC;
+% Reading background image
+IMask=IMaskC;
 
+[rowSize, colSize, ~]=size(IRGBCropped);
 
-[filasTope, columnasTope, ~]=size(IRecorteRGB);
+sumR=double(0.0);
+sumG=double(0.0);
+sumB=double(0.0);
+pixelCounter=double(0.0);
 
-sumaR=double(0.0);
-sumaG=double(0.0);
-sumaB=double(0.0);
-contadorPixeles=double(0.0);
+% variables for calculating variance
+varianceSumR=double(0.0);
+varianceSumG=double(0.0);
+varianceSumB=double(0.0);
 
-%variables para el calculo de varianza
-sumaVarianzaR=double(0.0);
-varianzaG=double(0.0);
-sumaVarianzaG=double(0.0);
-varianzaG=double(0.0);
-sumaVarianzaB=double(0.0);
-varianzaB=double(0.0);
-
-%recorrer la imagen mascara
-for f=1:1:filasTope
-    for c=1:1:columnasTope
-%        % Leer de la imagen mascara si el valor es diferente a cero
-        pixelMascara=IMascara(f,c);
-
-        if pixelMascara == PRIMER_PLANO
-            sumaR=double(IRecorteRGB(f,c,1))+sumaR;
-            sumaG=double(IRecorteRGB(f,c,2))+sumaG;
-            sumaB=double(IRecorteRGB(f,c,3))+sumaB; 
-            contadorPixeles=contadorPixeles+1;
-        end %if        
-    end %for columnas
-end %for filas
+% iterating over the mask
+for f=1:1:rowSize
+    for c=1:1:colSize
+        % Read from the mask image if the value is different from zero
+        pixelMask=IMask(f,c);
+        if pixelMask == FOREGROUND
+            sumR=double(IRGBCropped(f,c,1))+sumR;
+            sumG=double(IRGBCropped(f,c,2))+sumG;
+            sumB=double(IRGBCropped(f,c,3))+sumB; 
+            pixelCounter=pixelCounter+1;
+        end
+    end
+end
 
 % --------------------------------------
-%valores de los promedios porcanales
+% mean values calculated by channels
 %---------------------------------------
-promedioR=double(sumaR/contadorPixeles); %promedio canal R
-promedioG=double(sumaG/contadorPixeles); %promedio canal G
-promedioB=double(sumaB/contadorPixeles); %promedio canal B
+meanR=double(sumR/pixelCounter); % mean R channel
+meanG=double(sumG/pixelCounter); % mean G channel
+meanB=double(sumB/pixelCounter); % mean B channel
 
 %------------------------------------------------------------------------
-% Varianza muestral
+% sample variance
 %------------------------------------------------------------------------
-for f=1:1:filasTope
-    for c=1:1:columnasTope
-%        % Leer de la imagen mascara si el valor es diferente a cero
-        pixelMascara=IMascara(f,c);
-        if pixelMascara == PRIMER_PLANO            
-            sumaVarianzaR=sumaVarianzaR+(IRecorteRGB(f,c,1)-promedioR)^2;
-            sumaVarianzaG=sumaVarianzaG+(IRecorteRGB(f,c,2)-promedioG)^2;
-            sumaVarianzaB=sumaVarianzaB+(IRecorteRGB(f,c,3)-promedioB)^2;            
-        end %if        
-    end %for columnas
-end %for filas
+for f=1:1:rowSize
+    for c=1:1:colSize
+        % Read from the mask image, and checking if the value is different from zero.
+        pixelMask=IMask(f,c);
+        if pixelMask == FOREGROUND            
+            varianceSumR=varianceSumR+(IRGBCropped(f,c,1)-meanR)^2;
+            varianceSumG=varianceSumG+(IRGBCropped(f,c,2)-meanG)^2;
+            varianceSumB=varianceSumB+(IRGBCropped(f,c,3)-meanB)^2;            
+        end
+    end
+end
 % -----------------------------------------------------------------------
 
-desviacionR=sqrt(double(sumaVarianzaR/(contadorPixeles)));
-desviacionG=sqrt(double(sumaVarianzaG/(contadorPixeles)));
-desviacionB=sqrt(double(sumaVarianzaB/(contadorPixeles)));
+stdDevR=sqrt(double(varianceSumR/(pixelCounter)));
+stdDevG=sqrt(double(varianceSumG/(pixelCounter)));
+stdDevB=sqrt(double(varianceSumB/(pixelCounter)));
 
-%% resultados finales
-
-end %fin de la funcion
+end
 
 

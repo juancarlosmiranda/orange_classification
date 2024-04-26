@@ -55,7 +55,7 @@ for n=1:size(selection,2)
     %% guarda las imagenes recortadas, tanto la ROI como la silueta de cada objeto
     imwrite(ISilhouetteROI,outputSilhouetteN,'jpg');
     imwrite(IBackgroundR,outputRemoved,'jpg');    
-end % fin de ciclo
+end
 
 end
 

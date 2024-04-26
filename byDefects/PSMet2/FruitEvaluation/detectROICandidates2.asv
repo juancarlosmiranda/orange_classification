@@ -149,8 +149,8 @@ if (size(seleccion,2)==0)
     w=0;
     h=0;
     fila=sprintf('%s, %10i, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10i, %10i, %10i, %s \n', nombreImagenOriginal, numROI, contadorObjetos, promedioRGBR, promedioRGBG, promedioRGBB, desviacionRGBR, desviacionRGBG, desviacionRGBB, promedioLABL, promedioLABA, promedioLABB, desviacionLABL, desviacionLABA, desviacionLABB, promedioHSVH, promedioHSVS, promedioHSVV, desviacionHSVH, desviacionHSVS, desviacionHSVV, sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor, entropia, inercia, energia, x, y, w, h,etiqueta);
-    %guardarAVDefCalyx2( archivoVectorDef, fila);
-    saveAVDefCalyx2( archivoVectorDef, fila);
+    guardarAVDefCalyx2( archivoVectorDef, fila);
+    guardarAVDefCalyx2( archivoVectorDef, fila);
 else
 %% ------------------------
 for n=1:size(seleccion,2)
