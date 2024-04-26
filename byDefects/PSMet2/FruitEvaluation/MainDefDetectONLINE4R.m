@@ -39,9 +39,7 @@ pathAplicacionSiluetas=fullfile(outputPath,'sFrutas');
 pathResults=fullfile(mainPath,'output');% saves results
 imageExtension='*.jpg';
 
-%% Nombres de archivos de configuracion
-% trabajan con métodos para equivalencia con las 4 vistas
- 
+
 %%
   
 %% Definition of rectangles according to numbering
@@ -148,9 +146,8 @@ imageCount=listSize(1);
 for n=1:imageCount
     fprintf('Extracting features for testing-> %s \n',imageList(n).name);    
     imageNameP=imageList(n).name;    
-
-    ProcessImgSoft(pathImagesTest, outputPath, imageNameP, rectangleList, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax )
-    ExtractDefDetectImgSoft(pathImagesTest, outputPath, imageNameP, candidateFile, sizeContours)
+    ProcessImgSoft(pathImagesTest, outputPath, imageNameP, rectangleList, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax );
+    ExtractDefDetectImgSoft(pathImagesTest, outputPath, imageNameP, candidateFile, sizeContours);
 %    if n==1
 %        break;
 %    end %if n==11

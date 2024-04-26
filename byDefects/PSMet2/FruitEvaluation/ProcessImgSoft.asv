@@ -9,6 +9,33 @@ function [ ] = ProcessImgSoft(pathImages, outputPath, imageNameP, rectsangleList
 %
 % Description:
 %
+% This script detects defects in fruits from test images.
+% Data obtained after applying a segmentation method and a previously trained defect classifier are generated.
+% Produces a list with the classifications per image.
+%
+% Este script detecta defectos en frutas a partir de imágenes de prueba.
+% Se generan datos obtenidos luego de aplicar un método de segmentación y un clasificador de defectos previamente entrenado. 
+% Produce un listado con las clasificaciones por imagen.
+
+% Usage:
+% MainDefDetectONLINE4R.m
+%
+%
+% ProcessImgSoft(pathImagesTest, outputPath, imageNameP, rectangleList, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax )
+% ########################################################################
+% Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
+% COMPUTER VISION TECHNIQUES 2018
+% juancarlosmiranda81@gmail.com
+% ########################################################################
+%Por cada fotografia, se separa el fondo, segmentando las cuatro imagenes
+%según cuadros definidos en una configuracion previa.
+% Se elimina el fondo utilizando canales en el espacio LAB.
+% SE GENERAN IMAGENES INTERMEDIAS:
+% * SILUETAS CON CUATRO FRUTAS, REGION DE INTERES CON CUATRO FRUTAS
+% * FONDO REMOVIDO. 
+% * SILUETAS CORRESPONDIENTE AL FONDO REMOVIDO
+% características geométricas.
+
 % For each image, the background is separated, segmenting the four images
 % according to tables defined in a previous configuration.
 % Background is removed using channels in LAB space.
@@ -17,19 +44,13 @@ function [ ] = ProcessImgSoft(pathImages, outputPath, imageNameP, rectsangleList
 % * BACKGROUND REMOVED.
 % * SILHOUETTES CORRESPONDING TO THE REMOVED BACKGROUND
 % geometric characteristics.
-%
-% Usage:
-% MainDefDetectONLINE4R.m
-%
-% ProcessImgSoft(pathImagesTest, outputPath, imageNameP, rectangleList, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax )
-%
 % -----------------------------------------------------------------------
 
-%% Configuration data files
+%% Datos de configuración archivos
 initialImage=fullfile(pathImages,imageNameP);
 
 
-%% SAVE DIRECTORIES
+%% DIRECTORIOS DE GUARDADO
 outputPathBR=fullfile(outputPath,'br'); % background removal
 outputPathROI=fullfile(outputPath,'roi'); % region of interest
 
@@ -51,6 +72,7 @@ imageNameRemoved=fullfile(outputPathBaRemoved,strcat(imageNameP,'_','rm'));
 %% -- BEGIN IMAGE PROCESSING ----------------------------------
 %% ----- BEGIN defining edges
 % For definition of rectangles PREVIOUSLY CONFIGURED TO DETECT THE IMAGE NUMBER FROM A GENERAL IMAGE WITH MIRRORS
+
 rectangle1_Y=rectsangleList(1,1);
 rectangle1_X=rectsangleList(1,2);
 rectangle1_H=rectsangleList(1,3);
