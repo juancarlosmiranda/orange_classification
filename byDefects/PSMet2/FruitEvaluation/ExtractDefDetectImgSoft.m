@@ -115,4 +115,4 @@ detectROICandidates2( outputPath, 2, imageNameRemoved2 ,imageNameBinDefects2, im
 detectROICandidates2( outputPath, 3, imageNameRemoved3 ,imageNameBinDefects3, imageNameColourDefectsC3, imageNameColourDetection3,fileVectorDef, imageNameP);
 detectROICandidates2( outputPath, 4, imageNameRemoved4 ,imageNameBinDefects4, imageNameColourDefectsC4, imageNameColourDetection4,fileVectorDef, imageNameP);
 % -----------------------------------------------------------------------
-end %end proceso completo
+end

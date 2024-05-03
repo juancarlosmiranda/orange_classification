@@ -1,233 +1,179 @@
-function [ ] = detectROICandidates2( pathPrincipal, numROI, nombreImagenRemovida, imagenNombreFR, imagenNombreROI, imagenSalida,archivoVectorDef, nombreImagenOriginal)
-% ########################################################################
-% Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
-% COMPUTER VISION TECHNIQUES 2018
-% juancarlosmiranda81@gmail.com
-% ########################################################################
-%A partir de una imagen ROI de los defectos, obtiene un listado en un
-%archivo, el cual es relacionado con los defctos detectados y analizados
-%por un clasificador.
-%clc; clear all; close all;
+function [ ] = detectROICandidates2( pathPrincipal, numROI, imageNameRemoved, imageNameFR, imageNameROI, outputImage,fileVectorDef, imageNameOrig)
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
+%
+% From an ROI image of the defects, this script obtains a list in a file, 
+% which is related to the defects detected and analyzed by a classifier.
+%
+% Usage:
+%
+% detectROICandidates2( outputPath, 1, imageNameRemoved1 ,imageNameBinDefects1, imageNameColourDefectsC1, imageNameColourDetection1,fileVectorDef, imageNameP);
+%
 
-etiqueta='CANDIDATO';
-
-%%pathPrincipal='/home/usuario/ml/clasDefectos4/'; 
-%HOME=fullfile(pwd,'/');
+labelDetected='CANDIDATO';
 HOME=fullfile('C:','Users','Usuari','development','orange_classification');
-pathResultados=fullfile(HOME,'OrangeResults','byDefects','PSMet2','FruitEvaluation','output'); %
-%pathResultados=strcat('/home/usuario/ml/clasDefectos4/','output/');%
-
 pathTraining=fullfile(HOME,'OrangeResults','byDefects','PSMet2','SegMarkExpExtraction','output'); %
 
-%pathResultados=strcat('/home/usuario/ml/clasDefectos4/','output/');%se guardan los resultados
-%%pathResultados=strcat(pathPrincipal,'output/');%se guardan los resultados
-%%archivoVectorDef=strcat(pathResultados,'aCandidatos.csv'); %archivo de salida
+%% Reading the image with background removed
+IFR=imread(imageNameFR);
+ImROI=imread(imageNameROI);
 
+%% Binarization of the silhouette background removed
+threshold=graythresh(IFR);
+IFRB1=im2bw(IFR,threshold);
 
-
-%%borrar las caracteristicas anteriores
-%removerArchivos(archivoVectorDef);
-
-%% Lectura de la imagen con fondo removido
-IFR=imread(imagenNombreFR);
-ImROI=imread(imagenNombreROI);
-
-
-%% Binarización de la silueta fondo removido
-umbral=graythresh(IFR);
-IFRB1=im2bw(IFR,umbral); %Imagen tratada
-
-
-%% imagenes
-%% figure; imshow(ImROI); %primer codigo que andaba
-
-%% ------ABRIR IMAGEN ------------------
-%img = imread(imagenNombreROI);
-img = imread(nombreImagenRemovida);
+%% ------ open image ------
+img = imread(imageNameRemoved);
 fh = figure;
-imshow(img, 'border', 'tight'); %//show your image
+imshow(img, 'border', 'tight'); % show your image
 hold on;
 
-%% Etiquetar elementos conectados
+%% Label connected elements
+[objectList Ne]=bwlabel(IFRB1);
 
-[ListadoObjetos Ne]=bwlabel(IFRB1);
+%% Calculate properties of image objects
+objectProperties= regionprops(objectList);
 
-%% Calcular propiedades de los objetos de la imagen
-propiedades= regionprops(ListadoObjetos);
+%% Find pixel areas corresponding to objects
+pixelAreaList=find([objectProperties.Area]);
 
-%% Buscar áreas de pixeles correspondientes a objetos
-seleccion=find([propiedades.Area]);
-
-
-%% ------FRAGMENTO DE CLASIFICADOR
+%% FEATURES
 %% Carga del dataset de entrenamiento
-ETIQUETA_EXPERTO=34;
-CARACTERISTICA1=16;
-CARACTERISTICA2=26;
+EXPERT_LABEL=34;
+TRAINING_FEATURE01=16;
+TRAINING_FEATURE02=26;
 
-% No llevan la misma direccion porque el archivo para test se contruye con
-% cada mancha
-CARACTERISTICATEST1=14;
-CARACTERISTICATEST2=24;
+% They do not have the same address because the test file is built with
+% each defect
+TEST_FEATURE01=14;
+TEST_FEATURE02=24;
 
-
-%% primera configuracion
-%ETIQUETA_EXPERTO=29;
-%CARACTERISTICA1=15;
-%CARACTERISTICA2=25;
-
-%CARACTERISTICATEST1=14;
-%CARACTERISTICATEST2=24;
-
-
-numeroVecinos=5;
+numberNeighbors=5;
 formatSpec='%s%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%f%s';
 
-nombreArchivoTraining='BDDEFECTOSCALYX.csv';
-fileHandlerTraining=fullfile(pathTraining,nombreArchivoTraining); %handle para conjunto de entrenamiento
-% se cargan los datos en una tabla
+filenameTraining='BDDEFECTOSCALYX.csv';
+fileHandlerTraining=fullfile(pathTraining,filenameTraining); % handle for training set
+% data is loaded into a table
 tablaDSTraining = readtable(fileHandlerTraining,'Delimiter',',','Format',formatSpec);
-%se cargan las etiquetas de clasificacion
-tablaDSTrainingClasificacion=tablaDSTraining(:,ETIQUETA_EXPERTO);
-% se cargan las caracteristicas que alimentaran al clasificador, el lugar
-tablaDSTrainingCaracteristicas=tablaDSTraining(:,CARACTERISTICA1:CARACTERISTICA2);
+% classification labels are loaded
+tablaDSTrainingClasificacion=tablaDSTraining(:,EXPERT_LABEL);
+% the characteristics that will feed the classifier are loaded, the place
+tablaDSTrainingCaracteristicas=tablaDSTraining(:,TRAINING_FEATURE01:TRAINING_FEATURE02);
 
 %pause
-%% Conversion de tablas a array cell
-% Con el fin de ingresar al clasificador se realizan las conversiones de
-% tipo
+%% Converting tables to array cell
+% In order to enter the classifier, type conversions are performed
 arrayTrainingClasificacion=table2cell(tablaDSTrainingClasificacion);
 
-%Conversion de tabla a array y de array a matriz
-arrayTrainingCaracteristicas=table2array(tablaDSTrainingCaracteristicas);
+% Converting tables to array and then array to matrix
+arrayTrainingFeatures=table2array(tablaDSTrainingCaracteristicas);
 
 fprintf('Training classifier CANDIDATE REGIONS --> \n');
-Clasificador = fitcknn(arrayTrainingCaracteristicas,arrayTrainingClasificacion,'NumNeighbors',numeroVecinos,'Standardize',1);
+classifierObj = fitcknn(arrayTrainingFeatures,arrayTrainingClasificacion,'NumNeighbors',numberNeighbors,'Standardize',1);
 
+%% gets coordinates area
+objectCounter=0; % object found
 
-
-
-
-%% obtenr coordenadas de areas
-contadorObjetos=0; %encontrados
-%numeroCuadro='';
-%size(seleccion,2)
-% consulta si existen objetos, puede venir una imagen vacía
-if (size(seleccion,2)==0)
-    %si no existen objetos coloca en cero todos los valores de
-    %caracteristicas.
-    fprintf('cantidad de objetos %i \n', contadorObjetos);
-    promedioRGBR=0.0;
-    promedioRGBG=0.0;
-    promedioRGBB=0.0;
-    desviacionRGBR=0.0;
-    desviacionRGBG=0.0;
-    desviacionRGBB=0.0;
-    promedioLABL=0.0;
-    promedioLABA=0.0;
-    promedioLABB=0.0;
-    desviacionLABL=0.0;
-    desviacionLABA=0.0;
-    desviacionLABB=0.0;
-    promedioHSVH=0.0;
-    promedioHSVS=0.0;
-    promedioHSVV=0.0;
-    desviacionHSVH=0.0;
-    desviacionHSVS=0.0;
-    desviacionHSVV=0.0;
-    sumaArea=0;
-    perimetro=0.0;
-    excentricidad=0.0;
-    ejeMayor=0.0;
-    ejeMenor=0.0;
-    entropia=0.0;
-    inercia=0.0;
-    energia=0.0;
-    etiqueta='VACIO';
+% check if objects exist, an empty image may appear
+if (size(pixelAreaList,2)==0)
+    % if no objects exist sets all characteristic values to zero.
+    fprintf('number of objects %i \n', objectCounter);
+    meanRGBR=0.0;
+    meanRGBG=0.0;
+    meanRGBB=0.0;
+    stdRGBR=0.0;
+    stdRGBG=0.0;
+    stdRGBB=0.0;
+    avgLABL=0.0;
+    avgLABA=0.0;
+    avgLABB=0.0;
+    stdLABL=0.0;
+    stdLABA=0.0;
+    stdLABB=0.0;
+    meanHSVH=0.0;
+    meanHSVS=0.0;
+    meanHSVV=0.0;
+    stdHSVH=0.0;
+    stdHSVS=0.0;
+    stdHSVV=0.0;
+    sumArea=0;
+    perimeter=0.0;
+    eccentricity=0.0;
+    majorAxis=0.0;
+    minorAxis=0.0;
+    entropy=0.0;
+    inercity=0.0;
+    energy=0.0;
+    labelDetected='VACIO';
     x=0; 
     y=0;
     w=0;
     h=0;
-    fila=sprintf('%s, %10i, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10i, %10i, %10i, %s \n', nombreImagenOriginal, numROI, contadorObjetos, promedioRGBR, promedioRGBG, promedioRGBB, desviacionRGBR, desviacionRGBG, desviacionRGBB, promedioLABL, promedioLABA, promedioLABB, desviacionLABL, desviacionLABA, desviacionLABB, promedioHSVH, promedioHSVS, promedioHSVV, desviacionHSVH, desviacionHSVS, desviacionHSVV, sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor, entropia, inercia, energia, x, y, w, h,etiqueta);
-    %guardarAVDefCalyx2( archivoVectorDef, fila);
-    saveAVDefCalyx2( archivoVectorDef, fila);
+    rowValues=sprintf('%s, %10i, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10i, %10i, %10i, %s \n', imageNameOrig, numROI, objectCounter, meanRGBR, meanRGBG, meanRGBB, stdRGBR, stdRGBG, stdRGBB, avgLABL, avgLABA, avgLABB, stdLABL, stdLABA, stdLABB, meanHSVH, meanHSVS, meanHSVV, stdHSVH, stdHSVS, stdHSVV, sumArea, perimeter, eccentricity, majorAxis, minorAxis, entropy, inercity, energy, x, y, w, h,labelDetected);
+    saveAVDefCalyx2( fileVectorDef, rowValues);
 else
 %% ------------------------
-for n=1:size(seleccion,2)
-    contadorObjetos=contadorObjetos+1;
-    coordenadasAPintar=round(propiedades(seleccion(n)).BoundingBox); %coordenadas de pintado
-    %% recorta las imagenes
-
-    ISiluetaROI = imcrop(IFRB1,coordenadasAPintar);
-    IFondoR = imcrop(ImROI,coordenadasAPintar);
+for n=1:size(pixelAreaList,2)
+    objectCounter=objectCounter+1;
+    coordinatesToPaint=round(objectProperties(pixelAreaList(n)).BoundingBox);
+    %% cropping images
+    ISiluetaROI = imcrop(IFRB1,coordinatesToPaint);
+    IFondoR = imcrop(ImROI,coordinatesToPaint);
     
-    %% INICIO extraer caracteristicas
-    % las siluetas ya denen venir binarizadas con Otzu.
-    [ promedioRGBR, promedioRGBG, promedioRGBB, desviacionRGBR, desviacionRGBG, desviacionRGBB ] = extractMeanCImgRGB( IFondoR, ISiluetaROI);
-%    fprintf('%i, %f, %f, %f, %f, %f, %f \n',contadorObjetos, promedioR, promedioG, promedioB, desviacionR, desviacionG, desviacionB);
-
-    [ promedioLABL, promedioLABA, promedioLABB, desviacionLABL, desviacionLABA, desviacionLABB ] = extractMeanCImgLAB( IFondoR, ISiluetaROI);
-%    fprintf('%f, %f, %f, %f, %f, %f \n', promedioL, promedioA, promedioB, desviacionL, desviacionA, desviacionB);
-
-    [ promedioHSVH, promedioHSVS, promedioHSVV, desviacionHSVH, desviacionHSVS, desviacionHSVV ] = extractMeanCImgHSV( IFondoR, ISiluetaROI);
-%    fprintf('%f, %f, %f, %f, %f, %f \n', promedioH, promedioS, promedioV, desviacionH, desviacionS, desviacionV);
-
-%    fprintf('contador objetos %i \n', contadorObjetos);    
-    [ sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor ] = extractDefCarGeoImg(ISiluetaROI);
-%    fprintf('%10i, %10.4f, %10.4f, %10.4f, %10.4f, \n',  sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor);    
+    %% features extraction
+    % using binarized silhouettes with Otzu
+    [ meanRGBR, meanRGBG, meanRGBB, stdRGBR, stdRGBG, stdRGBB ] = extractMeanCImgRGB( IFondoR, ISiluetaROI);
+    [ avgLABL, avgLABA, avgLABB, stdLABL, stdLABA, stdLABB ] = extractMeanCImgLAB( IFondoR, ISiluetaROI);
+    [ meanHSVH, meanHSVS, meanHSVV, stdHSVH, stdHSVS, stdHSVV ] = extractMeanCImgHSV( IFondoR, ISiluetaROI);
+    [ sumArea, perimeter, eccentricity, majorAxis, minorAxis ] = extractDefCarGeoImg(ISiluetaROI);    
+    [ entropy, inercity, energy  ] = extractCTextures( IFondoR, ISiluetaROI);
     
-    [ entropia, inercia, energia  ] = extractCTextures( IFondoR, ISiluetaROI);
+    fprintf('In file %s before running the DEFECTS classifier \n', fileVectorDef);
     
+    %% ---------------  defect classification -------------------------
+    cellRegister = {imageNameOrig, meanRGBR, meanRGBG, meanRGBB, stdRGBR, stdRGBG, stdRGBB, avgLABL, avgLABA, avgLABB, stdLABL, stdLABA, stdLABB, meanHSVH, meanHSVS, meanHSVV, stdHSVH, stdHSVS, stdHSVV, sumArea, perimeter, eccentricity, majorAxis, minorAxis, entropy, inercity, energy, labelDetected};
+    tablaDSTest = cell2table(cellRegister(1:end,:));
+    tableDSTestCompare=tablaDSTest(:,TEST_FEATURE01:TEST_FEATURE02); % table with features
+    arrayTest=table2array(tableDSTestCompare); % converts the values to an array to extract what is necessary   
+    objectToCompare = arrayTest(1,1:11) % object to compare
 
-    %% FIN extraer caracteristicas  
-    fprintf('In file %s before running the DEFECTS classifier \n', archivoVectorDef);
-    
-    %% ---------------  CLASIFICACION DEL DEFECTO -------------------------
-    cellRegistro = {nombreImagenOriginal, promedioRGBR, promedioRGBG, promedioRGBB, desviacionRGBR, desviacionRGBG, desviacionRGBB, promedioLABL, promedioLABA, promedioLABB, desviacionLABL, desviacionLABA, desviacionLABB, promedioHSVH, promedioHSVS, promedioHSVV, desviacionHSVH, desviacionHSVS, desviacionHSVV, sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor, entropia, inercia, energia, etiqueta};
-    tablaDSTest = cell2table(cellRegistro(1:end,:));
-    tablaDSTestComparar=tablaDSTest(:,CARACTERISTICATEST1:CARACTERISTICATEST2); %tabla con solo caracteristicas
-    arrayTest=table2array(tablaDSTestComparar); %convierte a array para extraer lo necesario
-
-    %
-    objetoComparar = arrayTest(1,1:11) %objeto a comparar
-
-    %% Ejecucion de prediccion
+    %% Prediction execution
     fprintf('CLASSIFYING CANDIDATE REGIONS --> \n');
-    clasificacionObjeto = predict(Clasificador,objetoComparar);
-    fprintf('indiceTest=%i ,cs=>%s|\n', contadorObjetos, char(clasificacionObjeto(1)));
+    objectPrediction = predict(classifierObj,objectToCompare);
+    fprintf('indiceTest=%i ,cs=>%s|\n', objectCounter, char(objectPrediction(1)));
 
-    %% guardar el archivo
-    %fila=sprintf('%s, %10i, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10i, %10i, %10i, %10i, %10i, %10i, %10i, %s \n', nombreImagenOriginal, numROI, contadorObjetos, promedioRGBR, promedioRGBG, promedioRGBB, desviacionRGBR, desviacionRGBG, desviacionRGBB, promedioLABL, promedioLABA, promedioLABB, desviacionLABL, desviacionLABA, desviacionLABB, promedioHSVH, promedioHSVS, promedioHSVV, desviacionHSVH, desviacionHSVS, desviacionHSVV, sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor, entropia, inercia, energia, coordenadasAPintar(1),  coordenadasAPintar(2), coordenadasAPintar(3), coordenadasAPintar(4), char(clasificacionObjeto(1)));
-    fila=sprintf('%s, %10i, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10i, %10i, %10i, %s \n', nombreImagenOriginal, numROI, contadorObjetos, promedioRGBR, promedioRGBG, promedioRGBB, desviacionRGBR, desviacionRGBG, desviacionRGBB, promedioLABL, promedioLABA, promedioLABB, desviacionLABL, desviacionLABA, desviacionLABB, promedioHSVH, promedioHSVS, promedioHSVV, desviacionHSVH, desviacionHSVS, desviacionHSVV, sumaArea, perimetro, excentricidad, ejeMayor, ejeMenor, entropia, inercia, energia, coordenadasAPintar(1), coordenadasAPintar(2), coordenadasAPintar(3), coordenadasAPintar(4), char(clasificacionObjeto(1)));
-    saveAVDefCalyx2( archivoVectorDef, fila);
+    %% saving file
+    rowValues=sprintf('%s, %10i, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10.4f, %10i, %10i, %10i, %10i, %s \n', imageNameOrig, numROI, objectCounter, meanRGBR, meanRGBG, meanRGBB, stdRGBR, stdRGBG, stdRGBB, avgLABL, avgLABA, avgLABB, stdLABL, stdLABA, stdLABB, meanHSVH, meanHSVS, meanHSVV, stdHSVH, stdHSVS, stdHSVV, sumArea, perimeter, eccentricity, majorAxis, minorAxis, entropy, inercity, energy, coordinatesToPaint(1), coordinatesToPaint(2), coordinatesToPaint(3), coordinatesToPaint(4), char(objectPrediction(1)));
+    saveAVDefCalyx2( fileVectorDef, rowValues);
 
-    %% selector para marcar en un windows
-    switch char(clasificacionObjeto(1))
+    %% ------------- drawing marks ---------------
+    % % if the object's classification is equal to CALYX or DEFECT, the object is drawn
+    %% selector to mark objects in a windows
+    switch char(objectPrediction(1))
         case 'DEFECTOS'
-        rectangle('Position',propiedades(n).BoundingBox,'EdgeColor','g','LineWidth',2)
-        text(propiedades(n).Centroid(:,1), propiedades(n).Centroid(:,2),int2str(n),'Color','b');
-        hold on %se van a gregando a la figura principal
+        rectangle('Position',objectProperties(n).BoundingBox,'EdgeColor','g','LineWidth',2)
+        text(objectProperties(n).Centroid(:,1), objectProperties(n).Centroid(:,2),int2str(n),'Color','b');
+        hold on % objects are added to the main figure
         case 'CALYX'
-        rectangle('Position',propiedades(n).BoundingBox,'EdgeColor','r','LineWidth',2)
-        text(propiedades(n).Centroid(:,1), propiedades(n).Centroid(:,2),int2str(n),'Color','b');
-        hold on %se van a gregando a la figura principal
+        rectangle('Position',objectProperties(n).BoundingBox,'EdgeColor','r','LineWidth',2)
+        text(objectProperties(n).Centroid(:,1), objectProperties(n).Centroid(:,2),int2str(n),'Color','b');
+        hold on % objects are added to the main figure
     end
-
-    %% ------------- PINTAR MANCHAS ---------------
-    % Si clasificacion de objeto igual a CALYX O A DEFECTOS PINTAR
     
 end % fin de ciclo
 
-
 end% fin if
 
-%% Mostrar imagen resultante
-
-%% ------CERRAR IMAGEN ------------------
-frm = getframe( fh ); %// get the image+rectangle
-imwrite( frm.cdata, imagenSalida ); %// save to file
+%% ------ close image ------
+frm = getframe( fh ); % get the image+rectangle
+imwrite( frm.cdata, outputImage ); % save to file
 close( fh );
 
-
-end %fin funcion
-
+end

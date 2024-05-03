@@ -53,8 +53,7 @@ Orden de ejecucion
 1) ~SetCreator [OK]~
 2) ~SegMarkExp [OK]~
 3) ~SegMarkExpExtraction [OK]~
-
-~FruitEvaluation [OK]~
+4) ~FruitEvaluation [OK]~
 
 
 bySize

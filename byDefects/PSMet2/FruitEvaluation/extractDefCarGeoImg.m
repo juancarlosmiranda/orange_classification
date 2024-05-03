@@ -15,10 +15,10 @@ function [ sumArea, perimeter, excentricity, majorAxis, minorAxis ] = extractDef
 % 
 % Usage:
 %
-%% Lectura de la imagen
+%% Reading image
 %IOrig=imread(imagenNombreSilueta);
-%% Umbralización y Binarización
-%umbral=graythresh(IOrig);
+%% Thresholding and Binarization
+%threshold=graythresh(IOrig);
 %IB1=im2bw(IOrig,umbral);
 IB1=IOrig;
 

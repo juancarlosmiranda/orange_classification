@@ -1,66 +1,58 @@
-function [ ] = extractRegionDefPrewitt( nombreImagenManchas, nombreImagenDefectos, nombreImagenContorno, tamanoMaximoManchas )
-% ########################################################################
-% Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
-% COMPUTER VISION TECHNIQUES 2018
-% juancarlosmiranda81@gmail.com
-% ########################################################################
-% REcibe imagenes segmentadas, las cuenta y genera una imagen de solo
-% manchas.
-% Produce una imagen final con las manchas y sin contorno.
+function [ ] = extractRegionDefPrewitt( imageNameSpots, imageNameDefects, imageNameContour, maximumSpotSize )
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
+%
+% Receives segmented images, counts them and generates a defect image
+% Produces a final image with spots and no outline.
+%
+% Usage:
 
-
-%% Lectura de la imagen
-IManchas=imread(nombreImagenManchas);
+%% Reading images
+ISpots=imread(imageNameSpots);
 
 %% Binarización
-umbral=graythresh(IManchas);
-IManchasB1=im2bw(IManchas,umbral); %Imagen tratada
-IManchasContorno=im2bw(IManchas,umbral); %Se utiliza para obtener el complemento, se borran las particulas
+threshold=graythresh(ISpots);
+ISpotsB1=im2bw(ISpots,threshold); % binarized
+ISpotContour=im2bw(ISpots,threshold); % It is used to obtain the complement, the particles are deleted
 
+%% Label connected elements
+[objectList Ne]=bwlabel(ISpotContour);
 
+%% Calculate properties of image objects
+objectProperties= regionprops(objectList);
 
-%% Etiquetar elementos conectados
+%% Search for areas smaller than maxSpotSize
+seleccion=find([objectProperties.Area]<maximumSpotSize);
 
-[ListadoObjetos Ne]=bwlabel(IManchasContorno);
-
-%% Calcular propiedades de los objetos de la imagen
-
-propiedades= regionprops(ListadoObjetos);
-
-%propiedades.Area
-%% Buscar áreas menores a tamanoMaximoManchas
-%fprintf('tamanoMaximoManchas %i \n', tamanoMaximoManchas);
-seleccion=find([propiedades.Area]<tamanoMaximoManchas);
-
-%fprintf('seleccion Menores\n');
-%seleccion
-%% Eliminar áreas 
-
+%% To clean areas
 for n=1:size(seleccion,2)
-
-    coordenadasAPintar=round(propiedades(seleccion(n)).BoundingBox);
-    % pintado de manchas en colr negro
-    IManchasContorno(coordenadasAPintar(2):coordenadasAPintar(2)+coordenadasAPintar(4)-1,coordenadasAPintar(1):coordenadasAPintar(1)+coordenadasAPintar(3)-1)=0;
-
+    coordinatesToPaint=round(objectProperties(seleccion(n)).BoundingBox);
+    % painted spots in black
+    ISpotContour(coordinatesToPaint(2):coordinatesToPaint(2)+coordinatesToPaint(4)-1,coordinatesToPaint(1):coordinatesToPaint(1)+coordinatesToPaint(3)-1)=0;
 end
 
-%% --- sacar el contorno y dejar solamente defectos
-IManchasB2=bitxor(IManchasB1,IManchasContorno);
+%% remove the contour and leave only defects
+ISpotsB2=bitxor(ISpotsB1,ISpotContour);
 
-%% ----------------------------------
-%% exagerar los defectos para que puedan ser bien pintados
-% Aplicacion de cerradura para agrandar y cerrar agujeros, esto permite
-% tener una mejor siluetas de los defectos. Utiliza un elemento
-% estructurante mayor.
+%% exaggerate defects so that they can be painted well
+% Lock application to enlarge and close holes, this allows have better 
+% silhouettes of defects. Use an element major structuring
+
 SE = strel('disk', 1); %1 FUNCIONA MUY BIEN 2 es bueno
-IManchasB3 = imclose(IManchasB2,SE);% exagerando la máscara me permite tomar mas region del defecto
+ISpotsB3 = imclose(ISpotsB2,SE); % exaggerating the mask allows me to take more region of the defect
 
-%% cierra las manchas con agujeros
-IManchasFinal = imfill(IManchasB3,'holes');
+%% closes spots with holes
+IManchasFinal = imfill(ISpotsB3,'holes');
 
 %% ----------------------------------
-%% guardado de imagenes y contornos
-imwrite(IManchasContorno,nombreImagenContorno,'jpg')
-imwrite(IManchasFinal,nombreImagenDefectos,'jpg')
+%% saved images and outlines
+imwrite(ISpotContour,imageNameContour,'jpg')
+imwrite(IManchasFinal,imageNameDefects,'jpg')
 end
-

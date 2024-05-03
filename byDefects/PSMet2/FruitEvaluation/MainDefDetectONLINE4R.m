@@ -21,7 +21,6 @@
 %
 %
 
-
 %% Initial parameter setting
 clc; clear all; close all;
  
@@ -30,21 +29,18 @@ HOME=fullfile('C:','Users','Usuari','development','orange_classification');
 mainPath=fullfile(HOME,'OrangeResults','byDefects','PSMet2','FruitEvaluation');
 configurationPath=fullfile(mainPath,'conf');
 outputPath=fullfile(mainPath,'tmpToLearn'); % temporal data folder
-configurationFile=fullfile(configurationPath,'20170916configuracion.xml'); %Para coordenadas iniciales en tratamiento de imagenes
-%TODO archivoCalibracion=fullfile(configurationPath,'20170916calibracion.xml'); %para indicar al usuario en la parte final la calibracion
+configurationFile=fullfile(configurationPath,'20170916configuracion.xml'); % for initial coordinates in image processing
+%TODO archivoCalibracion=fullfile(configurationPath,'20170916calibracion.xml'); % to indicate to the user in the final part of the calibration
 
 %% Setting up the directory folder structure
 pathImagesTest=fullfile(HOME,'OrangeResults','inputTest');
 pathAplicacionSiluetas=fullfile(outputPath,'sFrutas');
 pathResults=fullfile(mainPath,'output');% saves results
 imageExtension='*.jpg';
-
-
-%%
   
 %% Definition of rectangles according to numbering
-Fila1=readConfiguration('Fila1', configurationFile);
-FilaAbajo=readConfiguration('FilaAbajo', configurationFile);
+row01=readConfiguration('Fila1', configurationFile);
+bottomRow=readConfiguration('FilaAbajo', configurationFile);
 
 % Rectangle 1 downside
 rectangle1_Y=readConfiguration('Cuadro1_lineaGuiaInicialFila', configurationFile);
@@ -134,7 +130,6 @@ delete(fullfile(outputPath,'defectos',imageExtension));
 delete(fullfile(outputPath,'contornos',imageExtension));
 delete(fullfile(outputPath,'cDefectos',imageExtension));
 delete(fullfile(outputPath,'br',imageExtension));
-
 
 %% --------------------------------------------------------------------
 %% Reading training folder with images. Iterates over images
