@@ -35,6 +35,10 @@ hACER UN GRÁFICO GENERAL DE USO
 En "detectROICandidates2", solucionar los problemas del path
 Llegado el momento, separar el entrenamiento del pipeline de detección. Agregr una función que lea el modelo entrenado desde un archivo.
 Colocar las etiquetas DEFECTOS Y CALYX en variables, porque están hardcoded
+Los métodos de segmentación se repiten, se debe organizar como librerías. Por ejemplo SEGMENTATION/ARCHIVO01.m
+Hacer un mapa de las coordenadas XY.
+Hacer un listado de los conceptos aplicados para generar una receta con 
+tareas habituales MATLAB
 
 
 
@@ -46,18 +50,24 @@ Verificar la carpeta bySize/ y byDefects/
 
 byDefects/
 ---------
+## Code to verify
 CompareROI/
-DefectsSegmentation/
 
+
+## Code translated and reviewed
 Orden de ejecucion
 1) ~SetCreator [OK]~
 2) ~SegMarkExp [OK]~
 3) ~SegMarkExpExtraction [OK]~
 4) ~FruitEvaluation [OK]~
 
+~DefectsSegmentation/~
+
 
 bySize
 ---------
+## Code to verify
+
 Calibration4R/
 clasSize2ML/
 clasSize24R/
@@ -65,7 +75,6 @@ clasSizeUM/
 conf/
 Training24R/
 
+## Code translated and reviewed
 
-Hacer un mapa de las coordenadas XY.
-Hacer un listado de los conceptos aplicados para generar una receta con 
-tareas habituales MATLAB
+
