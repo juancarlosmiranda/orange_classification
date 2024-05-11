@@ -1,66 +1,73 @@
-function [ ] = ProcessImgSoft(pathEntrada, pathAplicacion, nombreImagenP, ArrayCuadros, areaObjetosRemoverBR, canalLMin, canalLMax, canalAMin, canalAMax, canalBMin, canalBMax )
-% ########################################################################
-% Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
-% COMPUTER VISION TECHNIQUES 2018
-% juancarlosmiranda81@gmail.com
-% ########################################################################
-%Por cada fotografia, se separa el fondo, segmentando las cuatro imagenes
-%según cuadros definidos en una configuracion previa.
-% Se elimina el fondo utilizando canales en el espacio LAB.
-% SE GENERAN IMAGENES INTERMEDIAS:
-% * SILUETAS CON CUATRO FRUTAS, REGION DE INTERES CON CUATRO FRUTAS
-% * FONDO REMOVIDO. 
-% * SILUETAS CORRESPONDIENTE AL FONDO REMOVIDO
-% características geométricas.
-
+function [ ] = ProcessImgSoft(pathImages, outputPath, imageNameP, rectsangleList, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax )
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
+%
+% For each image, the background is separated, segmenting the four images
+% according to tables defined in a previous configuration.
+% Background is removed using channels in LAB space.
+% INTERMEDIATE IMAGES ARE GENERATED:
+% * SILHOUETTES WITH FOUR FRUITS, REGION OF INTEREST WITH FOUR FRUITS
+% * BACKGROUND REMOVED.
+% * SILHOUETTES CORRESPONDING TO THE REMOVED BACKGROUND
+% geometric characteristics.
+%
+% Usage:
+% MainDefDetectONLINE4R.m
+%
+% ProcessImgSoft(pathImagesTest, outputPath, imageNameP, rectangleList, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax )
+%
 % -----------------------------------------------------------------------
 
-%% Datos de configuración archivos
-imagenInicial=strcat(pathEntrada,nombreImagenP);
+%% Configuration data files
+initialImage=fullfile(pathImages,imageNameP);
 
 
-%% DIRECTORIOS DE GUARDADO
-pathAplicacionBR=strcat(pathAplicacion,'br/'); %background removal
-pathAplicacionROI=strcat(pathAplicacion,'roi/'); %region of interest
+%% SAVE DIRECTORIES
+outputPathBR=fullfile(outputPath,'br'); % background removal
+outputPathROI=fullfile(outputPath,'roi'); % region of interest
 
-pathAplicacion2=strcat(pathAplicacion,'sFrutas/'); %siluetas de frutas
-pathAplicacion3=strcat(pathAplicacion,'removido/'); %imagenes fondo removido
+outputPathSiFruits=fullfile(outputPath,'sFrutas'); % fruit silhouettes
+outputPathBaRemoved=fullfile(outputPath,'removido'); % images background removed
 
-% --- NOMBRE DE IMAGENES INTERMEDIAS ---
-% con fondo removido
-nombreImagenBR=strcat(pathAplicacionBR,nombreImagenP,'_','BR.jpg'); %para indicar silueta del fondo removido
-nombreImagenROI=strcat(pathAplicacionROI,nombreImagenP,'_','RO.jpg'); %para indicar el fondo removido y ROI
-nombreImagenF=strcat(pathAplicacionROI,nombreImagenP,'_','I.jpg'); %previa a la inversa
+% --- NAME OF INTERMEDIATE IMAGES ---
+% with background removed
+imageNameBR=fullfile(outputPathBR,strcat(imageNameP,'_','BR.jpg')); % to indicate silhouette of the removed background
+imageNameROI=fullfile(outputPathROI,strcat(imageNameP,'_','RO.jpg')); % to indicate fund removed and ROI
+imageNameF=fullfile(outputPathROI,strcat(imageNameP,'_','I.jpg')); % prior to inverse
 
-%prefijo para imagenes de fondo removido y siluetas de fondos removidos en
-%deteccion de objetos
-nombreImagenSiluetaN=strcat(pathAplicacion2,nombreImagenP,'_','sN');
-nombreImagenRemovida=strcat(pathAplicacion3,nombreImagenP,'_','rm');
+% prefix for images of removed background and silhouettes of removed backgrounds in object detection
+imageNameSilhouettesN=fullfile(outputPathSiFruits,strcat(imageNameP,'_','sN'));
+imageNameRemoved=fullfile(outputPathBaRemoved,strcat(imageNameP,'_','rm'));
 
 
 
 %% -- BEGIN IMAGE PROCESSING ----------------------------------
-%% ----- INICIO Definicion de topes
-% Para definicion de rectangulos PREVIAMENTE CONFIGURADOS PARA DETECTAR EL
-% NUMERO DE IMAGEN A PARTIR DE UNA IMGEN GENERAL CON ESPEJOS
-Cuadro1_lineaGuiaInicialColumna=ArrayCuadros(1,1);
-Cuadro1_lineaGuiaInicialFila=ArrayCuadros(1,2);
-Cuadro1_espacioColumna=ArrayCuadros(1,3);
-Cuadro1_espacioFila=ArrayCuadros(1,4);
+%% ----- BEGIN defining edges
+% For definition of rectangles PREVIOUSLY CONFIGURED TO DETECT THE IMAGE NUMBER FROM A GENERAL IMAGE WITH MIRRORS
+rectangle1_Y=rectsangleList(1,1);
+rectangle1_X=rectsangleList(1,2);
+rectangle1_H=rectsangleList(1,3);
+rectangle1_W=rectsangleList(1,4);
 
-fprintf('BR -> Segmentación de fondo --> \n'); %salida una imagen con 4 siluetas
-BRemovalLAB(imagenInicial, nombreImagenBR, nombreImagenF, areaObjetosRemoverBR, canalLMin, canalLMax, canalAMin, canalAMax, canalBMin, canalBMax,Cuadro1_lineaGuiaInicialColumna, Cuadro1_lineaGuiaInicialFila-2, Cuadro1_espacioColumna, Cuadro1_espacioFila);
+fprintf('BR -> Background segmentation --> \n'); % output an image with 4 silhouettes
+BRemovalLAB(initialImage, imageNameBR, imageNameF, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax,rectangle1_Y, rectangle1_X-2, rectangle1_H, rectangle1_W);
 
-%% Removiendo fondo
-fprintf('BR -> Removiendo fondo, separacion ROI--> \n'); %salida una imagen con 4 objetos
-backgroundRemoval4(imagenInicial, nombreImagenBR, nombreImagenROI);
+%% Removing background
+fprintf('BR -> Removing background, separating Region of Interest (ROI) --> \n'); % output an image with 4 objects
+backgroundRemoval4(initialImage, imageNameBR, imageNameROI);
 
-%% Recortes de ROI
-fprintf('BR -> Detección de objetos en cuadros. Recortando ROI y siluetas ROI --> \n'); %salida 4 imagenes de un objeto cada una
-%asigna numeros de objetos segun la pertenencia al cuadro
-objectDetection2( nombreImagenBR, nombreImagenROI, nombreImagenSiluetaN, nombreImagenRemovida, ArrayCuadros ); 
+%% Working with cropped ROIs
+fprintf('BR -> Detection of objects in frames. Cropping ROI and ROI silhouettes --> \n'); % output 4 images of an object each assigns numbers of objects according to membership in the box
+objectDetection2( imageNameBR, imageNameROI, imageNameSilhouettesN, imageNameRemoved, rectsangleList ); 
 
 %% -- END IMAGE PROCESSING ----------------------------------
 
-end %end ProcesamientoImagen
+end
 

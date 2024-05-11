@@ -30,7 +30,7 @@ mainPath=fullfile(HOME,'OrangeResults','byDefects','PSMet2','FruitEvaluation');
 configurationPath=fullfile(mainPath,'conf');
 outputPath=fullfile(mainPath,'tmpToLearn'); % temporal data folder
 configurationFile=fullfile(configurationPath,'20170916configuracion.xml'); % for initial coordinates in image processing
-%TODO archivoCalibracion=fullfile(configurationPath,'20170916calibracion.xml'); % to indicate to the user in the final part of the calibration
+%TODO calibrationFile=fullfile(configurationPath,'20170916calibracion.xml'); % to indicate to the user in the final part of the calibration
 
 %% Setting up the directory folder structure
 pathImagesTest=fullfile(HOME,'OrangeResults','inputTest');

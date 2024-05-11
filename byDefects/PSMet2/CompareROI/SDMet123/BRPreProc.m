@@ -1,33 +1,36 @@
-function [] = BRPreProc(imagenInicialRGB, imagenNombrePR, xmin,ymin,width,height)
-% ########################################################################
-% Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
-% COMPUTER VISION TECHNIQUES 2018
-% juancarlosmiranda81@gmail.com
-% ########################################################################
-% Se encarga de pintar las partes de la imagen original para aislar ruidos
-% que n corresponden a la imagen.
-IRGB=imread(imagenInicialRGB);
+function [] = BRPreProc(mainImageRGB, imageNamePR, xmin, ymin, width, height)
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
+% This function paints regions in the original image to isolate noise that 
+% does not belong in the image.
+%
+% Usage:
+%
+%
+
+IRGB=imread(mainImageRGB);
+
+%% apply a balck rectangle to remove noises
+coordinatesToPaint=[xmin, ymin, width, height]; % definition of a region using a balck rectangle
+% to separate fruits from rectangle 1, this solves the overlap of rectangle 1 and rectangle 3
+IRGB((coordinatesToPaint(2)-2):(coordinatesToPaint(2)+2),coordinatesToPaint(1):(coordinatesToPaint(1)+(coordinatesToPaint(3)-1)),1)=0;
+IRGB((coordinatesToPaint(2)-2):(coordinatesToPaint(2)+2),coordinatesToPaint(1):(coordinatesToPaint(1)+(coordinatesToPaint(3)-1)),2)=0;
+IRGB((coordinatesToPaint(2)-2):(coordinatesToPaint(2)+2),coordinatesToPaint(1):(coordinatesToPaint(1)+(coordinatesToPaint(3)-1)),3)=0;
+
+% This eliminates noise beyond the lower region
+[totalRows,totalColumns]=size(IRGB)
+topOfRows=coordinatesToPaint(2)+(coordinatesToPaint(4)-1)
+IRGB(topOfRows:totalRows,1:totalColumns)=0;
 
 
-
-%% colocar linea pixelada en negro para elimnar ruidos 
-coordenadasAPintar=[xmin, ymin, width, height]; %definicion de la zona linea pixelada en negro
-% separar a las naranjas del cuadro 1, soluciona la superposicion del
-% cuadro 1 y del cuadro 3
-IRGB((coordenadasAPintar(2)-2):(coordenadasAPintar(2)+2),coordenadasAPintar(1):(coordenadasAPintar(1)+(coordenadasAPintar(3)-1)),1)=0;
-IRGB((coordenadasAPintar(2)-2):(coordenadasAPintar(2)+2),coordenadasAPintar(1):(coordenadasAPintar(1)+(coordenadasAPintar(3)-1)),2)=0;
-IRGB((coordenadasAPintar(2)-2):(coordenadasAPintar(2)+2),coordenadasAPintar(1):(coordenadasAPintar(1)+(coordenadasAPintar(3)-1)),3)=0;
-
-% elimina ruidos que se encuentran mas abajo del rectangulo inferior
-[filasTotal,columnasTotal]=size(IRGB)
-topeFilas=coordenadasAPintar(2)+(coordenadasAPintar(4)-1)
-%IRGB(topeFilas:filasTotal-1,1:columnasTotal-4)=0;
-IRGB(topeFilas:filasTotal,1:columnasTotal)=0;
-%IRGB(topeFilas:filasTotal-1,1:columnasTotal-4,1)=0;
-%IRGB(topeFilas:filasTotal-1,1:columnasTotal-4,2)=0;
-%IRGB(topeFilas:filasTotal-1,1:columnasTotal-4,3)=0;
-
-%% guardar imagen original pero tratada para eliminar ruidos
-imwrite(IRGB,imagenNombrePR,'jpg');
+%% save original images with image processing to remove noises
+imwrite(IRGB,imageNamePR,'jpg');
 
 end

@@ -1,5 +1,4 @@
 # TODO LIST
-
 ## TODO - documentación
 ### Presentación del repositorio
 ~Colocar el enlace a la tesis en la página del CONACYT.~
@@ -41,10 +40,8 @@ Hacer un listado de los conceptos aplicados para generar una receta con
 tareas habituales MATLAB
 
 
-
 ## Folders to check
 Carpeta con los respectivos módulos.
-
 Verificar la carpeta bySize/ y byDefects/
 
 
