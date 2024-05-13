@@ -129,8 +129,6 @@ delete(fullfile(pathResults,'contornos',imageExtension));
 delete(fullfile(pathResults,'cDefectos',imageExtension));
 delete(fullfile(pathResults,'br',imageExtension));
 
-
-%% --------------------------------------------------------------------
 %% Reading training folder with images. Iterates over images
 imageList=dir(fullfile(pathImages,imageExtension));
 imageNameP='nombreImagenP';
