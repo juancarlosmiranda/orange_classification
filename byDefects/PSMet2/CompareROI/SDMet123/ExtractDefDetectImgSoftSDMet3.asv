@@ -1,4 +1,4 @@
-function [ ] = ExtractDefDetectImgSoftSDMet2(pathEntrada, pathAplicacion, nombreImagenP, archivoVectorDef, tamanoManchas)
+function [ ] = ExtractDefDetectImgSoftSDMet3(pathEntrada, pathAplicacion, nombreImagenP, archivoVectorDef, tamanoManchas)
 % ########################################################################
 % Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
 % COMPUTER VISION TECHNIQUES 2018
@@ -20,8 +20,7 @@ function [ ] = ExtractDefDetectImgSoftSDMet2(pathEntrada, pathAplicacion, nombre
 % -----------------------------------------------------------------------
 
 %% Datos de configuración archivos
-imagenInicial=fullfile(pathEntrada,nombreImagenP); %para escritura en archivo de resultados
-
+imagenInicial=strcat(pathEntrada,nombreImagenP); %para escritura en archivo de resultados
 
 pathAplicacion3=fullfile(pathAplicacion,'removido'); %imagen generada previamente con fondo removido
 pathAplicacion4=fullfile(pathAplicacion,'sDefectos'); %imagen intermedia con frutas y defectos
@@ -54,17 +53,17 @@ nombreImagenDefectosC1=fullfile(pathAplicacion6,strcat(nombreImagenP,'_','soC1.j
 nombreImagenDefectosC2=fullfile(pathAplicacion6,strcat(nombreImagenP,'_','soC2.jpg'));
 nombreImagenDefectosC3=fullfile(pathAplicacion6,strcat(nombreImagenP,'_','soC3.jpg'));
 nombreImagenDefectosC4=fullfile(pathAplicacion6,strcat(nombreImagenP,'_','soC4.jpg'));
-    
+
 %% salida contornos
 nombreImagenContorno1=fullfile(pathAplicacion7,strcat(nombreImagenP,'_','CM1.jpg'));
-nombreImagenContorno2=fullfile(pathAplicacion7,strcat(nombreImagenP,'_','CM2.jpg'));
-nombreImagenContorno3=fullfile(pathAplicacion7,strcat(nombreImagenP,'_','CM3.jpg'));
-nombreImagenContorno4=fullfile(pathAplicacion7,strcat(nombreImagenP,'_','CM4.jpg'));
+nombreImagenContorno2=strcat(pathAplicacion7,strcat(nombreImagenP,'_','CM2.jpg'));
+nombreImagenContorno3=strcat(pathAplicacion7,strcat(nombreImagenP,'_','CM3.jpg'));
+nombreImagenContorno4=strcat(pathAplicacion7,strcat(nombreImagenP,'_','CM4.jpg'));
 
-nombreImagenSalidaDeteccion1=fullfile(pathAplicacionDeteccion,strcat(nombreImagenP,'_','DET1.jpg'));
-nombreImagenSalidaDeteccion2=fullfile(pathAplicacionDeteccion,strcat(nombreImagenP,'_','DET2.jpg'));
-nombreImagenSalidaDeteccion3=fullfile(pathAplicacionDeteccion,strcat(nombreImagenP,'_','DET3.jpg'));
-nombreImagenSalidaDeteccion4=fullfile(pathAplicacionDeteccion,strcat(nombreImagenP,'_','DET4.jpg'));
+nombreImagenSalidaDeteccion1=strcat(pathAplicacionDeteccion,strcat(nombreImagenP,'_','DET1.jpg'));
+nombreImagenSalidaDeteccion2=strcat(pathAplicacionDeteccion,strcat(nombreImagenP,'_','DET2.jpg'));
+nombreImagenSalidaDeteccion3=strcat(pathAplicacionDeteccion,strcat(nombreImagenP,'_','DET3.jpg'));
+nombreImagenSalidaDeteccion4=strcat(pathAplicacionDeteccion,strcat(nombreImagenP,'_','DET4.jpg'));
     
 %% GRANULOMETRIAS
 %tamanoManchas=1000; %1000 sacabuenos contornos
@@ -72,19 +71,19 @@ nombreImagenSalidaDeteccion4=fullfile(pathAplicacionDeteccion,strcat(nombreImage
 %% -- BEGIN DEFECTS FEATURES EXTRACTION ----------------------------------
 %% Segmentacion de mascara para obtener defectos aislados de ROI
 fprintf('Segmentacion de mascara para obtener REGIONES CANDIDATAS A DEFECTOS ROI --> \n');
-SDMet2(nombreImagenRemovida1, nombreImagenSalida1);
-SDMet2(nombreImagenRemovida2, nombreImagenSalida2);
-SDMet2(nombreImagenRemovida3, nombreImagenSalida3);
-SDMet2(nombreImagenRemovida4, nombreImagenSalida4);
+SDMet3(nombreImagenRemovida1, nombreImagenSalida1);
+SDMet3(nombreImagenRemovida2, nombreImagenSalida2);
+SDMet3(nombreImagenRemovida3, nombreImagenSalida3);
+SDMet3(nombreImagenRemovida4, nombreImagenSalida4);   
    
 %% EXTRACCION pREWITT DE LOS BORDES DE LA NARANJA, VA CON segmentacion Prewitt
 extractRegionDefPrewitt( nombreImagenSalida1, nombreImagenDefectos1, nombreImagenContorno1, tamanoManchas);
 extractRegionDefPrewitt( nombreImagenSalida2, nombreImagenDefectos2, nombreImagenContorno2, tamanoManchas);
-extractRegionDefPrewitt( nombreImagenSalida3, nombreImagenDefectos3, nombreImagenContorno3, tamanoManchas);
+extractRegionDefPrewitt( nombreImagenSalida3, nombreImagenDefectos3, nombreImagenContorno3, tamanoManchas);    
 extractRegionDefPrewitt( nombreImagenSalida4, nombreImagenDefectos4, nombreImagenContorno4, tamanoManchas);
-   
+
 %% Separación de defectos
-fprintf('Separation of candidate regions for color defects --> \n');
+fprintf('Separación REGIONES CANDIDATAS A DEFECTOS en color --> \n');
 backgroundRemoval4(nombreImagenRemovida1, nombreImagenDefectos1, nombreImagenDefectosC1);
 backgroundRemoval4(nombreImagenRemovida2, nombreImagenDefectos2, nombreImagenDefectosC2);
 backgroundRemoval4(nombreImagenRemovida3, nombreImagenDefectos3, nombreImagenDefectosC3);
@@ -92,5 +91,5 @@ backgroundRemoval4(nombreImagenRemovida4, nombreImagenDefectos4, nombreImagenDef
 
 %% -- END DEFECTS FEATURES EXTRACTION ----------------------------------
 
-end
+end %end proceso completo
 

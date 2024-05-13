@@ -1,28 +1,28 @@
-function [ ] = SDMet2(nombreImagenSegmentar, nombreImagenSalida)
+function [ ] = SDMet2(imageNameToSegment, imageNameOutput)
 % ########################################################################
 % Project AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING 
 % COMPUTER VISION TECHNIQUES 2018
 % juancarlosmiranda81@gmail.com
 % ########################################################################
-IOrig=imread(nombreImagenSegmentar);
-IGris=rgb2gray(IOrig);
+IOrig=imread(imageNameToSegment);
+IGray=rgb2gray(IOrig);
 
-%% filtrado para suavizar la imagen
-h1=fspecial('average',[3,3]); %el filtro de la media influye, anteriormente [5,5]
-media1=imfilter(IGris,h1);
+%% filtered to soften the image
+h1=fspecial('average',[3,3]); % the mean filter influences, previously [5,5]
+media1=imfilter(IGray,h1);
 
-%% obtener gradientes, los gradientes indican donde cambian los colores
+%% get gradients, gradients indicate where the colors change
 [Gmag, ~] = imgradient(media1,'Prewitt');
 I = mat2gray(Gmag);
 
-nivel=0.10; %umbral colocado en base a la experiencia
+nivel=0.10; % threshold placed based on experience
 IB2=im2bw(I,nivel);
 
-% apertura para eliminar los detalles pequeños
+% aperture to eliminate small details
 SE = strel('disk', 1);
 IB3 = imopen(IB2,SE);
 
-%% Almacenar en archivos las imagenes de clusteres
-imwrite(IB3,nombreImagenSalida,'jpg');
+%% Store cluster images in files
+imwrite(IB3,imageNameOutput,'jpg');
 end
 

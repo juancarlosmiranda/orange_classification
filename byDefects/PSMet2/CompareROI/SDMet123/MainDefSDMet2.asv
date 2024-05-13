@@ -17,30 +17,29 @@
 % listado con las clasificaciones de lo detectado.
 %
 % Usage:
-% MainDefSDMet1.m
+% MainDefSDMet2.m
 %
 %
+
+
 %% Initial parameter setting
 clc; clear all; close all;
  
 %% Setting script operating parameters
 HOME=fullfile('C:','Users','Usuari','development','orange_classification');
-mainPath=fullfile(HOME,'OrangeResults','byDefects','PSMet2','CompareROI'); %
-pathImages=fullfile(HOME,'OrangeResults','inputToLearn');
-configurationPath=fullfile(mainPath,'conf');
-pathAplicacion=fullfile(mainPath,'tmpToLearn','SDMet1'); % TODO VERIFICAR
-pathAplicacionSiluetas=fullfile(pathAplicacion,'sFrutas'); % TODO VERIFICAR
-outputPath=fullfile(mainPath,'output');%se guardan los resultados
+mainPath=fullfile(HOME,'OrangeResults/byDefects/PSMet2/CompareROI/'); %
+pathImages=fullfile(HOME,'OrangeResults/inputToLearn/');
+configurationPath=fullfile(mainPath,'conf/');
+pathAplicacion=fullfile(mainPath,'tmpToLearn/SDMet2/');  % TODO VERIFICAR
+pathAplicacionSiluetas=fullfile(pathAplicacion,'sFrutas/'); % TODO VERIFICAR
+outputPath=fullfile(mainPath,'output/'); % se guardan los resultados
 imageExtension='*.jpg';
 
- %% Nombres de archivos de configuracion
- % trabajan con métodos para equivalencia con las 4 vistas
-
- %%
- configurationFile=fullfile(configurationPath,'20170916configuracion.xml'); % for initial coordinates in image processing
- calibrationFile=fullfile(configurationPath,'20170916calibracion.xml'); % to indicate to the user in the final part of the calibration
+%% Configuration file names work with methods for equivalence with the 4 views
+configurationFile=fullfile(configurationPath,'20170916configuracion.xml'); % for initial coordinates in image processing
+calibrationFile=fullfile(configurationPath,'20170916calibracion.xml'); % to indicate to the user in the final part of the calibration
   
-%% Definition of rectangles according to numbering
+%% Definicion de los cuadros, según numeración 
 row01=readConfiguration('Fila1', configurationFile);
 bottomRow=readConfiguration('FilaAbajo', configurationFile);
 
@@ -51,18 +50,18 @@ rectangle1_H=readConfiguration('Cuadro1_espacioFila', configurationFile);
 rectangle1_W=readConfiguration('Cuadro1_espacioColumna', configurationFile);
 
 % Rectangle 2 left side
-rectangle2_Y=readConfiguration('Cuadro2_lineaGuiaInicialFila', configurationFile);
-rectangle2_X=readConfiguration('Cuadro2_lineaGuiaInicialColumna', configurationFile);
-rectangle2_H=readConfiguration('Cuadro2_espacioFila', configurationFile);
-rectangle2_W=readConfiguration('Cuadro2_espacioColumna', configurationFile);
+Cuadro2_lineaGuiaInicialFila=readConfiguration('Cuadro2_lineaGuiaInicialFila', configurationFile);
+Cuadro2_lineaGuiaInicialColumna=readConfiguration('Cuadro2_lineaGuiaInicialColumna', configurationFile);
+Cuadro2_espacioFila=readConfiguration('Cuadro2_espacioFila', configurationFile);
+Cuadro2_espacioColumna=readConfiguration('Cuadro2_espacioColumna', configurationFile);
 
 % Rectangle 3 center
-rectangle3_Y=readConfiguration('Cuadro3_lineaGuiaInicialFila', configurationFile);
-rectangle3_X=readConfiguration('Cuadro3_lineaGuiaInicialColumna', configurationFile);
-rectangle3_H=readConfiguration('Cuadro3_espacioFila', configurationFile);
-rectangle3_WCuadro3_espacioColumna=readConfiguration('Cuadro3_espacioColumna', configurationFile);
+Cuadro3_lineaGuiaInicialFila=readConfiguration('Cuadro3_lineaGuiaInicialFila', configurationFile);
+Cuadro3_lineaGuiaInicialColumna=readConfiguration('Cuadro3_lineaGuiaInicialColumna', configurationFile);
+Cuadro3_espacioFila=readConfiguration('Cuadro3_espacioFila', configurationFile);
+Cuadro3_espacioColumna=readConfiguration('Cuadro3_espacioColumna', configurationFile);
 
-%Cuadro 4 derecha
+% Rectangle 4 right side
 Cuadro4_lineaGuiaInicialFila=readConfiguration('Cuadro4_lineaGuiaInicialFila', configurationFile);
 Cuadro4_lineaGuiaInicialColumna=readConfiguration('Cuadro4_lineaGuiaInicialColumna', configurationFile);
 Cuadro4_espacioFila=readConfiguration('Cuadro4_espacioFila', configurationFile);
@@ -70,8 +69,8 @@ Cuadro4_espacioColumna=readConfiguration('Cuadro4_espacioColumna', configuration
 
 %%carga en memoria para que sea mas rapido
 ArrayCuadros=[rectangle1_X, rectangle1_Y, rectangle1_W, rectangle1_H;
-rectangle2_X, rectangle2_Y, rectangle2_W, rectangle2_H;
-rectangle3_X, rectangle3_Y, Cuadro3_espacioColumna, rectangle3_H;
+Cuadro2_lineaGuiaInicialColumna, Cuadro2_lineaGuiaInicialFila, Cuadro2_espacioColumna, Cuadro2_espacioFila;
+Cuadro3_lineaGuiaInicialColumna, Cuadro3_lineaGuiaInicialFila, Cuadro3_espacioColumna, Cuadro3_espacioFila;
 Cuadro4_lineaGuiaInicialColumna, Cuadro4_lineaGuiaInicialFila, Cuadro4_espacioColumna, Cuadro4_espacioFila;
 0,0,0,0
 ];
@@ -102,17 +101,17 @@ removeFiles(strcat(pathAplicacion,'br/','*.jpg'));
 
 
 %% --------------------------------------------------------------------
-%carga del listado de nombres
+%% Reading training folder with images. Iterates over images
 imageList=dir(fullfile(pathImages,imageExtension));
 imageNameP='nombreImagenP';
+listSize=size(imageList);
 imageCount=listSize(1);
-%% lectura en forma de bach del directorio de la cámara
+%% bach-shaped reading of the camera directory
 for n=1:imageCount
-    fprintf('Extrayendo características para entrenamiento-> %s \n',imageList(n).name);    
-    imageNameP=imageList(n).name;    
-
-    ProcessImgSoft(pathImages, pathAplicacion, imageNameP, ArrayCuadros, areaObjetosRemoverBR, canalLMin, canalLMax, canalAMin, canalAMax, canalBMin, canalBMax )
-    ExtractDefDetectImgSoftSDMet1(pathImages, pathAplicacion, imageNameP, archivoVectorDef, tamanoManchas)
+    fprintf('Extracting features for training-> %s \n',imageList(n).name); 
+    imageNameP=imageList(n).name;
+    ProcessImgSoft(pathImages, pathAplicacion, imageNameP, ArrayCuadros, areaObjetosRemoverBR, canalLMin, canalLMax, canalAMin, canalAMax, canalBMin, canalBMax );
+    ExtractDefDetectImgSoftSDMet2(pathImages, pathAplicacion, imageNameP, archivoVectorDef, tamanoManchas);
     %if n==1
     %    break;
     %end %if n==11
