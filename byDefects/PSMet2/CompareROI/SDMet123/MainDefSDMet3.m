@@ -28,9 +28,9 @@ HOME=fullfile('C:','Users','Usuari','development','orange_classification');
 mainPath=fullfile(HOME,'OrangeResults','byDefects','PSMet2','CompareROI');
 pathImages=fullfile(HOME,'OrangeResults','inputToLearn');
 configurationPath=fullfile(mainPath,'conf');
-pathAplicacion=fullfile(mainPath,'tmpToLearn','SDMet3');
-pathAplicacionSiluetas=fullfile(pathAplicacion,'sFrutas');
-outputPath=fullfile(mainPath,'output');
+pathAplication=fullfile(mainPath,'tmpToLearn','SDMet3');
+pathAplicacionSiluetas=fullfile(pathAplication,'sFrutas');
+pathResults=fullfile(mainPath,'output');
 imageExtension='*.jpg';
 
 %% Configuration file names work with methods for equivalence with the 4 views
@@ -90,7 +90,7 @@ LchannelMin = 0.0; LchannelMax = 96.653; AchannelMin = -23.548; AchannelMax = 16
 
 %% Defect detection configurations
 sizeContours=1000; % is used for contour extraction. The contours are above 1000 pixels
-candidateFile=fullfile(outputPath,'aCandidatosSDMet3.csv'); % output file defect candidates
+candidateFile=fullfile(pathResults,'aCandidatosSDMet3.csv'); % output file defect candidates
 
 % Temporal data folder hierarchy
 % 
@@ -118,29 +118,29 @@ candidateFile=fullfile(outputPath,'aCandidatosSDMet3.csv'); % output file defect
 % TODO: Create a script for definition of a folder hierarchy
 % tmpToLearn/
 fprintf('Cleaning old images \n');
-delete(candidateFile);
-delete(fullfile(outputPath,'sFrutas',imageExtension));
-delete(fullfile(outputPath,'sDefectos',imageExtension));
-delete(fullfile(outputPath,'roi',imageExtension));
-delete(fullfile(outputPath,'removido',imageExtension));
-delete(fullfile(outputPath,'deteccion',imageExtension));
-delete(fullfile(outputPath,'defectos',imageExtension));
-delete(fullfile(outputPath,'contornos',imageExtension));
-delete(fullfile(outputPath,'cDefectos',imageExtension));
-delete(fullfile(outputPath,'br',imageExtension));
+%delete(candidateFile);
+delete(fullfile(pathResults,'sFrutas',imageExtension));
+delete(fullfile(pathResults,'sDefectos',imageExtension));
+delete(fullfile(pathResults,'roi',imageExtension));
+delete(fullfile(pathResults,'removido',imageExtension));
+delete(fullfile(pathResults,'deteccion',imageExtension));
+delete(fullfile(pathResults,'defectos',imageExtension));
+delete(fullfile(pathResults,'contornos',imageExtension));
+delete(fullfile(pathResults,'cDefectos',imageExtension));
+delete(fullfile(pathResults,'br',imageExtension));
 
 %% --------------------------------------------------------------------
 %% Reading training folder with images. Iterates over images
 imageList=dir(fullfile(pathImages,'*.jpg'));
-nombreImagenP='nombreImagenP';
+imageNameP='nombreImagenP';
 listSize=size(imageList);
 imageCount=listSize(1);
 %% bach-shaped reading of the camera directory
 for n=1:imageCount
     fprintf('Extrayendo características para entrenamiento-> %s \n',imageList(n).name);    
-    nombreImagenP=imageList(n).name;
-    ProcessImgSoft(pathImages, pathAplicacion, nombreImagenP, rectangleList, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax )
-    ExtractDefDetectImgSoftSDMet3(pathImages, pathAplicacion, nombreImagenP, candidateFile, sizeContours)
+    imageNameP=imageList(n).name;
+    ProcessImgSoft(pathImages, pathAplication, imageNameP, rectangleList, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax )
+    ExtractDefDetectImgSoftSDMet3(pathImages, pathAplication, imageNameP, candidateFile, sizeContours)
     %if n==1
     %    break;
     %end %if n==11

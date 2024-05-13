@@ -1,4 +1,4 @@
-function [ ] = ExtractDefDetectImgSoftSDMet3(pathEntrada, pathAplicacion, nombreImagenP, archivoVectorDef, tamanoManchas)
+function [ ] = ExtractDefDetectImgSoftSDMet1(pathImages, outputPath, imageNameP, fileVectorDef, spotSize)
 %
 % Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING
 % COMPUTER VISION TECHNIQUES
@@ -31,76 +31,69 @@ function [ ] = ExtractDefDetectImgSoftSDMet3(pathEntrada, pathAplicacion, nombre
 %
 %
 
-%% Datos de configuración archivos
-imagenInicial=fullfile(pathEntrada,nombreImagenP); %para escritura en archivo de resultados
+%% Configuration data files
 
-pathAplicacion3=fullfile(pathAplicacion,'removido/'); %imagen generada previamente con fondo removido
-pathAplicacion4=fullfile(pathAplicacion,'sDefectos/'); %imagen intermedia con frutas y defectos
-pathAplicacion5=fullfile(pathAplicacion,'defectos/'); %solamente los defectos aislados
-pathAplicacion6=fullfile(pathAplicacion,'cDefectos/');
-pathAplicacion7=fullfile(pathAplicacion,'contornos/'); %contornos de frutas
-pathAplicacionDeteccion=fullfile(pathAplicacion,'deteccion/');
+outputPathBaRemoved=fullfile(outputPath,'removido'); % previously generated image with background removed
+outputPathSiDefects=fullfile(outputPath,'sDefectos'); % intermediate image with fruits and defects
+outputPathDefects=fullfile(outputPath,'defectos'); % only isolated defects
+outputPathCDefects=fullfile(outputPath,'cDefectos');
+outputPathOutlines=fullfile(outputPath,'contornos'); % fruit outlines
 
-% nombres de archivos con objetos removidos
-nombreImagenRemovida1=fullfile(pathAplicacion3,strcat(nombreImagenP,'_','rm1.jpg'));
-nombreImagenRemovida2=fullfile(pathAplicacion3,strcat(nombreImagenP,'_','rm2.jpg'));
-nombreImagenRemovida3=fullfile(pathAplicacion3,strcat(nombreImagenP,'_','rm3.jpg'));
-nombreImagenRemovida4=fullfile(pathAplicacion3,strcat(nombreImagenP,'_','rm4.jpg'));
+% file names with removed objects
+imageNameRemoved1=fullfile(outputPathBaRemoved,strcat(imageNameP,'_','rm1.jpg'));
+imageNameRemoved2=fullfile(outputPathBaRemoved,strcat(imageNameP,'_','rm2.jpg'));
+imageNameRemoved3=fullfile(outputPathBaRemoved,strcat(imageNameP,'_','rm3.jpg'));
+imageNameRemoved4=fullfile(outputPathBaRemoved,strcat(imageNameP,'_','rm4.jpg'));
 
-%% salida segmentacion
-nombreImagenSalida1=fullfile(pathAplicacion4,strcat(nombreImagenP,'_','so1.jpg'));
-nombreImagenSalida2=fullfile(pathAplicacion4,strcat(nombreImagenP,'_','so2.jpg'));
-nombreImagenSalida3=fullfile(pathAplicacion4,strcat(nombreImagenP,'_','so3.jpg'));
-nombreImagenSalida4=fullfile(pathAplicacion4,strcat(nombreImagenP,'_','so4.jpg'));
+%% segmentation output
+imageNameOutput1=fullfile(outputPathSiDefects,strcat(imageNameP,'_','so1.jpg'));
+imageNameOutput2=fullfile(outputPathSiDefects,strcat(imageNameP,'_','so2.jpg'));
+imageNameOutput3=fullfile(outputPathSiDefects,strcat(imageNameP,'_','so3.jpg'));
+imageNameOutput4=fullfile(outputPathSiDefects,strcat(imageNameP,'_','so4.jpg'));
 
-%% salida defectos
-nombreImagenDefectos1=fullfile(pathAplicacion5,strcat(nombreImagenP,'_','soM1.jpg'));
-nombreImagenDefectos2=fullfile(pathAplicacion5,strcat(nombreImagenP,'_','soM2.jpg'));
-nombreImagenDefectos3=fullfile(pathAplicacion5,strcat(nombreImagenP,'_','soM3.jpg'));
-nombreImagenDefectos4=fullfile(pathAplicacion5,strcat(nombreImagenP,'_','soM4.jpg'));
+%% output defects
+imageNameBinDefects1=fullfile(outputPathDefects,strcat(imageNameP,'_','soM1.jpg'));
+imageNameBinDefects2=fullfile(outputPathDefects,strcat(imageNameP,'_','soM2.jpg'));
+imageNameBinDefects3=fullfile(outputPathDefects,strcat(imageNameP,'_','soM3.jpg'));
+imageNameBinDefects4=fullfile(outputPathDefects,strcat(imageNameP,'_','soM4.jpg'));
 
-%% salida defectos en COLOR
-nombreImagenDefectosC1=fullfile(pathAplicacion6,strcat(nombreImagenP,'_','soC1.jpg'));
-nombreImagenDefectosC2=fullfile(pathAplicacion6,strcat(nombreImagenP,'_','soC2.jpg'));
-nombreImagenDefectosC3=fullfile(pathAplicacion6,strcat(nombreImagenP,'_','soC3.jpg'));
-nombreImagenDefectosC4=fullfile(pathAplicacion6,strcat(nombreImagenP,'_','soC4.jpg'));
+%% output defects in COLOR
+imageNameColourDefectsC1=fullfile(outputPathCDefects,strcat(imageNameP,'_','soC1.jpg'));
+imageNameColourDefectsC2=fullfile(outputPathCDefects,strcat(imageNameP,'_','soC2.jpg'));
+imageNameColourDefectsC3=fullfile(outputPathCDefects,strcat(imageNameP,'_','soC3.jpg'));
+imageNameColourDefectsC4=fullfile(outputPathCDefects,strcat(imageNameP,'_','soC4.jpg'));
     
-%% salida contornos
-nombreImagenContorno1=fullfile(pathAplicacion7,strcat(nombreImagenP,'_','CM1.jpg'));
-nombreImagenContorno2=fullfile(pathAplicacion7,strcat(nombreImagenP,'_','CM2.jpg'));
-nombreImagenContorno3=fullfile(pathAplicacion7,strcat(nombreImagenP,'_','CM3.jpg'));
-nombreImagenContorno4=fullfile(pathAplicacion7,strcat(nombreImagenP,'_','CM4.jpg'));
-
-nombreImagenSalidaDeteccion1=fullfile(pathAplicacionDeteccion,strcat(nombreImagenP,'_','DET1.jpg'));
-nombreImagenSalidaDeteccion2=fullfile(pathAplicacionDeteccion,strcat(nombreImagenP,'_','DET2.jpg'));
-nombreImagenSalidaDeteccion3=fullfile(pathAplicacionDeteccion,strcat(nombreImagenP,'_','DET3.jpg'));
-nombreImagenSalidaDeteccion4=fullfile(pathAplicacionDeteccion,strcat(nombreImagenP,'_','DET4.jpg'));    
+%% contour output
+imageNameBinContour1=fullfile(outputPathOutlines,strcat(imageNameP,'_','CM1.jpg'));
+imageNameBinContour2=fullfile(outputPathOutlines,strcat(imageNameP,'_','CM2.jpg'));
+imageNameBinContour3=fullfile(outputPathOutlines,strcat(imageNameP,'_','CM3.jpg'));
+imageNameBinContour4=fullfile(outputPathOutlines,strcat(imageNameP,'_','CM4.jpg'));
     
-%% GRANULOMETRIAS
-%tamanoManchas=1000; %1000 sacabuenos contornos
+%% GRANULOMETRIES
+%spotSize=1000; %1000 obtains contours
    
 %% -- BEGIN DEFECTS FEATURES EXTRACTION ----------------------------------
-%% Segmentacion de mascara para obtener defectos aislados de ROI
-fprintf('Segmentacion de mascara para obtener REGIONES CANDIDATAS A DEFECTOS ROI --> \n');
-SDMet1(nombreImagenRemovida1, nombreImagenSalida1);
-SDMet1(nombreImagenRemovida2, nombreImagenSalida2);
-SDMet1(nombreImagenRemovida3, nombreImagenSalida3);
-SDMet1(nombreImagenRemovida4, nombreImagenSalida4);   
+%% Mask segmentation to obtain isolated defects from ROI
+fprintf('Mask segmentation to obtain CANDIDATE REGIONS FOR ROI DEFECTS --> \n');
+SDMet1(imageNameRemoved1, imageNameOutput1);
+SDMet1(imageNameRemoved2, imageNameOutput2);
+SDMet1(imageNameRemoved3, imageNameOutput3);
+SDMet1(imageNameRemoved4, imageNameOutput4);   
    
-%% EXTRACCION 
-extractRegionDefSDMet1( nombreImagenSalida1, nombreImagenDefectos1, nombreImagenContorno1, tamanoManchas);
-extractRegionDefSDMet1( nombreImagenSalida2, nombreImagenDefectos2, nombreImagenContorno2, tamanoManchas);
-extractRegionDefSDMet1( nombreImagenSalida3, nombreImagenDefectos3, nombreImagenContorno3, tamanoManchas);    
-extractRegionDefSDMet1( nombreImagenSalida4, nombreImagenDefectos4, nombreImagenContorno4, tamanoManchas);
+%% Extraction
+extractRegionDefSDMet1( imageNameOutput1, imageNameBinDefects1, imageNameBinContour1, spotSize);
+extractRegionDefSDMet1( imageNameOutput2, imageNameBinDefects2, imageNameBinContour2, spotSize);
+extractRegionDefSDMet1( imageNameOutput3, imageNameBinDefects3, imageNameBinContour3, spotSize);    
+extractRegionDefSDMet1( imageNameOutput4, imageNameBinDefects4, imageNameBinContour4, spotSize);
    
-%% Separación de defectos
+%% Defect separation
 fprintf('Separation of candidate regions for color defects --> \n');
-backgroundRemoval4(nombreImagenRemovida1, nombreImagenDefectos1, nombreImagenDefectosC1);
-backgroundRemoval4(nombreImagenRemovida2, nombreImagenDefectos2, nombreImagenDefectosC2);
-backgroundRemoval4(nombreImagenRemovida3, nombreImagenDefectos3, nombreImagenDefectosC3);
-backgroundRemoval4(nombreImagenRemovida4, nombreImagenDefectos4, nombreImagenDefectosC4);
+backgroundRemoval4(imageNameRemoved1, imageNameBinDefects1, imageNameColourDefectsC1);
+backgroundRemoval4(imageNameRemoved2, imageNameBinDefects2, imageNameColourDefectsC2);
+backgroundRemoval4(imageNameRemoved3, imageNameBinDefects3, imageNameColourDefectsC3);
+backgroundRemoval4(imageNameRemoved4, imageNameBinDefects4, imageNameColourDefectsC4);
 
 %% -- END DEFECTS FEATURES EXTRACTION ----------------------------------
 
-end %end proceso completo
+end
 
