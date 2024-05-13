@@ -8,52 +8,51 @@
 % Se asume que un experto marco las frutas a mano con colores.
 % Como salida se producen imágenes.
 
-%% Ajuste de parámetros iniciales
+%% Initial parameter setting
 clc; clear all; close all;
  
  %% Definicion de estructura de directorios 
-HOME=strcat(pwd,'/');
-pathPrincipal=strcat(HOME,'OrangeResults/byDefects/PSMet2/CompareROI/'); %
-pathEntradaImagenes=strcat(HOME,'OrangeResults/inputToLearn/');
-pathEntradaMarca=strcat(HOME,'OrangeResults/inputMarked/');
-pathConfiguracion=strcat(pathPrincipal,'conf/');
-pathAplicacionCOMPARAR=strcat(pathPrincipal,'tmpToLearn/CompareSDMet1/');
-pathAplicacionONLINE=strcat(pathPrincipal,'tmpToLearn/SDMet1/');
-pathAplicacionMARCAS=strcat(pathPrincipal,'tmpToLearn/MARKED/');
+HOME=fullfile('C:','Users','Usuari','development','orange_classification');
+pathPrincipal=fullfile(HOME,'OrangeResults','byDefects','PSMet2','CompareROI');
+pathEntradaImagenes=fullfile(HOME,'OrangeResults','inputToLearn');
+pathEntradaMarca=fullfile(HOME,'OrangeResults','inputMarked');
+pathConfiguracion=fullfile(pathPrincipal,'conf');
+pathAplicacionCOMPARAR=fullfile(pathPrincipal,'tmpToLearn','CompareSDMet1');
+pathAplicacionONLINE=fullfile(pathPrincipal,'tmpToLearn','SDMet1');
+pathAplicacionMARCAS=fullfile(pathPrincipal,'tmpToLearn','MARKED');
 
 nombreImagenP='nombreImagenP'; %imagen original
 
 
-pathDefBinario=strcat(pathAplicacionMARCAS,'MDefBin/'); %almacenado de defectos binario POR MARCAS
-pathCalyxBinario=strcat(pathAplicacionMARCAS,'MCalyxBin/'); %almacenado de calyx en binario POR MARCAS
-pathExpertoBin=strcat(pathAplicacionCOMPARAR,'ExpertoBin/'); % resultados juntados calyx y defectos EXPERTO
+pathDefBinario=fullfile(pathAplicacionMARCAS,'MDefBin'); %almacenado de defectos binario POR MARCAS
+pathCalyxBinario=fullfile(pathAplicacionMARCAS,'MCalyxBin'); %almacenado de calyx en binario POR MARCAS
+pathExpertoBin=fullfile(pathAplicacionCOMPARAR,'ExpertoBin'); % resultados juntados calyx y defectos EXPERTO
 %% software
-pathDefectosBin=strcat(pathAplicacionONLINE,'defectos/'); % siluetas defectos por SOFTWARE ONLINE
+pathDefectosBin=fullfile(pathAplicacionONLINE,'defectos'); % siluetas defectos por SOFTWARE ONLINE
 
 
 %% 
-pathFPFNBin=strcat(pathAplicacionCOMPARAR,'FPFNBin/'); % comparacion
-pathTPTNBin=strcat(pathAplicacionCOMPARAR,'TPTNBin/'); % comparacion
-pathFNBin=strcat(pathAplicacionCOMPARAR,'FNBin/'); % comparacion
-pathFPBin=strcat(pathAplicacionCOMPARAR,'FPBin/'); % comparacion
-pathTPBin=strcat(pathAplicacionCOMPARAR,'TPBin/'); % comparacion
-pathTNBin=strcat(pathAplicacionCOMPARAR,'TNBin/'); % comparacion
-pathTPFPFNBin=strcat(pathAplicacionCOMPARAR,'TPFPFNBin/'); % comparacion
+pathFPFNBin=fullfile(pathAplicacionCOMPARAR,'FPFNBin'); % comparacion
+pathTPTNBin=fullfile(pathAplicacionCOMPARAR,'TPTNBin'); % comparacion
+pathFNBin=fullfile(pathAplicacionCOMPARAR,'FNBin'); % comparacion
+pathFPBin=fullfile(pathAplicacionCOMPARAR,'FPBin'); % comparacion
+pathTPBin=fullfile(pathAplicacionCOMPARAR,'TPBin'); % comparacion
+pathTNBin=fullfile(pathAplicacionCOMPARAR,'TNBin'); % comparacion
+pathTPFPFNBin=fullfile(pathAplicacionCOMPARAR,'TPFPFNBin'); % comparacion
 
 
 %% Definición a cero de las variables promedio
-    acumuladoPrecision=0.0;
-    acumuladoExactitud=0.0;
-    acumuladoSensibilidad=0.0;
-    acumuladoEspecificidad=0.0;
+acumuladoPrecision=0.0;
+acumuladoExactitud=0.0;
+acumuladoSensibilidad=0.0;
+acumuladoEspecificidad=0.0;
 
-    promedioPrecision=0.0;
-    promedioExactitud=0.0;
-    promedioSensibilidad=0.0;
-    promedioEspecificidad=0.0;
+promedioPrecision=0.0;
+promedioExactitud=0.0;
+promedioSensibilidad=0.0;
+promedioEspecificidad=0.0;
 
-
-listado=dir(strcat(pathEntradaMarca,'*.jpg'));
+listado=dir(fullfile(pathEntradaMarca,'*.jpg'));
 %% lectura en forma de bach del directorio de la cámara
 
 for n=1:size(listado)
@@ -61,20 +60,20 @@ for n=1:size(listado)
     % se asume que siempre existen 4 imagenes
     for ROI=1:4
         % creadas con el proceso de separacion de roi 
-        nombreImagenDefBin=strcat(pathDefBinario,nombreImagenP,'_','DEFB', int2str(ROI),'.jpg'); %mascara binaria defectos
-        nombreImagenCalyxBin=strcat(pathCalyxBinario,nombreImagenP,'_','CALB', int2str(ROI),'.jpg'); %mascara binaria calyx        
+        nombreImagenDefBin=fullfile(pathDefBinario,strcat(nombreImagenP,'_','DEFB', int2str(ROI),'.jpg')); %mascara binaria defectos
+        nombreImagenCalyxBin=fullfile(pathCalyxBinario,strcat(nombreImagenP,'_','CALB', int2str(ROI),'.jpg')); %mascara binaria calyx        
         % juntos, son los resultados que dio el EXPERTO defectos y calyx
-        nombreMascaraExperto=strcat(pathExpertoBin,nombreImagenP,'_','E', int2str(ROI),'.jpg');
+        nombreMascaraExperto=fullfile(pathExpertoBin,strcat(nombreImagenP,'_','E', int2str(ROI),'.jpg'));
 
         %% defectos online SOFTWARE
-        nombreImagenSoftware=strcat(pathDefectosBin,nombreImagenP,'_','soM', int2str(ROI),'.jpg');       
-        nombreMascaraTPTN=strcat(pathTPTNBin,nombreImagenP,'_','TPTN', int2str(ROI),'.jpg');
-        nombreMascaraFPFN=strcat(pathFPFNBin,nombreImagenP,'_','FPFN', int2str(ROI),'.jpg');
-        nombreMascaraFN=strcat(pathFNBin,nombreImagenP,'_','FN', int2str(ROI),'.jpg');
-        nombreMascaraFP=strcat(pathFPBin,nombreImagenP,'_','FP', int2str(ROI),'.jpg');
-        nombreMascaraTP=strcat(pathTPBin,nombreImagenP,'_','TP', int2str(ROI),'.jpg');        
-        nombreMascaraTN=strcat(pathTNBin,nombreImagenP,'_','TN', int2str(ROI),'.jpg');        
-        nombreMascaraTPFPFN=strcat(pathTPFPFNBin,nombreImagenP,'_','TO', int2str(ROI),'.jpg');        
+        nombreImagenSoftware=fullfile(pathDefectosBin,strcat(nombreImagenP,'_','soM', int2str(ROI),'.jpg'));       
+        nombreMascaraTPTN=fullfile(pathTPTNBin,strcat(nombreImagenP,'_','TPTN', int2str(ROI),'.jpg'));
+        nombreMascaraFPFN=fullfile(pathFPFNBin,strcat(nombreImagenP,'_','FPFN', int2str(ROI),'.jpg'));
+        nombreMascaraFN=fullfile(pathFNBin,strcat(nombreImagenP,'_','FN', int2str(ROI),'.jpg'));
+        nombreMascaraFP=fullfile(pathFPBin,strcat(nombreImagenP,'_','FP', int2str(ROI),'.jpg'));
+        nombreMascaraTP=fullfile(pathTPBin,strcat(nombreImagenP,'_','TP', int2str(ROI),'.jpg'));        
+        nombreMascaraTN=fullfile(pathTNBin,strcat(nombreImagenP,'_','TN', int2str(ROI),'.jpg'));        
+        nombreMascaraTPFPFN=fullfile(pathTPFPFNBin,strcat(nombreImagenP,'_','TO', int2str(ROI),'.jpg'));
         
         
         %% JUNTAR MARCAS

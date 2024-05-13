@@ -49,6 +49,8 @@ byDefects/
 ---------
 ## Code to verify
 CompareROI/
+~CompareROI/SDMet123 [OK]~
+CompareROI/CompareSegmentation
 
 
 ## Code translated and reviewed
