@@ -1,0 +1,174 @@
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
+%
+% Generates images of regions previously marked by HAND
+% It is a process prior to automated feature extraction.
+% It is assumed that an expert marked the fruits by hand with colors.
+% Images are produced as output.
+%
+% Usage:
+% MainMet4RSDMet2.m
+%
+%
+%% Ajuste de parámetros iniciales
+clc; clear all; close all;
+ 
+%% Setting script operating parameters
+HOME=fullfile('C:','Users','Usuari','development','orange_classification');
+mainPath=fullfile(HOME,'OrangeResults','byDefects','PSMet2','CompareROI');
+pathImages=fullfile(HOME,'OrangeResults','inputToLearn');
+pathMarkedColorImages=fullfile(HOME,'OrangeResults','inputMarked');
+configurationPath=fullfile(mainPath,'conf');
+pathImagesToCompare=fullfile(mainPath,'tmpToLearn','CompareSDMet2');
+pathTestedMethod=fullfile(mainPath,'tmpToLearn','SDMet2');
+pathPreMarkedImages=fullfile(mainPath,'tmpToLearn','MARKED');
+imageExtension='*.jpg';
+pathBinaryDef=strcat(pathPreMarkedImages,'MDefBin/'); %almacenado de defectos binario POR MARCAS
+pathBinaryCalyxpathCalyxBinario=strcat(pathPreMarkedImages,'MCalyxBin/'); %almacenado de calyx en binario POR MARCAS
+pathExpertoBin=strcat(pathImagesToCompare,'ExpertoBin/'); % resultados juntados calyx y defectos EXPERTO
+%% software
+pathDefectosBin=strcat(pathTestedMethod,'defectos/'); % siluetas defectos por SOFTWARE ONLINE
+%% 
+pathFPFNBin=strcat(pathImagesToCompare,'FPFNBin/'); % comparacion
+pathTPTNBin=strcat(pathImagesToCompare,'TPTNBin/'); % comparacion
+pathFNBin=strcat(pathImagesToCompare,'FNBin/'); % comparacion
+pathFPBin=strcat(pathImagesToCompare,'FPBin/'); % comparacion
+pathTPBin=strcat(pathImagesToCompare,'TPBin/'); % comparacion
+pathTNBin=strcat(pathImagesToCompare,'TNBin/'); % comparacion
+pathTPFPFNBin=strcat(pathImagesToCompare,'TPFPFNBin/'); % comparacion
+%% Definición a cero de las variables promedio
+    acumuladoPrecision=0.0;
+    acumuladoExactitud=0.0;
+    acumuladoSensibilidad=0.0;
+    acumuladoEspecificidad=0.0;
+
+    promedioPrecision=0.0;
+    promedioExactitud=0.0;
+    promedioSensibilidad=0.0;
+    promedioEspecificidad=0.0;
+
+listado=dir(strcat(pathMarkedColorImages,'*.jpg'));
+%% lectura en forma de bach del directorio de la cámara
+nombreImagenP='nombreImagenP';
+for n=1:size(listado)
+    nombreImagenP=listado(n).name; % imagen principal
+    % se asume que siempre existen 4 imagenes
+    for ROI=1:4
+        % creadas con el proceso de separacion de roi 
+        nombreImagenDefBin=strcat(pathBinaryDef,nombreImagenP,'_','DEFB', int2str(ROI),'.jpg'); %mascara binaria defectos
+        nombreImagenCalyxBin=strcat(pathCalyxBinario,nombreImagenP,'_','CALB', int2str(ROI),'.jpg'); %mascara binaria calyx        
+        % juntos, son los resultados que dio el EXPERTO defectos y calyx
+        nombreMascaraExperto=strcat(pathExpertoBin,nombreImagenP,'_','E', int2str(ROI),'.jpg');
+
+        %% defectos online SOFTWARE
+        nombreImagenSoftware=strcat(pathDefectosBin,nombreImagenP,'_','soM', int2str(ROI),'.jpg');       
+        nombreMascaraTPTN=strcat(pathTPTNBin,nombreImagenP,'_','TPTN', int2str(ROI),'.jpg');
+        nombreMascaraFPFN=strcat(pathFPFNBin,nombreImagenP,'_','FPFN', int2str(ROI),'.jpg');
+        nombreMascaraFN=strcat(pathFNBin,nombreImagenP,'_','FN', int2str(ROI),'.jpg');
+        nombreMascaraFP=strcat(pathFPBin,nombreImagenP,'_','FP', int2str(ROI),'.jpg');
+        nombreMascaraTP=strcat(pathTPBin,nombreImagenP,'_','TP', int2str(ROI),'.jpg');        
+        nombreMascaraTN=strcat(pathTNBin,nombreImagenP,'_','TN', int2str(ROI),'.jpg');        
+        nombreMascaraTPFPFN=strcat(pathTPFPFNBin,nombreImagenP,'_','TO', int2str(ROI),'.jpg');        
+        
+        
+        %% JUNTAR MARCAS
+        juntado(nombreImagenCalyxBin,nombreImagenDefBin, nombreMascaraExperto);
+        %% DIFERENCIAS FALSE POSITIVE Y FALSE NEGATIVE
+        diferencia(nombreMascaraExperto, nombreImagenSoftware, nombreMascaraFPFN);
+        %% obtener FN
+        coincidencia(nombreMascaraExperto, nombreMascaraFPFN, nombreMascaraFN);
+        %% obtener FP
+        coincidencia(nombreImagenSoftware, nombreMascaraFPFN, nombreMascaraFP);
+        %% obtener TPTN
+        coincidencia(nombreMascaraExperto, nombreImagenSoftware, nombreMascaraTP);
+    
+        juntado(nombreMascaraExperto,nombreImagenSoftware, nombreMascaraTPFPFN);
+        %% hace la inversa para contar en pixeles los TN
+        inversa(nombreMascaraTPFPFN, nombreMascaraTN);
+
+        %% CALCULAR TASA DE DIFERENCIAS Y COINCIDENCIAS
+        %% Definicion de variables a cero
+        TP=0;
+        TN=0;    
+        FP=0;
+        FN=0;
+        
+        precision=0.0;
+        exactitud=0.0;
+        sensibilidad=0.0;
+        especificidad=0.0;
+        
+        %% conteo de pixeles
+        TP=contarPixeles(nombreMascaraTP);    
+        FP=contarPixeles(nombreMascaraFP);
+        FN=contarPixeles(nombreMascaraFN);
+        TN=contarPixeles(nombreMascaraTN);
+    
+        %precision, exactitud, sensibilidad, especificidad
+        if((TP+FP)==0)
+            precision=0;
+        else
+            precision=TP/(TP+FP);            
+        end
+
+        
+        if((TP+FP+TN+FN)==0)
+            exactitud=0;
+        else
+            exactitud=(TP+TN)/(TP+FP+TN+FN);
+        end        
+
+        if((TP+FN)==0)
+            sensibilidad=0;
+        else
+            sensibilidad=TP/(TP+FN);
+        end        
+
+
+        if((TN+FP)==0)
+            especificidad=0;
+        else
+            especificidad=TN/(TN+FP);
+        end        
+        
+        
+
+    
+        %% acumulados
+        acumuladoPrecision=acumuladoPrecision+precision;
+        acumuladoExactitud=acumuladoExactitud+exactitud;
+        acumuladoSensibilidad=acumuladoSensibilidad+sensibilidad;
+        acumuladoEspecificidad=acumuladoEspecificidad+especificidad;
+
+        %% ------------------
+        fprintf('imagen=%s, ROI=%i -> precision=%f, exactitud=%f,sensibilidad=%f especificidad=%f\n', nombreImagenP, ROI, precision, exactitud, sensibilidad, especificidad);
+
+        
+    end %fin de procesar 4 imagenes
+       
+    %% CALCULAR PROMEDIO
+    %% GUARDAR EN ARCHIVO
+    %if n==1
+    %    break;
+    %end;
+end %
+totalPruebas=n*4;
+       
+%% CALCULO DE PROMEDIO
+promedioPrecision=acumuladoPrecision/totalPruebas;
+promedioExactitud=acumuladoExactitud/totalPruebas;    
+promedioSensibilidad=acumuladoSensibilidad/totalPruebas;
+promedioEspecificidad=acumuladoEspecificidad/totalPruebas;
+
+fprintf('--------------------------------\n');
+fprintf('RESULTADO PROMEDIO EN %i PRUEBAS\n', totalPruebas);
+fprintf('--------------------------------\n');    
+fprintf('APrecision=%f, AExactitud=%f, ASensibilidad=%f AEspecificidad=%f\n', acumuladoPrecision, acumuladoExactitud,acumuladoSensibilidad, acumuladoEspecificidad);
+fprintf('precision=%f, exactitud=%f, sensibilidad=%f especificidad=%f\n', promedioPrecision, promedioExactitud, promedioSensibilidad, promedioEspecificidad);

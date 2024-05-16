@@ -48,7 +48,6 @@ imageNameRemoved2=fullfile(outputPathBaRemoved,strcat(imageNameP,'_','rm2.jpg'))
 imageNameRemoved3=fullfile(outputPathBaRemoved,strcat(imageNameP,'_','rm3.jpg'));
 imageNameRemoved4=fullfile(outputPathBaRemoved,strcat(imageNameP,'_','rm4.jpg'));
 
-
 %% segmentation output
 imageNameOutput1=fullfile(outputPathSiDefects,strcat(imageNameP,'_','so1.jpg'));
 imageNameOutput2=fullfile(outputPathSiDefects,strcat(imageNameP,'_','so2.jpg'));
@@ -66,7 +65,6 @@ imageNameColourDefectsC1=fullfile(outputPathCDefects,strcat(imageNameP,'_','soC1
 imageNameColourDefectsC2=fullfile(outputPathCDefects,strcat(imageNameP,'_','soC2.jpg'));
 imageNameColourDefectsC3=fullfile(outputPathCDefects,strcat(imageNameP,'_','soC3.jpg'));
 imageNameColourDefectsC4=fullfile(outputPathCDefects,strcat(imageNameP,'_','soC4.jpg'));
-   
     
 %% contour output
 imageNameBinContour1=fullfile(outputPathOutlines,strcat(imageNameP,'_','CM1.jpg'));
@@ -98,7 +96,7 @@ extractRegionDefPrewitt( imageNameOutput3, imageNameBinDefects3, imageNameBinCon
 extractRegionDefPrewitt( imageNameOutput4, imageNameBinDefects4, imageNameBinContour4, spotSize);
    
 %% Defect separation
-fprintf('Separation REGIONS CANDIDATES FOR DEFECTS in color --> \n');
+fprintf('Separation of candidate regions for color defects --> \n');
 backgroundRemoval4(imageNameRemoved1, imageNameBinDefects1, imageNameColourDefectsC1);
 backgroundRemoval4(imageNameRemoved2, imageNameBinDefects2, imageNameColourDefectsC2);
 backgroundRemoval4(imageNameRemoved3, imageNameBinDefects3, imageNameColourDefectsC3);
