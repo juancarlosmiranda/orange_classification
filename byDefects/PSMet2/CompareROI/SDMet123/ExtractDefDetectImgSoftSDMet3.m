@@ -72,8 +72,8 @@ imageNameBinContour4=fullfile(outputPathOutlines,strcat(imageNameP,'_','CM4.jpg'
 %spotSize=1000; %1000 obtains contours
    
 %% -- BEGIN DEFECTS FEATURES EXTRACTION ----------------------------------
-%% Segmentacion de mascara para obtener defectos aislados de ROI
-fprintf('Segmentacion de mascara para obtener REGIONES CANDIDATAS A DEFECTOS ROI --> \n');
+%% Mask segmentation to obtain isolated defects from ROI
+fprintf('Mask segmentation to obtain CANDIDATE REGIONS FOR ROI DEFECTS --> \n');
 SDMet3(imageNameRemoved1, imageNameOutput1);
 SDMet3(imageNameRemoved2, imageNameOutput2);
 SDMet3(imageNameRemoved3, imageNameOutput3);
@@ -85,8 +85,8 @@ extractRegionDefPrewitt( imageNameOutput2, imageNameBinDefects2, imageNameBinCon
 extractRegionDefPrewitt( imageNameOutput3, imageNameBinDefects3, imageNameBinContour3, spotSize);    
 extractRegionDefPrewitt( imageNameOutput4, imageNameBinDefects4, imageNameBinContour4, spotSize);
 
-%% Separación de defectos
-fprintf('Separación REGIONES CANDIDATAS A DEFECTOS en color --> \n');
+%% Defect separation
+fprintf('Separation of candidate regions for color defects --> \n');
 backgroundRemoval4(imageNameRemoved1, imageNameBinDefects1, imageNameColourDefectsC1);
 backgroundRemoval4(imageNameRemoved2, imageNameBinDefects2, imageNameColourDefectsC2);
 backgroundRemoval4(imageNameRemoved3, imageNameBinDefects3, imageNameColourDefectsC3);
@@ -95,4 +95,3 @@ backgroundRemoval4(imageNameRemoved4, imageNameBinDefects4, imageNameColourDefec
 %% -- END DEFECTS FEATURES EXTRACTION ----------------------------------
 
 end
-
