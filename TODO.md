@@ -9,11 +9,12 @@ Subir fotografías y un video del funcionamiento.
 Crear la secuencia de pasos que vaya enlazada con la tesis para replicar.
 
 ### TODO - organización de código
-Separar el DATASET ORIGINAL de los elementos pre-procesados.
-Separar dataset de salidas
-Corregir los paths, pasar a la instrucción fullfile y addpath. Trabajar con addpath y fullfile
+~Separar el DATASET ORIGINAL de los elementos pre-procesados.~
+~Separar dataset de salidas~
+
 
 Quitar las cadenas hardcoded
+Corregir los paths, pasar a la instrucción fullfile y addpath. Trabajar con addpath y fullfile
 Crear un script instalador que cree la secuencia de directorios automaticamente.
 Translate to matlab script to clean folders
 Traducir campos de Training\conf\20170916configuracion.xml
@@ -43,28 +44,6 @@ tareas habituales MATLAB
 ## Folders to check
 Carpeta con los respectivos módulos.
 Verificar la carpeta bySize/ y byDefects/
-
-
-byDefects/
----------
-## Code to verify
-~CompareROI/ [OK]~
-~CompareROI/SDMet123 [OK]~
-~CompareROI/CompareSegmentation [OK]~
-
-Comparison metrics between different methods (1, 2, 3)
-1) /CompareROI/SDMet123/
-2) /CompareROI/CompareSegmentation/ To get metrics
-
-
-## Code translated and reviewed
-Orden de ejecucion
-1) ~SetCreator [OK]~
-2) ~SegMarkExp [OK]~
-3) ~SegMarkExpExtraction [OK]~
-4) ~FruitEvaluation [OK]~
-
-~DefectsSegmentation/~
 
 
 bySize

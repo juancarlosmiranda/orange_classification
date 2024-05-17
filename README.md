@@ -80,19 +80,28 @@ xxxx
 
 ## Clasificación por defectos
 
-1) ~SetCreator [OK]~ MainSetCreator.m
-2) ~SegMarkExp [OK]~ MainSegMarkExp.m
-3) ~SegMarkExpExtraction [OK]~ MainSegMarkExpExtraction.m
-4) ~FruitEvaluation [OK]~ MainDefDetectONLINE4R.m
+1) ~SetCreator [OK]~ byDefects/SetCreator/MainSetCreator.m
+2) ~SegMarkExp [OK]~ byDefects/SegMarkExp/MainSegMarkExp.m
+3) ~SegMarkExpExtraction [OK]~ byDefects/SegMarkExpExtraction/MainSegMarkExpExtraction.m
+4) ~FruitEvaluation [OK]~ byDefects/FruitEvaluation/MainDefDetectONLINE4R.m
 
 Evaluación de métricas y métodos para defectos
-1) /CompareROI/SDMet123/
-   MainDefSDMet1.m, MainDefSDMet2.m, MainDefSDMet2.m
+1) byDefects/CompareROI/SDMet123/
 
-2) /CompareROI/CompareSegmentation/
-   MainMet4RSDMet1.m, MainMet4RSDMet2.m, MainMet4RSDMet3.m
+  byDefects/CompareROI/SDMet123/MainDefSDMet1.m
+  byDefects/CompareROI/SDMet123/MainDefSDMet2.m
+  byDefects/CompareROI/SDMet123/MainDefSDMet3.m
+
+2) byDefects/CompareROI/CompareSegmentation/
+   
+   byDefects/CompareROI/CompareSegmentation/MainMet4RSDMet1.m
+   byDefects/CompareROI/CompareSegmentation/MainMet4RSDMet2.m
+   byDefects/CompareROI/CompareSegmentation/MainMet4RSDMet3.m
+   
 
 ## Clasificación por tamaño
+
+
 
 1)
 2)
