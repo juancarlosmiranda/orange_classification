@@ -47,6 +47,8 @@ trainingRatio=70;
 imageExtension='*.jpg';
 
 %% dataset hierarchy
+%|__/OrangeResults/
+%
 %|__/DATASET/
 %       |__/inputToLearn/ -> RGB images
 %       |__/inputMarked/ -> RGB images with masks
@@ -58,11 +60,16 @@ imageExtension='*.jpg';
 
 %% Defining the directory structure
 % original dataset
-pathImages=fullfile(HOME,'OrangeResults','inputToLearn'); % imagenes originales, inputMarked imagenes marcadas por experto DATASET
-pathImagesMasks=fullfile(HOME,'OrangeResults','inputMarked');
+RESULTS_ROOT=fullfile(HOME,'OrangeResults');
+DATASET=fullfile(RESULTS_ROOT,'DATASET');
+PREPROCESSED_DATASET=fullfile(RESULTS_ROOT,'PREPROCESSED_DATASET');
+
+pathImages=fullfile(DATASET,'inputToLearn'); % imagenes originales, inputMarked imagenes marcadas por experto DATASET
+pathImagesMasks=fullfile(DATASET,'inputMarked');
+
 % pre-training dataset
-pathImagesTest=fullfile(HOME,'OrangeResults','inputTest');
-pathImagesTraining=fullfile(HOME,'OrangeResults','inputTraining');
+pathImagesTest=fullfile(PREPROCESSED_DATASET,'inputTest');
+pathImagesTraining=fullfile(PREPROCESSED_DATASET,'inputTraining');
 
 
 % gets a ist with filenames 
@@ -70,7 +77,7 @@ imageList=dir(fullfile(pathImages,imageExtension));
 [tableDSTraining, tableDSTest]=SplitImageSet( imageList, trainingRatio, mainPath, outputPath);
 
 
-%% Deleteing old files to create a new dataset for test and training
+%% Deleting old files to create a new dataset for test and training
 % test files
 testFiles=fullfile(pathImagesTest,imageExtension);
 delete(testFiles);
@@ -81,4 +88,3 @@ delete(trainingFiles);
 
 copyDirectory( tableDSTest, pathImages, pathImagesTest); % copying RGB images for test
 copyDirectory( tableDSTraining, pathImagesMasks, pathImagesTraining); % copying images of masks for training
-%% -------------------------------------------------------------------

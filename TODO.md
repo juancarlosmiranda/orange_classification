@@ -81,3 +81,4 @@ Training24R/
 ## Code translated and reviewed
 
 
+Borrar los directorios y crearlos 

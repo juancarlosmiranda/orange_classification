@@ -37,7 +37,8 @@ clc; clear all; close all;
  
 %% Setting script operating parameters
 HOME=fullfile('C:','Users','Usuari','development','orange_classification');
-mainPath=fullfile(HOME,'OrangeResults','byDefects','PSMet2','SegMarkExp');
+RESULTS_ROOT=fullfile(HOME,'OrangeResults');
+mainPath=fullfile(RESULTS_ROOT,'byDefects','PSMet2','SegMarkExp');
 configurationPath=fullfile(mainPath,'conf');
 outputPath=fullfile(mainPath,'tmpToLearn'); % temporal data folder
 configurationFile=fullfile(configurationPath,'20170916configuracion.xml'); % For initial coordinates in image processing
@@ -52,10 +53,12 @@ LchannelMin = 0.0; LChannelMax = 96.653; AChannelMin = -23.548; AChannelMax = 16
 
 %% Setting up the directory folder structure
 % original dataset
-pathImagesLearn=fullfile(HOME,'OrangeResults','inputToLearn');
-pathImagesMasks=fullfile(HOME,'OrangeResults','inputMarked');
+DATASET=fullfile(RESULTS_ROOT,'DATASET');
+pathImagesLearn=fullfile(DATASET,'inputToLearn');
+pathImagesMasks=fullfile(DATASET,'inputMarked');
 % pre-training dataset
-pathImagesTraining=fullfile(HOME,'OrangeResults','inputTraining');
+PREPROCESSED_DATASET=fullfile(RESULTS_ROOT,'PREPROCESSED_DATASET');
+pathImagesTraining=fullfile(PREPROCESSED_DATASET,'inputTraining');
 
   
 %% Definition of rectangles according to numbering

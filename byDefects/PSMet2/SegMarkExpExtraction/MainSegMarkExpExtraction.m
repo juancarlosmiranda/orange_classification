@@ -52,10 +52,13 @@ clc; clear all; close all;
  
 %% Defining the directory structure
 HOME=fullfile('C:','Users','Usuari','development','orange_classification');
-mainPath=fullfile(HOME,'OrangeResults', 'byDefects','PSMet2','SegMarkExpExtraction');
+RESULTS_ROOT=fullfile(HOME,'OrangeResults');
+PREPROCESSED_DATASET=fullfile(RESULTS_ROOT,'PREPROCESSED_DATASET');
+pathImagesTraining=fullfile(PREPROCESSED_DATASET,'inputTraining');
+
+mainPath=fullfile(RESULTS_ROOT, 'byDefects','PSMet2','SegMarkExpExtraction');
 % Takes as input images generated in a previous step with MainSegMarkExp.m
-inputPath=fullfile(HOME,'OrangeResults','byDefects','PSMet2','SegMarkExp');
-pathImagesTraining=fullfile(HOME,'OrangeResults','inputTraining');
+inputPath=fullfile(RESULTS_ROOT,'byDefects','PSMet2','SegMarkExp');
 outputPath=fullfile(inputPath,'tmpToLearn'); % temporal data folder
 imageFormat='.jpg';
 imageFilter=strcat('*',imageFormat);

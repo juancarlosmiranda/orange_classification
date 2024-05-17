@@ -34,7 +34,7 @@ pathImages=fullfile(DATASET,'inputToLearn');
 
 configurationPath=fullfile(mainPath,'conf');
 pathAplication=fullfile(mainPath,'tmpToLearn','SDMet1');
-pathAplicationSilhouette=fullfile(pathAplication,'sFrutas');
+pathAplicacionSiluetas=fullfile(pathAplication,'sFrutas');
 pathResults=fullfile(mainPath,'output');
 imageExtension='*.jpg';
 

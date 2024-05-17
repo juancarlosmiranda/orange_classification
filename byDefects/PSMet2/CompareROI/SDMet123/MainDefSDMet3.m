@@ -25,11 +25,16 @@ clc; clear all; close all;
  
 %% Setting script operating parameters
 HOME=fullfile('C:','Users','Usuari','development','orange_classification');
-mainPath=fullfile(HOME,'OrangeResults','byDefects','PSMet2','CompareROI');
-pathImages=fullfile(HOME,'OrangeResults','inputToLearn');
+RESULTS_ROOT=fullfile(HOME,'OrangeResults');
+mainPath=fullfile(RESULTS_ROOT,'byDefects','PSMet2','CompareROI');
+
+% images from original dataset
+DATASET=fullfile(RESULTS_ROOT,'DATASET');
+pathImages=fullfile(DATASET,'inputToLearn');
+
 configurationPath=fullfile(mainPath,'conf');
 pathAplication=fullfile(mainPath,'tmpToLearn','SDMet3');
-pathAplicacionSiluetas=fullfile(pathAplication,'sFrutas');
+pathAplicationSilhouette=fullfile(pathAplication,'sFrutas');
 pathResults=fullfile(mainPath,'output');
 imageExtension='*.jpg';
 

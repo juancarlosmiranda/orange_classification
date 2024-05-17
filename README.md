@@ -78,6 +78,23 @@ xxxx
 2) /byDefects/PSMet2/SetCreator/MainSetCreator.m, para crear pre-procesar el conjunto de datos.
 3) 
 
+## Clasificación por defectos
+
+1) ~SetCreator [OK]~ MainSetCreator.m
+2) ~SegMarkExp [OK]~ MainSegMarkExp.m
+3) ~SegMarkExpExtraction [OK]~ MainSegMarkExpExtraction.m
+4) ~FruitEvaluation [OK]~ MainDefDetectONLINE4R.m
+
+Evaluación de métricas y métodos para defectos
+
+
+
+## Clasificación por tamaño
+
+1)
+2)
+
+
 ## 4.3 Files and folder description
 
 *** TODO: Es necesario colocar la secuencia para el uso de los archivos.

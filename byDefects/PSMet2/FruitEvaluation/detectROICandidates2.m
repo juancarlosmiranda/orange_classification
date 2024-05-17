@@ -16,10 +16,10 @@ function [ ] = detectROICandidates2( pathPrincipal, numROI, imageNameRemoved, im
 %
 % detectROICandidates2( outputPath, 1, imageNameRemoved1 ,imageNameBinDefects1, imageNameColourDefectsC1, imageNameColourDetection1,fileVectorDef, imageNameP);
 %
-
 labelDetected='CANDIDATO';
 HOME=fullfile('C:','Users','Usuari','development','orange_classification');
-pathTraining=fullfile(HOME,'OrangeResults','byDefects','PSMet2','SegMarkExpExtraction','output'); %
+RESULTS_ROOT=fullfile(HOME,'OrangeResults');
+pathTraining=fullfile(RESULTS_ROOT,'byDefects','PSMet2','SegMarkExpExtraction','output'); %
 
 %% Reading the image with background removed
 IFR=imread(imageNameFR);
