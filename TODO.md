@@ -48,9 +48,13 @@ Verificar la carpeta bySize/ y byDefects/
 byDefects/
 ---------
 ## Code to verify
-CompareROI/
+~CompareROI/ [OK]~
 ~CompareROI/SDMet123 [OK]~
-CompareROI/CompareSegmentation
+~CompareROI/CompareSegmentation [OK]~
+
+Comparison metrics between different methods (1, 2, 3)
+1) /CompareROI/SDMet123/
+2) /CompareROI/CompareSegmentation/ To get metrics
 
 
 ## Code translated and reviewed
