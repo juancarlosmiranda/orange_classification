@@ -86,7 +86,8 @@ xxxx
 4) ~FruitEvaluation [OK]~ MainDefDetectONLINE4R.m
 
 Evaluación de métricas y métodos para defectos
-
+1) /CompareROI/SDMet123/
+2) /CompareROI/CompareSegmentation/ To get metrics
 
 
 ## Clasificación por tamaño

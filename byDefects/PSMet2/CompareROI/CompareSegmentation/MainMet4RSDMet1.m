@@ -22,9 +22,14 @@ clc; clear all; close all;
  
 %% Setting script operating parameters
 HOME=fullfile('C:','Users','Usuari','development','orange_classification');
-mainPath=fullfile(HOME,'OrangeResults','byDefects','PSMet2','CompareROI');
-pathImages=fullfile(HOME,'OrangeResults','inputToLearn');
-pathMarkedColorImages=fullfile(HOME,'OrangeResults','inputMarked');
+RESULTS_ROOT=fullfile(HOME,'OrangeResults');
+mainPath=fullfile(RESULTS_ROOT,'byDefects','PSMet2','CompareROI');
+
+% images from original dataset
+DATASET=fullfile(RESULTS_ROOT,'DATASET');
+pathImages=fullfile(DATASET,'inputToLearn');
+pathMarkedColorImages=fullfile(DATASET,'inputMarked');
+
 configurationPath=fullfile(mainPath,'conf');
 pathImagesToCompare=fullfile(mainPath,'tmpToLearn','CompareSDMet1');
 pathTestedMethod=fullfile(mainPath,'tmpToLearn','SDMet1');
