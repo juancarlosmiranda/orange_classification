@@ -87,8 +87,10 @@ xxxx
 
 Evaluación de métricas y métodos para defectos
 1) /CompareROI/SDMet123/
-2) /CompareROI/CompareSegmentation/ To get metrics
+   MainDefSDMet1.m, MainDefSDMet2.m, MainDefSDMet2.m
 
+2) /CompareROI/CompareSegmentation/
+   MainMet4RSDMet1.m, MainMet4RSDMet2.m, MainMet4RSDMet3.m
 
 ## Clasificación por tamaño
 
