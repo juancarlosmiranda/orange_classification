@@ -82,23 +82,23 @@ for n=1:imageCount
         
         % Merging binary masks
         fprintf('Merging regions marked by an expert -> %s R=%i\n',imageList(n).name,ROI);    
-        juntado(imageNameBinCalyx,imageNameBinDefects, imageNameBinMaskExpert);
+        merged(imageNameBinCalyx,imageNameBinDefects, imageNameBinMaskExpert);
         % Extracting differences FALSE POSITIVES (FP) and FALSE NEGATIVES (FN)
         fprintf('FN and FP -> Expert differences vs. software differences-> %s R=%i \n',imageList(n).name, ROI);        
-        diferencia(imageNameBinMaskExpert, imageNameSoftware, maskNameFPFN);
+        difference(imageNameBinMaskExpert, imageNameSoftware, maskNameFPFN);
         % Extracting FN
         fprintf('Looking for FN -> Expert vs FPFN %s R=%i \n',imageList(n).name, ROI);
-        coincidencia(imageNameBinMaskExpert, maskNameFPFN, maskNameFN);
+        coincidence(imageNameBinMaskExpert, maskNameFPFN, maskNameFN);
         % Extracting FP
         fprintf('Looking for FP -> Software vs FPFN %s R=%i \n',imageList(n).name, ROI);        
-        coincidencia(imageNameSoftware, maskNameFPFN, maskNameFP);
+        coincidence(imageNameSoftware, maskNameFPFN, maskNameFP);
         % Extracting TPTN TRUE POSITIVE (TP) TRUE NEGATIVE (TN)
         fprintf('Looking TP -> Expert vs Software %s R=%i \n',imageList(n).name, ROI);
-        coincidencia(imageNameBinMaskExpert, imageNameSoftware, maskNameTP);
+        coincidence(imageNameBinMaskExpert, imageNameSoftware, maskNameTP);
         fprintf('TN NOT EXPERT + SOFTWARE -> %s R=%i \n',imageList(n).name, ROI);  
-        juntado(imageNameBinMaskExpert,imageNameSoftware, maskNameTPFPFN);
+        merged(imageNameBinMaskExpert,imageNameSoftware, maskNameTPFPFN);
         % does the inverse to count the TN in pixels
-        inversa(maskNameTPFPFN, maskNameTN);
+        inverse(maskNameTPFPFN, maskNameTN);
 
         %% CALCULAR TASA DE DIFERENCIAS Y COINCIDENCIAS
         %% Definicion de variables a cero
@@ -113,10 +113,10 @@ for n=1:imageCount
         specificity=0.0;
         
         %% counting pixels
-        TP=contarPixeles(maskNameTP);    
-        FP=contarPixeles(maskNameFP);
-        FN=contarPixeles(maskNameFN);
-        TN=contarPixeles(maskNameTN);
+        TP=pixelCount(maskNameTP);    
+        FP=pixelCount(maskNameFP);
+        FN=pixelCount(maskNameFN);
+        TN=pixelCount(maskNameTN);
     
         %precision, exactitud, sensibilidad, especificidad
         if((TP+FP)==0)
