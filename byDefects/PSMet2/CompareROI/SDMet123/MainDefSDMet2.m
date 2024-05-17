@@ -141,7 +141,7 @@ listSize=size(imageList);
 imageCount=listSize(1);
 %% bach-shaped reading of the camera directory
 for n=1:imageCount
-    fprintf('Extracting features for training-> %s \n',imageList(n).name); 
+    fprintf('Extracting features for training-> %s \n',imageList(n).name);
     imageNameP=imageList(n).name;
     ProcessImgSoft(pathImages, pathAplication, imageNameP, rectangleList, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax );
     ExtractDefDetectImgSoftSDMet2(pathImages, pathAplication, imageNameP, candidateFile, sizeContours);
