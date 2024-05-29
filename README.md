@@ -40,6 +40,7 @@ Schollarship [CONACYT BECA08-25](https://www.conacyt.gov.py/view-inventario-de-t
 ## 1. Pre-requisites
 
 * MATLAB R2021a.
+* Image processing Toolbox
 * Computer Vision System Toolbox
 * Statistics and Machine Learning Toolbox (TODO)
 * Dataset
@@ -76,7 +77,16 @@ xxxx
 
 1) Descarga del DATASET con imágenes tomadas en laboratorio y marcaciones manuales realizadas por el experto.
 2) /byDefects/PSMet2/SetCreator/MainSetCreator.m, para crear pre-procesar el conjunto de datos.
-3) 
+
+
+Ejecución para clasificación por defectos
+1) Ejecutar byDefects/SetCreator/PSMet2/MainSetCreator.m para extraer generar las carpetas con imágenes para entrenamiento y prueba PREPROCESSED_DATASET/inputTest y PREPROCESSED_DATASET/inputTraining/.
+2) Ejecutar byDefects/SegMarkExp/PSMet2/MainSegMarkExp.m para extraer numéricas de las regiones de interés y generar un archivo para entrenar un clasificador (KNN y SVM).
+3) Copiar el archivo "/orange_classification/OrangeResults/byDefects/PSMet2/SegMarkExpExtraction/output/BDDEFECTOSCALYX.csv" a "/orange_classification/OrangeResults/byDefects/PSMet2/FruitEvaluation/conf".
+4) Ejecutar byDefects/PSMet2/FruitEvaluation/MainDefTraining4R.m para obtener un clasificador entrenado.
+5) Ejecutar byDefects/PSMet2/FruitEvaluation/MainDefDetectONLINE4r.m para clasificar las frutas del directorio PREPROCESSED_DATASET/inputTest.
+6) 
+
 
 ## Clasificación por defectos
 

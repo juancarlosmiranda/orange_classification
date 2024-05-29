@@ -40,6 +40,11 @@ Hacer un mapa de las coordenadas XY.
 Hacer un listado de los conceptos aplicados para generar una receta con 
 tareas habituales MATLAB
 
+Arreglar "detectROICandidates2.m". para que tome datos de un clasificador entrenado. Subir a niveles superiores las 
+rutas al arhivo entrenado. De tal manera que la función levante desde disco al inicio el pre-trained.
+Afecta "MainDefDetectONLINE4R.m", "ExtractDefDetectImgSoft.m".
+Probar una capsula de codeocean.
+Organizar las variables de los módulos, corregir el gráfico de las carpetas
 
 ## Folders to check
 Carpeta con los respectivos módulos.

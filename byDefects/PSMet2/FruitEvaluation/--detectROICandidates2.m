@@ -16,8 +16,13 @@ function [ ] = detectROICandidates2( pathPrincipal, numROI, imageNameRemoved, im
 %
 % detectROICandidates2( outputPath, 1, imageNameRemoved1 ,imageNameBinDefects1, imageNameColourDefectsC1, imageNameColourDetection1,fileVectorDef, imageNameP);
 %
+
+% 25/05/2024 TODO: TO REFACTOR PATH AND TRAINED MODEL. REPAIR.
+
 labelDetected='CANDIDATO';
-HOME=fullfile('C:','Users','Usuari','development','orange_classification');
+% HOME=fullfile('C:','Users','Usuari','development','orange_classification'); % for Windows systems
+HOME=fullfile('/','home','usuario','development','orange_classification'); % for Linux systems
+
 RESULTS_ROOT=fullfile(HOME,'OrangeResults');
 pathTraining=fullfile(RESULTS_ROOT,'byDefects','PSMet2','SegMarkExpExtraction','output'); %
 
@@ -76,6 +81,7 @@ arrayTrainingClasificacion=table2cell(tablaDSTrainingClasificacion);
 arrayTrainingFeatures=table2array(tablaDSTrainingCaracteristicas);
 
 fprintf('Training classifier CANDIDATE REGIONS --> \n');
+% 25/05/2024 to refactor, load trained classifier from a file
 classifierObj = fitcknn(arrayTrainingFeatures,arrayTrainingClasificacion,'NumNeighbors',numberNeighbors,'Standardize',1);
 
 %% gets coordinates area

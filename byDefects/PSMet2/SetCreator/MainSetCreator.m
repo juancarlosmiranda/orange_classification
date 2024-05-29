@@ -38,25 +38,68 @@
 clc; clear all; close all;
 
 % IMPORTANT!!! CONFIGURE HERE THE MAIN FOLDER FOR YOUR PROJECT
-HOME=fullfile('C:','Users','Usuari','development','orange_classification');
-mainPath=fullfile(HOME,'OrangeResults','byDefects','PSMet2','SetCreator');
-outputPath=fullfile(mainPath,'output');
+% HOME=fullfile('C:','Users','Usuari','development','orange_classification'); % for Windows systems
+HOME=fullfile('/','home','usuario','development','orange_classification'); % for Linux systems
+setCreatorPath=fullfile(HOME,'OrangeResults','byDefects','PSMet2','SetCreator');
+setCreatorOutputPath=fullfile(setCreatorPath,'output');
 
 %% Definition of script operating parameters
 trainingRatio=70;
 imageExtension='*.jpg';
 
 %% dataset hierarchy
-%|__/OrangeResults/
+%% dataset hierarchy
 %
-%|__/DATASET/
-%       |__/inputToLearn/ -> RGB images
-%       |__/inputMarked/ -> RGB images with masks
+%|__/orange_classification/
+%   |__/OrangeResults/
+%   |   |__/byDefects/
+%   |   |    |__/PSMet2/
+%   |   |        |__/SegMarkExp/
+%   |   |        |    |__/tmpToLearn/
+%   |   |        |       |__/IBR/
+%   |   |        |       |__/IROI/
+%   |   |        |       |__/MROI/
+%   |   |        |       |__/ROICalyxC/
+%   |   |        |       |__/ROICalyxBin/
+%   |   |        |       |__/ROIDefBin/
+%   |   |        |       |__/ISFrutas/
+%   |   |        |       |__/IRM/
+%   |   |        |       |__/MRM/
+%   |   |        |       |__/MDefColor/
+%   |   |        |       |__/MCalyxColor/
+%   |   |        |       |__/MCalyxBin/
+%   |   |        |       |__/MDefBin/
+%   |   |        |       |__/cCalyx/
+%   |   |        |       |__/cDefectos/
+%   |   |        |
+%   |   |        |__/SegMarkExpExtraction/
+%   |   |        |    |__/output/
+%   |   |        |   
+%   |   |        |__/FruitEvaluation/
+%   |   |        |    |__/conf/
+%   |   |        |    |__/output/
+%   |   |        |    |__/tmpToLearn/
+%   |   |        |       |__/br/
+%   |   |        |       |__/roi/
+%   |   |        |       |__/sFrutas/
+%   |   |        |       |__/removido/
+%   |   |        |       |__/sDefectos/
+%   |   |        |       |__/contornos/
+%   |   |        |       |__/defectos/
+%   |   |        |       |__/cDefectos/
+%   |   |        |       |__/deteccion/
+%   |   |        | 
+%   |
+%   |
+%   |__/DATASET/
+%   |      |__/inputToLearn/ -> RGB images
+%   |      |__/inputMarked/ -> RGB images with masks
+%   |
+%   |__/PREPROCESSED_DATASET/
+%          |__/inputTest -> folder with images for tests
+%          |__/inputTraining -> folder with images for training.
 %
-%|__/PREPROCESSED_DATASET/
-%       |__/inputTest -> folder with images for tests
-%       |__/inputTraining -> folder with images for training.
-
+%
 
 %% Defining the directory structure
 % original dataset
@@ -64,27 +107,30 @@ RESULTS_ROOT=fullfile(HOME,'OrangeResults');
 DATASET=fullfile(RESULTS_ROOT,'DATASET');
 PREPROCESSED_DATASET=fullfile(RESULTS_ROOT,'PREPROCESSED_DATASET');
 
-pathImages=fullfile(DATASET,'inputToLearn'); % imagenes originales, inputMarked imagenes marcadas por experto DATASET
-pathImagesMasks=fullfile(DATASET,'inputMarked');
+originalImagePath=fullfile(DATASET,'inputToLearn'); % original images and images marked by DATASET expert
+originalImageMasks=fullfile(DATASET,'inputMarked');
 
 % pre-training dataset
-pathImagesTest=fullfile(PREPROCESSED_DATASET,'inputTest');
-pathImagesTraining=fullfile(PREPROCESSED_DATASET,'inputTraining');
+pathImageTest=fullfile(PREPROCESSED_DATASET,'inputTest');
+pathImageTraining=fullfile(PREPROCESSED_DATASET,'inputTraining');
 
 
 % gets a ist with filenames 
-imageList=dir(fullfile(pathImages,imageExtension));
-[tableDSTraining, tableDSTest]=SplitImageSet( imageList, trainingRatio, mainPath, outputPath);
+imageList=dir(fullfile(originalImagePath,imageExtension));
+[tableDSTraining, tableDSTest]=SplitImageSet( imageList, trainingRatio, setCreatorPath, setCreatorOutputPath);
 
 
 %% Deleting old files to create a new dataset for test and training
 % test files
-testFiles=fullfile(pathImagesTest,imageExtension);
+testFiles=fullfile(pathImageTest,imageExtension);
 delete(testFiles);
 % training files
-trainingFiles=fullfile(pathImagesTraining,imageExtension);
+trainingFiles=fullfile(pathImageTraining,imageExtension);
 delete(trainingFiles);
 
 
-copyDirectory( tableDSTest, pathImages, pathImagesTest); % copying RGB images for test
-copyDirectory( tableDSTraining, pathImagesMasks, pathImagesTraining); % copying images of masks for training
+copyDirectory( tableDSTest, originalImagePath, pathImageTest); % copying RGB images for test
+copyDirectory( tableDSTraining, originalImageMasks, pathImageTraining); % copying images of masks for training
+
+
+

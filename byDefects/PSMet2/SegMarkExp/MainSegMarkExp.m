@@ -36,7 +36,11 @@
 clc; clear all; close all;
  
 %% Setting script operating parameters
-HOME=fullfile('C:','Users','Usuari','development','orange_classification');
+% IMPORTANT!!! CONFIGURE HERE THE MAIN FOLDER FOR YOUR PROJECT
+% HOME=fullfile('C:','Users','Usuari','development','orange_classification'); % for Windows systems
+HOME=fullfile('/','home','usuario','development','orange_classification'); % for Linux systems
+
+
 RESULTS_ROOT=fullfile(HOME,'OrangeResults');
 mainPath=fullfile(RESULTS_ROOT,'byDefects','PSMet2','SegMarkExp');
 configurationPath=fullfile(mainPath,'conf');
@@ -173,7 +177,10 @@ end %
 fprintf('---------\n');
 fprintf('Summary report \n');
 fprintf('---------\n');
+fprintf('A total of %i images have been analyzed \n', imageCount);
+fprintf('\n -------------------------------- \n');
 fprintf('The regions marked (masks) by the expert have been separated. \n');
 fprintf('Temporal images obtained with this process can be analyzed in %s \n', outputPath);
-fprintf('A total of %i images have been analyzed \n', imageCount);
-fprintf('You must run the process to extract data from temporal images called "MainSegMarkExpExtraction.m"! \n');
+fprintf('\n -------------------------------- \n');
+fprintf('You must run "/SegMarkExpExtraction/MainSegMarkExpExtraction.m" to extract data from temporal images called! \n');
+fprintf('\n -------------------------------- \n');

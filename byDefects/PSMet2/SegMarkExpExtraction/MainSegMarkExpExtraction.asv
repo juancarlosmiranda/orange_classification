@@ -167,7 +167,7 @@ fprintf('A total of %i images have been analyzed from %s \n', imageCount, pathIm
 fprintf('The regions marked (masks) by the expert have been converted to numerical values (features). \n');
 fprintf('DEFECTS have been saved in file  %s \n', fileDBDefectsCalyx);
 fruitEvaluationConfPath=fullfile(RESULTS_ROOT,'byDefects','PSMet2','FruitEvaluation','conf');
-fprintf('Copy %s to %s \n', fileDBDefectsCalyx, fruitEvaluationConfPath);
+fprintf('Copy %s with features to %s \n', fruitEvaluationConfPath);
 fprintf('\n -------------------------------- \n');
 fprintf('You must run the process to evaluate images "FruitEvaluation/MainDefDetectONLINE4R.m"! \n');
 

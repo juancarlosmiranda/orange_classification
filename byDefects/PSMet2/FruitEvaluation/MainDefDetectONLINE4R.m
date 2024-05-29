@@ -15,7 +15,7 @@
 % Este script detecta defectos en frutas a partir de imágenes de prueba.
 % Se generan datos obtenidos luego de aplicar un método de segmentación y un clasificador de defectos previamente entrenado. 
 % Produce un listado con las clasificaciones por imagen.
-
+%
 % Usage:
 % MainDefDetectONLINE4R.m
 %
@@ -25,7 +25,8 @@
 clc; clear all; close all;
  
 %% Setting script operating parameters
-HOME=fullfile('C:','Users','Usuari','development','orange_classification');
+% HOME=fullfile('C:','Users','Usuari','development','orange_classification'); % for Windows systems
+HOME=fullfile('/','home','usuario','development','orange_classification'); % for Linux systems
 RESULTS_ROOT=fullfile(HOME,'OrangeResults');
 mainPath=fullfile(RESULTS_ROOT,'byDefects','PSMet2','FruitEvaluation');
 configurationPath=fullfile(mainPath,'conf');
@@ -39,7 +40,13 @@ pathImagesTest=fullfile(PREPROCESSED_DATASET,'inputTest');
 pathAplicacionSiluetas=fullfile(outputPath,'sFrutas');
 pathResults=fullfile(mainPath,'output');% saves results
 imageExtension='*.jpg';
-  
+
+%% Classifier path
+% loads data about classifier parameters from a file
+filenameModel='MY_TRAINED_MODEL.mat';
+fileHandlerModelPath=fullfile(configurationPath,filenameModel);
+trainedClassifierObj=loadLearnerForCoder(fileHandlerModelPath);
+
 %% Definition of rectangles according to numbering
 row01=readConfiguration('Fila1', configurationFile);
 bottomRow=readConfiguration('FilaAbajo', configurationFile);
@@ -94,7 +101,7 @@ LchannelMin = 0.0; LchannelMax = 96.653; AchannelMin = -23.548; AchannelMax = 16
 
 %% CONFIGURACIONES PARA DETECCION DE DEFECTOS
 sizeContours=1000; % is used for contour extraction. The contours are above 1000 pixels
-candidateFile=fullfile(pathResults,'aCandidatos.csv'); % output file defect candidates
+candidateFilePath=fullfile(pathResults,'aCandidatos.csv'); % output file defect candidates
 
 % Temporal data folder hierarchy
 % 
@@ -108,6 +115,8 @@ candidateFile=fullfile(pathResults,'aCandidatos.csv'); % output file defect cand
 %   |__/MRM
 %   |__/MDefColor
 %   |__/MDefBin
+%
+%
 %   |__/MCalyxColor
 %   |__/MCalyxBin
 %   |__/ISFrutas
@@ -122,7 +131,7 @@ candidateFile=fullfile(pathResults,'aCandidatos.csv'); % output file defect cand
 % TODO: Create a script for definition of a folder hierarchy
 % tmpToLearn/
 fprintf('Cleaning old images \n');
-delete(candidateFile);
+delete(candidateFilePath);
 delete(fullfile(outputPath,'sFrutas',imageExtension));
 delete(fullfile(outputPath,'sDefectos',imageExtension));
 delete(fullfile(outputPath,'roi',imageExtension));
@@ -144,7 +153,7 @@ for n=1:imageCount
     fprintf('Extracting features for testing-> %s \n',imageList(n).name);    
     imageNameP=imageList(n).name;    
     ProcessImgSoft(pathImagesTest, outputPath, imageNameP, rectangleList, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax );
-    ExtractDefDetectImgSoft(pathImagesTest, outputPath, imageNameP, candidateFile, sizeContours);
+    ExtractDefDetectImgSoft2(pathImagesTest, outputPath, imageNameP, candidateFilePath, sizeContours, trainedClassifierObj);
 %    if n==1
 %        break;
 %    end %if n==11
@@ -156,5 +165,6 @@ fprintf('Summary report \n');
 fprintf('---------\n');
 fprintf('\n -------------------------------- \n');
 fprintf('A total of %i files were processed \n',imageCount);
-fprintf('Check analysis results in %s \n', candidateFile)
+fprintf('Check analysis results in %s \n', candidateFilePath)
+fprintf('The detections and intermediate results can be seen in %s \n', outputPath)
 fprintf('\n -------------------------------- \n');
