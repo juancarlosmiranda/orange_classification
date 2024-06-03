@@ -75,15 +75,14 @@ xxxx
 
 ## Configuración inicial
 1) Descarga del DATASET con imágenes tomadas en laboratorio y marcaciones manuales realizadas por el experto.
-2) ```./orange_classification/byDefects/PSMet2/SetCreator/MainSetCreator.m```, para crear pre-procesar el conjunto de datos.
-
+2) Ejecutar ```./orange_classification/byDefects/PSMet2/SetCreator/MainSetCreator.m``` para crear un conjunto de datos de preprocesamiento.
 
 ## Clasificación por defectos
 1) Ejecutar ```./orange_classificationbyDefects/SetCreator/PSMet2/MainSetCreator.m``` para extraer generar las carpetas con imágenes para entrenamiento y prueba ```./orange_classification/PREPROCESSED_DATASET/inputTest``` y ```./orange_classification/PREPROCESSED_DATASET/inputTraining/```.
 2) Ejecutar ```./orange_classification/byDefects/SegMarkExp/PSMet2/MainSegMarkExp.m``` para extraer numéricas de las regiones de interés y generar un archivo para entrenar un clasificador (KNN y SVM).
 3) Copiar el archivo ```./orange_classification/OrangeResults/byDefects/PSMet2/SegMarkExpExtraction/output/BDDEFECTOSCALYX.csv``` a ```./orange_classification/OrangeResults/byDefects/PSMet2/FruitEvaluation/conf```.
 4) Ejecutar ```./orange_classification/byDefects/PSMet2/FruitEvaluation/MainDefTraining4R.m``` para obtener un clasificador entrenado. Genera un archivo denominado ```MY_TRAINED_MODEL.mat``` con datos sobre el modelo entrenado.
-6) Ejecutar ```./orange_classification/byDefects/PSMet2/FruitEvaluation/MainDefDetectONLINE4r.m``` para clasificar las frutas del directorio ```./orange_classification/PREPROCESSED_DATASET/inputTest```. Este módulo utiliza el archivo ```MY_TRAINED_MODEL.mat``` generado previamente con ```./orange_classification/byDefects/PSMet2/FruitEvaluation/MainDefTraining4R.m``` 
+6) Ejecutar ```./orange_classification/byDefects/PSMet2/FruitEvaluation/MainDefDetectONLINE4r.m``` para clasificar las frutas del directorio y visualizar detecciones soreb imágenes disponibles en ```./orange_classification/PREPROCESSED_DATASET/inputTest```. Este módulo utiliza el archivo ```MY_TRAINED_MODEL.mat``` generado previamente con ```./orange_classification/byDefects/PSMet2/FruitEvaluation/MainDefTraining4R.m``` 
 
 ## Comparación de métodos propuestos
 1) Ejecutar ```./orange_classification/byDefects/SetCreator/PSMet2/MainSetCreator.m``` para extraer generar las carpetas con imágenes para entrenamiento y prueba ```./orange_classification/PREPROCESSED_DATASET/inputTest``` y ```./orange_classification/PREPROCESSED_DATASET/inputTraining/```.
