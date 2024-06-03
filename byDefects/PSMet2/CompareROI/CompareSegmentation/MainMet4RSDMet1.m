@@ -21,33 +21,34 @@
 clc; clear all; close all;
  
 %% Setting script operating parameters
-HOME=fullfile('C:','Users','Usuari','development','orange_classification');
+% HOME=fullfile('C:','Users','Usuari','development','orange_classification'); % for Windows systems
+HOME=fullfile('/','home','usuario','development','orange_classification'); % for Linux systems
 RESULTS_ROOT=fullfile(HOME,'OrangeResults');
-mainPath=fullfile(RESULTS_ROOT,'byDefects','PSMet2','CompareROI');
+compareROIPath=fullfile(RESULTS_ROOT,'byDefects','PSMet2','CompareROI');
 
 % images from original dataset
 DATASET=fullfile(RESULTS_ROOT,'DATASET');
 pathImages=fullfile(DATASET,'inputToLearn');
 pathMarkedColorImages=fullfile(DATASET,'inputMarked');
 
-configurationPath=fullfile(mainPath,'conf');
-pathImagesToCompare=fullfile(mainPath,'tmpToLearn','CompareSDMet1');
-pathTestedMethod=fullfile(mainPath,'tmpToLearn','SDMet1');
-pathPreMarkedImages=fullfile(mainPath,'tmpToLearn','MARKED');
+configurationPath=fullfile(compareROIPath,'conf');
+CompareSDMet1Path=fullfile(compareROIPath,'tmpToLearn','CompareSDMet1');
+pathTestedMethod=fullfile(compareROIPath,'tmpToLearn','SDMet1');
+pathPreMarkedImages=fullfile(compareROIPath,'tmpToLearn','MARKED');
 imageExtension='*.jpg';
 pathBinaryDef=fullfile(pathPreMarkedImages,'MDefBin');
 pathBinaryCalyx=fullfile(pathPreMarkedImages,'MCalyxBin');
-pathBinaryExp=fullfile(pathImagesToCompare,'ExpertoBin');
+pathBinaryExp=fullfile(CompareSDMet1Path,'ExpertoBin');
 pathBinaryDefects=fullfile(pathTestedMethod,'defectos');
 
 % Settings for comparisons
-pathFPFNBin=fullfile(pathImagesToCompare,'FPFNBin');
-pathTPTNBin=fullfile(pathImagesToCompare,'TPTNBin');
-pathFNBin=fullfile(pathImagesToCompare,'FNBin');
-pathFPBin=fullfile(pathImagesToCompare,'FPBin');
-pathTPBin=fullfile(pathImagesToCompare,'TPBin');
-pathTNBin=fullfile(pathImagesToCompare,'TNBin');
-pathTPFPFNBin=fullfile(pathImagesToCompare,'TPFPFNBin');
+pathFPFNBin=fullfile(CompareSDMet1Path,'FPFNBin');
+pathTPTNBin=fullfile(CompareSDMet1Path,'TPTNBin');
+pathFNBin=fullfile(CompareSDMet1Path,'FNBin');
+pathFPBin=fullfile(CompareSDMet1Path,'FPBin');
+pathTPBin=fullfile(CompareSDMet1Path,'TPBin');
+pathTNBin=fullfile(CompareSDMet1Path,'TNBin');
+pathTPFPFNBin=fullfile(CompareSDMet1Path,'TPFPFNBin');
 
 % Setting the average variables to zero
 precisionSummation=0.0;

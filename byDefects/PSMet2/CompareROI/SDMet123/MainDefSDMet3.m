@@ -24,18 +24,19 @@
 clc; clear all; close all;
  
 %% Setting script operating parameters
-HOME=fullfile('C:','Users','Usuari','development','orange_classification');
+% HOME=fullfile('C:','Users','Usuari','development','orange_classification'); % for Windows systems
+HOME=fullfile('/','home','usuario','development','orange_classification'); % for Linux systems
 RESULTS_ROOT=fullfile(HOME,'OrangeResults');
-mainPath=fullfile(RESULTS_ROOT,'byDefects','PSMet2','CompareROI');
+compareROIPath=fullfile(RESULTS_ROOT,'byDefects','PSMet2','CompareROI');
 
 % images from original dataset
 DATASET=fullfile(RESULTS_ROOT,'DATASET');
 pathImages=fullfile(DATASET,'inputToLearn');
 
-configurationPath=fullfile(mainPath,'conf');
-pathAplication=fullfile(mainPath,'tmpToLearn','SDMet3');
-pathAplicationSilhouette=fullfile(pathAplication,'sFrutas');
-pathResults=fullfile(mainPath,'output');
+configurationPath=fullfile(compareROIPath,'conf');
+SDMet3Path=fullfile(compareROIPath,'tmpToLearn','SDMet3');
+pathAplicationSilhouette=fullfile(SDMet3Path,'sFrutas');
+pathResults=fullfile(compareROIPath,'output');
 imageExtension='*.jpg';
 
 %% Configuration file names work with methods for equivalence with the 4 views
@@ -143,8 +144,8 @@ imageCount=listSize(1);
 for n=1:imageCount
     fprintf('Extracting features for training-> %s \n',imageList(n).name);
     imageNameP=imageList(n).name;
-    ProcessImgSoft(pathImages, pathAplication, imageNameP, rectangleList, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax )
-    ExtractDefDetectImgSoftSDMet3(pathImages, pathAplication, imageNameP, candidateFile, sizeContours)
+    ProcessImgSoft(pathImages, SDMet3Path, imageNameP, rectangleList, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax )
+    ExtractDefDetectImgSoftSDMet3(pathImages, SDMet3Path, imageNameP, candidateFile, sizeContours)
     %if n==1
     %    break;
     %end %if n==11

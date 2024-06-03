@@ -28,7 +28,7 @@
 % INPUT: DATSET with images and masks
 % OUTPUT: Daataset with images for test and training in folders.
 
-% Use:
+% Use: 
 % 
 % Configure DATASET
 % MainSetCreator.m

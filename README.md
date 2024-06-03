@@ -39,11 +39,9 @@ Schollarship [CONACYT BECA08-25](https://www.conacyt.gov.py/view-inventario-de-t
 
 ## 1. Pre-requisites
 
-* MATLAB R2021a.
-* Image processing Toolbox
-* Computer Vision System Toolbox
-* Statistics and Machine Learning Toolbox (TODO)
-* Dataset
+* MATLAB R2021a. Last test under MATLAB R2024a
+* Toolbox: Image processing, Computer Vision System, Statistics and Machine Learning, Dataset.
+
 
 ## 2. Functionalities
 
@@ -75,20 +73,25 @@ xxxx
 
 ```
 
+## Configuración inicial
 1) Descarga del DATASET con imágenes tomadas en laboratorio y marcaciones manuales realizadas por el experto.
 2) /byDefects/PSMet2/SetCreator/MainSetCreator.m, para crear pre-procesar el conjunto de datos.
 
 
-Ejecución para clasificación por defectos
+## Clasificación por defectos
 1) Ejecutar byDefects/SetCreator/PSMet2/MainSetCreator.m para extraer generar las carpetas con imágenes para entrenamiento y prueba PREPROCESSED_DATASET/inputTest y PREPROCESSED_DATASET/inputTraining/.
 2) Ejecutar byDefects/SegMarkExp/PSMet2/MainSegMarkExp.m para extraer numéricas de las regiones de interés y generar un archivo para entrenar un clasificador (KNN y SVM).
 3) Copiar el archivo "/orange_classification/OrangeResults/byDefects/PSMet2/SegMarkExpExtraction/output/BDDEFECTOSCALYX.csv" a "/orange_classification/OrangeResults/byDefects/PSMet2/FruitEvaluation/conf".
-4) Ejecutar byDefects/PSMet2/FruitEvaluation/MainDefTraining4R.m para obtener un clasificador entrenado.
-5) Ejecutar byDefects/PSMet2/FruitEvaluation/MainDefDetectONLINE4r.m para clasificar las frutas del directorio PREPROCESSED_DATASET/inputTest.
-6) 
+4) Ejecutar byDefects/PSMet2/FruitEvaluation/MainDefTraining4R.m para obtener un clasificador entrenado. Genera un archivo denominado "MY_TRAINED_MODEL.mat" con datos sobre el modelo entrenado.
+6) Ejecutar byDefects/PSMet2/FruitEvaluation/MainDefDetectONLINE4r.m para clasificar las frutas del directorio PREPROCESSED_DATASET/inputTest. Este módulo utiliza el archivo "MY_TRAINED_MODEL.mat" generado previamente con "byDefects/PSMet2/FruitEvaluation/MainDefTraining4R.m" 
 
+## Comparación de métodos propuestos
+1) Ejecutar byDefects/SetCreator/PSMet2/MainSetCreator.m para extraer generar las carpetas con imágenes para entrenamiento y prueba PREPROCESSED_DATASET/inputTest y PREPROCESSED_DATASET/inputTraining/.
+2) Ejecutar byDefects/SegMarkExp/PSMet2/MainSegMarkExp.m para extraer numéricas de las regiones de interés y generar un archivo para entrenar un clasificador (KNN y SVM).
+3) Copiar el contenido de "/orange_classification/OrangeResults/byDefects/PSMet2/SegMarkExp/tmpToLearn/" a "/orange_classification/OrangeResults/byDefects/PSMet2/CompareROI/tmpToLearn/MARKED/".
+4) Ejecutar extraer característics para los distintos métodos "MainDefSDMet1.m", "MainDefSDMet2.m" y "MainDefSDMet3.m" en "/orange_classification/OrangeResults/byDefects/PSMet2/CompareROI/SDMet123/". 
+5) Ejecutar las diferentes comparaciones "MainMet4RSDMet1.m", "MainMet4RSDMet2.m" y "MainMet4RSDMet3.m" en "/orange_classification/OrangeResults/byDefects/PSMet2/CompareROI/CompareSegmentation". 
 
-## Clasificación por defectos
 
 1) ~SetCreator [OK]~ byDefects/SetCreator/MainSetCreator.m
 2) ~SegMarkExp [OK]~ byDefects/SegMarkExp/MainSegMarkExp.m

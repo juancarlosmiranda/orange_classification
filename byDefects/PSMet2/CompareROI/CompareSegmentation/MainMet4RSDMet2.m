@@ -21,7 +21,8 @@
 clc; clear all; close all;
  
 %% Setting script operating parameters
-HOME=fullfile('C:','Users','Usuari','development','orange_classification');
+% HOME=fullfile('C:','Users','Usuari','development','orange_classification'); % for Windows systems
+HOME=fullfile('/','home','usuario','development','orange_classification'); % for Linux systems
 RESULTS_ROOT=fullfile(HOME,'OrangeResults');
 mainPath=fullfile(RESULTS_ROOT,'byDefects','PSMet2','CompareROI');
 
@@ -31,23 +32,23 @@ pathImages=fullfile(DATASET,'inputToLearn');
 pathMarkedColorImages=fullfile(DATASET,'inputMarked');
 
 configurationPath=fullfile(mainPath,'conf');
-pathImagesToCompare=fullfile(mainPath,'tmpToLearn','CompareSDMet2');
+CompareSDMet2Path=fullfile(mainPath,'tmpToLearn','CompareSDMet2');
 pathTestedMethod=fullfile(mainPath,'tmpToLearn','SDMet2');
 pathPreMarkedImages=fullfile(mainPath,'tmpToLearn','MARKED');
 imageExtension='*.jpg';
 pathBinaryDef=fullfile(pathPreMarkedImages,'MDefBin');
 pathBinaryCalyx=fullfile(pathPreMarkedImages,'MCalyxBin');
-pathBinaryExp=fullfile(pathImagesToCompare,'ExpertoBin');
+pathBinaryExp=fullfile(CompareSDMet2Path,'ExpertoBin');
 pathBinaryDefects=fullfile(pathTestedMethod,'defectos');
 
 % Settings for comparisons
-pathFPFNBin=fullfile(pathImagesToCompare,'FPFNBin');
-pathTPTNBin=fullfile(pathImagesToCompare,'TPTNBin');
-pathFNBin=fullfile(pathImagesToCompare,'FNBin');
-pathFPBin=fullfile(pathImagesToCompare,'FPBin');
-pathTPBin=fullfile(pathImagesToCompare,'TPBin');
-pathTNBin=fullfile(pathImagesToCompare,'TNBin');
-pathTPFPFNBin=fullfile(pathImagesToCompare,'TPFPFNBin');
+pathFPFNBin=fullfile(CompareSDMet2Path,'FPFNBin');
+pathTPTNBin=fullfile(CompareSDMet2Path,'TPTNBin');
+pathFNBin=fullfile(CompareSDMet2Path,'FNBin');
+pathFPBin=fullfile(CompareSDMet2Path,'FPBin');
+pathTPBin=fullfile(CompareSDMet2Path,'TPBin');
+pathTNBin=fullfile(CompareSDMet2Path,'TNBin');
+pathTPFPFNBin=fullfile(CompareSDMet2Path,'TPFPFNBin');
 
 % Setting the average variables to zero
 precisionSummation=0.0;
