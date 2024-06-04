@@ -41,21 +41,21 @@ Schollarship [CONACYT BECA08-25](https://www.conacyt.gov.py/view-inventario-de-t
 * [https://repositorio.conacyt.gov.py/handle/20.500.14066/3172](https://repositorio.conacyt.gov.py/handle/20.500.14066/3172) (written in Spanish)
 
 
-# Contents (TO COMPLETE REVIEW THIS AFTER INSTALL)
+# Contenidos (TO COMPLETE REVIEW THIS AFTER INSTALL)
 
-1. Pre-requisites.
-2. Functionalities.
-3. Install and run.
-4. Files and folder description.
+1. Requisitos para ejecución.
+2. Functionalidades.
+3. Instalar y ejecutar.
+4. Descripción de archivos y directorios.
 
 
-## 1. Pre-requisites
+## 1. Requisitos iniciales
 
 * MATLAB R2021a. Last test under MATLAB R2024a
 * Toolbox: Image processing, Computer Vision System, Statistics and Machine Learning, Dataset.
 
 
-## 2. Functionalities
+## 2. Functionalidades
 
 The functionalities of the software are briefly described. Supplementary material can be
 found in [USER's Manual](https://github.com/juancarlosmiranda/orange_classification/blob/main/docs/USER_MANUAL_orange_classification_v1.md).
@@ -65,32 +65,36 @@ found in [USER's Manual](https://github.com/juancarlosmiranda/orange_classificat
 * **[ xxx]** xxx.
 
 
-## 3. Install and run
+## 3. Instalar y ejecutar
 
-Create your folder environment.
+### 3.1. Configuración inicial
 
+1) Seleccionar el directorio inicial y clonar el repositorio. Por ejemplo ```/home/user/development/``` o ```C:\\Users\\User\\development\\```. La ruta al directorio quedaría como ```/home/user/development/orange_classification/``` para sistemas Linux o ```C:\\Users\\User\\development\\orange_classification\\``` para sistemas Windows
 ```
-xxxx
-```
-
-```
-
-|__/DATASET/
-       |__/inputToLearn/ -> RGB images
-       |__/inputMarked/ -> RGB images with masks
-
-|__/PREPROCESSED_DATASET/
-       |__/inputTest -> folder with images for tests
-       |__/inputTraining -> folder with images for training.
-
+git clone https://github.com/juancarlosmiranda/orange_classification.git
 ```
 
-## Configuración inicial
-1) Descargar del DATASET con imágenes tomadas en laboratorio y marcaciones manuales realizadas por el experto.
+2) Descargar del DATASET con imágenes tomadas en laboratorio y marcaciones manuales realizadas por el experto. Colocar el diretorio en ```./orange_classification/DATASET/ ``` 
 
-2) Ejecutar ```./orange_classification/byDefects/PSMet2/SetCreator/MainSetCreator.m``` para crear un conjunto de datos de preprocesamiento almacenados en el directorio ```PREPROCESSED_DATASET```.
+3) Ejecutar ```./orange_classification/byDefects/PSMet2/SetCreator/MainSetCreator.m``` para crear un conjunto de datos de preprocesamiento almacenados en el directorio ```PREPROCESSED_DATASET```.
+ 
+```
+|__/orange_classification/
+   |__/OrangeResults/
+   |   |__/byDefects/...
+   |   |__/bySize/...
+   |
+   |__/DATASET/
+   |      |__/inputToLearn/ -> RGB images
+   |      |__/inputMarked/ -> RGB images with masks
+   |
+   |__/PREPROCESSED_DATASET/
+          |__/inputTest -> folder with images for tests
+          |__/inputTraining -> folder with images for training.
 
-## Clasificación por defectos
+```
+
+### 3.2. Clasificación por defectos
 1) Ejecutar ```./orange_classificationbyDefects/SetCreator/PSMet2/MainSetCreator.m``` para generar directorios de archivos con imágenes de entrenamiento (```./orange_classification/PREPROCESSED_DATASET/inputTraining/```) y prueba (```./orange_classification/PREPROCESSED_DATASET/inputTest```).
 
 2) Ejecutar ```./orange_classification/byDefects/SegMarkExp/PSMet2/MainSegMarkExp.m``` con el fin de extraer las regiones de interés candidatas en imágenes.
@@ -101,11 +105,13 @@ El archivo generado ```BDDEFECTOSCALYX.csv``` se utilizará para entrenar un cla
 
 4) Copiar el archivo ```./orange_classification/OrangeResults/byDefects/PSMet2/SegMarkExpExtraction/output/BDDEFECTOSCALYX.csv``` a ```./orange_classification/OrangeResults/byDefects/PSMet2/FruitEvaluation/conf```.
 
-5) Ejecutar ```./orange_classification/byDefects/PSMet2/FruitEvaluation/MainDefTraining4R.m``` para obtener un clasificador entrenado. Genera un archivo denominado ```MY_TRAINED_MODEL.mat``` con datos sobre el modelo entrenado.
+5) Ejecutar ```./orange_classification/byDefects/PSMet2/FruitEvaluation/MainDefTraining4R.m``` para entrenar un clasificador. Genera un archivo denominado ```MY_TRAINED_MODEL.mat``` con datos sobre el modelo entrenado.
 
 6) Ejecutar ```./orange_classification/byDefects/PSMet2/FruitEvaluation/MainDefDetectONLINE4r.m``` para clasificar las frutas del directorio y visualizar detecciones soreb imágenes disponibles en ```./orange_classification/PREPROCESSED_DATASET/inputTest```. Este módulo utiliza el archivo ```MY_TRAINED_MODEL.mat``` generado previamente con ```./orange_classification/byDefects/PSMet2/FruitEvaluation/MainDefTraining4R.m``` 
 
-## Comparación de métodos propuestos para clasificación por defectos
+### 3.3. Evaluación de métodos propuestos para clasificación por defectos
+Los scripts citados aquí comparan los métodos propuestos con las marcaciones realizadas por un experto.
+
 1) Ejecutar ```./orange_classification/byDefects/SetCreator/PSMet2/MainSetCreator.m``` para extraer generar las carpetas con imágenes para entrenamiento y prueba ```./orange_classification/PREPROCESSED_DATASET/inputTest``` y ```./orange_classification/PREPROCESSED_DATASET/inputTraining/```.
 2) Ejecutar ```./orange_classification/byDefects/SegMarkExp/PSMet2/MainSegMarkExp.m``` para extraer numéricas de las regiones de interés y generar un archivo para entrenar un clasificador (KNN y SVM).
 3) Copiar el contenido de ```./orange_classification/OrangeResults/byDefects/PSMet2/SegMarkExp/tmpToLearn/``` a ```./orange_classification/OrangeResults/byDefects/PSMet2/CompareROI/tmpToLearn/MARKED/```.
@@ -113,34 +119,15 @@ El archivo generado ```BDDEFECTOSCALYX.csv``` se utilizará para entrenar un cla
 5) Ejecutar las diferentes comparaciones ```MainMet4RSDMet1.m```, ```MainMet4RSDMet2.m``` y ```MainMet4RSDMet3.m``` en ```./orange_classification/OrangeResults/byDefects/PSMet2/CompareROI/CompareSegmentation```. 
 
 
-1) ~SetCreator [OK]~ byDefects/SetCreator/MainSetCreator.m
-2) ~SegMarkExp [OK]~ byDefects/SegMarkExp/MainSegMarkExp.m
-3) ~SegMarkExpExtraction [OK]~ byDefects/SegMarkExpExtraction/MainSegMarkExpExtraction.m
-4) ~FruitEvaluation [OK]~ byDefects/FruitEvaluation/MainDefDetectONLINE4R.m
+### 3.3. Clasificación según tamaño de fruta (TODO)
+Completar.
 
-Evaluación de métricas y métodos para defectos
-1) byDefects/CompareROI/SDMet123/
+### 3.4. Evaluación de métodos propuestos para clasificación según tamaño de fruta (TODO)
 
-  byDefects/CompareROI/SDMet123/MainDefSDMet1.m
-  byDefects/CompareROI/SDMet123/MainDefSDMet2.m
-  byDefects/CompareROI/SDMet123/MainDefSDMet3.m
-
-2) byDefects/CompareROI/CompareSegmentation/
-   
-   byDefects/CompareROI/CompareSegmentation/MainMet4RSDMet1.m
-   byDefects/CompareROI/CompareSegmentation/MainMet4RSDMet2.m
-   byDefects/CompareROI/CompareSegmentation/MainMet4RSDMet3.m
-   
-
-## Clasificación por tamaño
+Completar.
 
 
-
-1)
-2)
-
-
-## 4.3 Files and folder description
+## 4 Descripción de archivos y directorios (TODO)
 
 *** TODO: Es necesario colocar la secuencia para el uso de los archivos.
 Esto es un montón de scripts sin una secuencia de pasos. ***
@@ -188,7 +175,7 @@ Files and modules:
 
 
 
-Folder description:
+Descripción de directorios:
 
 | Folders                    | Description            |
 |---------------------------|-------------------------|
@@ -199,13 +186,13 @@ Folder description:
 
 
 
-## Authorship
+## Autoría
 
-Please contact author to report bugs [https://www.linkedin.com/in/juan-carlos-miranda-py/](https://www.linkedin.com/in/juan-carlos-miranda-py/)
+Por favor, póngase en contacto con el autor para informar errores [https://www.linkedin.com/in/juan-carlos-miranda-py/](https://www.linkedin.com/in/juan-carlos-miranda-py/)
 
-## Citation
+## Citación
 
-If you find this code useful, please consider citing:
+Si encuentra útil este código, considere citar:
 
 ```
 @article{miranda2018clasificacion,
@@ -222,4 +209,4 @@ If you find this code useful, please consider citing:
 
 ## Acknowledgements
 
-This work is a result of the [CONACYT BECA08-25](https://www.conacyt.gov.py/view-inventario-de-tesis?keys=beca08-25) granted by [Consejo Nacional de Ciencia y Tecnología (CONACYT)](https://repositorio.conacyt.gov.py/handle/20.500.14066/).
+Este trabajo es resultado de la beca [CONACYT BECA08-25](https://www.conacyt.gov.py/view-inventario-de-tesis?keys=beca08-25) concedida por [Consejo Nacional de Ciencia y Tecnología (CONACYT)](https://repositorio.conacyt.gov.py/handle/20.500.14066/).
