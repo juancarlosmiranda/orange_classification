@@ -69,13 +69,47 @@ found in [USER's Manual](https://github.com/juancarlosmiranda/orange_classificat
 
 ### 3.1. Configuración inicial
 
-1) Seleccionar el directorio inicial y clonar el repositorio. Por ejemplo ```/home/user/development/``` o ```C:\\Users\\User\\development\\```. La ruta al directorio quedaría como ```/home/user/development/orange_classification/``` para sistemas Linux o ```C:\\Users\\User\\development\\orange_classification\\``` para sistemas Windows
+1) Seleccionar el directorio inicial según sus sistema operativo. 
+```
+
+/home/user/development/  # Linux
+
+C:\Users\User\development\ # Windows
+
+```
+
+Clonar el repositorio.
+
 ```
 git clone https://github.com/juancarlosmiranda/orange_classification.git
 ```
-2) Descargar del DATASET con imágenes tomadas en laboratorio y marcaciones manuales realizadas por el experto. Colocar el diretorio en ```./orange_classification/DATASET/ ``` 
-3) Ejecutar el script ```./orange_classification/MainSettings.m``` el cual crea directorios que almacenarán resultados temporales.
+
+La ruta al directorio del proyecto quedaría algo así:
+```
+
+/home/user/development/orange_classification/ # Linux
+
+C:\Users\User\development\orange_classification\ # Windows
+
+```
+
+2) Descargar del DATASET con imágenes tomadas en laboratorio y marcaciones manuales realizadas por el experto. Copiar el diretorio en ```./orange_classification/DATASET/ ``` 
+```
+|__/orange_classification/
+   |__/OrangeResults/
+   |   |__/byDefects/...
+   |   |__/bySize/...
+   |
+   |__/DATASET/
+   |      |__/inputToLearn/ -> RGB images
+   |      |__/inputMarked/ -> RGB images with masks
+```
+
+4) Ejecutar el script ```./orange_classification/MainSettings.m``` el cual crea directorios que almacenarán resultados temporales en cada módulo.
+
+### 3.2. Clasificación por defectos
  
+1) Ejecutar ```./orange_classificationbyDefects/SetCreator/PSMet2/MainSetCreator.m``` para generar directorios de archivos con imágenes de entrenamiento y prueba (```/PREPROCESSED_DATASET/```).
 ```
 |__/orange_classification/
    |__/OrangeResults/
@@ -92,13 +126,6 @@ git clone https://github.com/juancarlosmiranda/orange_classification.git
 
 ```
 
-### 3.2. Clasificación por defectos
- 
-1) Ejecutar ```./orange_classificationbyDefects/SetCreator/PSMet2/MainSetCreator.m``` para generar directorios de archivos con imágenes de entrenamiento y prueba.
-```
-./orange_classification/PREPROCESSED_DATASET/inputTraining/
-./orange_classification/PREPROCESSED_DATASET/inputTest
-``` 
 2) Ejecutar ```./orange_classification/byDefects/SegMarkExp/PSMet2/MainSegMarkExp.m``` con el fin de extraer las regiones de interés candidatas en imágenes.
 3) Ejecutar ```./orange_classification/OrangeResults/byDefects/PSMet2/SegMarkExpExtraction/MainSegMarkExpExtraction.m```. 
 Este script genera archivos con características geométricas y de color (valores numéricos) para  defectos y calyx en frutas. Los valores numéricos son utilizados para obtener datos de: color, textura y geometria de los defectos y calyx.
