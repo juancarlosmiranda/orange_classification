@@ -55,7 +55,7 @@ Schollarship [CONACYT BECA08-25](https://www.conacyt.gov.py/view-inventario-de-t
 * Toolbox: Image processing, Computer Vision System, Statistics and Machine Learning, Dataset.
 
 
-## 2. Functionalidades
+## 2. Funcionalidades
 
 The functionalities of the software are briefly described. Supplementary material can be
 found in [USER's Manual](https://github.com/juancarlosmiranda/orange_classification/blob/main/docs/USER_MANUAL_orange_classification_v1.md).
@@ -73,10 +73,8 @@ found in [USER's Manual](https://github.com/juancarlosmiranda/orange_classificat
 ```
 git clone https://github.com/juancarlosmiranda/orange_classification.git
 ```
-
 2) Descargar del DATASET con imágenes tomadas en laboratorio y marcaciones manuales realizadas por el experto. Colocar el diretorio en ```./orange_classification/DATASET/ ``` 
-
-3) Ejecutar ```./orange_classification/byDefects/PSMet2/SetCreator/MainSetCreator.m``` para crear un conjunto de datos de preprocesamiento almacenados en el directorio ```PREPROCESSED_DATASET```.
+3) Ejecutar el script ```./orange_classification/MainSettings.m``` el cual crea directorios que almacenarán resultados temporales.
  
 ```
 |__/orange_classification/
@@ -95,19 +93,19 @@ git clone https://github.com/juancarlosmiranda/orange_classification.git
 ```
 
 ### 3.2. Clasificación por defectos
-1) Ejecutar ```./orange_classificationbyDefects/SetCreator/PSMet2/MainSetCreator.m``` para generar directorios de archivos con imágenes de entrenamiento (```./orange_classification/PREPROCESSED_DATASET/inputTraining/```) y prueba (```./orange_classification/PREPROCESSED_DATASET/inputTest```).
-
+ 
+1) Ejecutar ```./orange_classificationbyDefects/SetCreator/PSMet2/MainSetCreator.m``` para generar directorios de archivos con imágenes de entrenamiento y prueba.
+```
+./orange_classification/PREPROCESSED_DATASET/inputTraining/
+./orange_classification/PREPROCESSED_DATASET/inputTest
+``` 
 2) Ejecutar ```./orange_classification/byDefects/SegMarkExp/PSMet2/MainSegMarkExp.m``` con el fin de extraer las regiones de interés candidatas en imágenes.
-
 3) Ejecutar ```./orange_classification/OrangeResults/byDefects/PSMet2/SegMarkExpExtraction/MainSegMarkExpExtraction.m```. 
 Este script genera archivos con características geométricas y de color (valores numéricos) para  defectos y calyx en frutas. Los valores numéricos son utilizados para obtener datos de: color, textura y geometria de los defectos y calyx.
 El archivo generado ```BDDEFECTOSCALYX.csv``` se utilizará para entrenar un clasificador (KNN y SVM).
-
 4) Copiar el archivo ```./orange_classification/OrangeResults/byDefects/PSMet2/SegMarkExpExtraction/output/BDDEFECTOSCALYX.csv``` a ```./orange_classification/OrangeResults/byDefects/PSMet2/FruitEvaluation/conf```.
-
 5) Ejecutar ```./orange_classification/byDefects/PSMet2/FruitEvaluation/MainDefTraining4R.m``` para entrenar un clasificador. Genera un archivo denominado ```MY_TRAINED_MODEL.mat``` con datos sobre el modelo entrenado.
-
-6) Ejecutar ```./orange_classification/byDefects/PSMet2/FruitEvaluation/MainDefDetectONLINE4r.m``` para clasificar las frutas del directorio y visualizar detecciones soreb imágenes disponibles en ```./orange_classification/PREPROCESSED_DATASET/inputTest```. Este módulo utiliza el archivo ```MY_TRAINED_MODEL.mat``` generado previamente con ```./orange_classification/byDefects/PSMet2/FruitEvaluation/MainDefTraining4R.m``` 
+6) Ejecutar ```./orange_classification/byDefects/PSMet2/FruitEvaluation/MainDefDetectONLINE4r.m``` para clasificar las frutas del directorio y visualizar detecciones soreb imágenes disponibles en ```./orange_classification/PREPROCESSED_DATASET/inputTest```. Este módulo utiliza el archivo ```MY_TRAINED_MODEL.mat``` generado previamente con ```./orange_classification/byDefects/PSMet2/FruitEvaluation/MainDefTraining4R.m```. 
 
 ### 3.3. Evaluación de métodos propuestos para clasificación por defectos
 Los scripts citados aquí comparan los métodos propuestos con las marcaciones realizadas por un experto.
@@ -186,11 +184,11 @@ Descripción de directorios:
 
 
 
-## Autoría
+## 5. Autoría
 
 Por favor, póngase en contacto con el autor para informar errores [https://www.linkedin.com/in/juan-carlos-miranda-py/](https://www.linkedin.com/in/juan-carlos-miranda-py/)
 
-## Citación
+## 6. Citación
 
 Si encuentra útil este código, considere citar:
 
@@ -207,6 +205,6 @@ Si encuentra útil este código, considere citar:
 }
 ```
 
-## Acknowledgements
+## 7. Agradecimientos
 
 Este trabajo es resultado de la beca [CONACYT BECA08-25](https://www.conacyt.gov.py/view-inventario-de-tesis?keys=beca08-25) concedida por [Consejo Nacional de Ciencia y Tecnología (CONACYT)](https://repositorio.conacyt.gov.py/handle/20.500.14066/).
