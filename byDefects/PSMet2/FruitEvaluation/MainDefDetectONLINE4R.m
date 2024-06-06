@@ -28,17 +28,17 @@ clc; clear all; close all;
 % HOME=fullfile('C:','Users','Usuari','development','orange_classification'); % for Windows systems
 HOME=fullfile('/','home','usuario','development','orange_classification'); % for Linux systems
 RESULTS_ROOT=fullfile(HOME,'OrangeResults');
-mainPath=fullfile(RESULTS_ROOT,'byDefects','PSMet2','FruitEvaluation');
-configurationPath=fullfile(mainPath,'conf');
-outputPath=fullfile(mainPath,'tmpToLearn'); % temporal data folder
+fruitEvaluationPath=fullfile(RESULTS_ROOT,'byDefects','PSMet2','FruitEvaluation');
+configurationPath=fullfile(fruitEvaluationPath,'conf');
+outputPath=fullfile(fruitEvaluationPath,'tmpToLearn'); % temporal data folder
 configurationFile=fullfile(configurationPath,'20170916configuracion.xml'); % for initial coordinates in image processing
 %TODO calibrationFile=fullfile(configurationPath,'20170916calibracion.xml'); % to indicate to the user in the final part of the calibration
 
 %% Setting up the directory folder structure
 PREPROCESSED_DATASET=fullfile(RESULTS_ROOT,'PREPROCESSED_DATASET');
 pathImagesTest=fullfile(PREPROCESSED_DATASET,'inputTest');
-pathAplicacionSiluetas=fullfile(outputPath,'sFrutas');
-pathResults=fullfile(mainPath,'output');% saves results
+%pathAplicacionSiluetas=fullfile(outputPath,'sFrutas');
+pathResults=fullfile(fruitEvaluationPath,'output');% saves results
 imageExtension='*.jpg';
 
 %% Classifier path
@@ -99,7 +99,7 @@ objectAreaBR=5000; % Area value to filter silhouettes and object detection (gran
 % parameters
 LchannelMin = 0.0; LchannelMax = 96.653; AchannelMin = -23.548; AchannelMax = 16.303; BchannelMin = -28.235; BchannelMax = -1.169;
 
-%% CONFIGURACIONES PARA DETECCION DE DEFECTOS
+%% Defect detection settings
 sizeContours=1000; % is used for contour extraction. The contours are above 1000 pixels
 candidateFilePath=fullfile(pathResults,'aCandidatos.csv'); % output file defect candidates
 

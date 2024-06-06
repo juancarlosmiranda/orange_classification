@@ -1,93 +1,75 @@
-function [] = BRemovalLAB(imagenInicialRGB, imagenNombreFR, tamanoObjeto, canalLMin, canalLMax, canalAMin, canalAMax, canalBMin, canalBMax, xmin,ymin,width,height)
-% Valores empíricos para el conjunto de imágenes
-% NO BORRAR --> canalLMin = 0.0; canalLMax = 96.653; canalAMin = -23.548; canalAMax = 16.303; canalBMin = -28.235; canalBMax = -1.169;
+function [] = BRemovalLAB(rgbColourImage, imageNameBR, imageNameF, objectSize, lChannelMin, lChannelMax, aChannelMin, aChannelMax, bChannelMin, bChannelMax, xmin,ymin,width,height)
+%
+% Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING
+% COMPUTER VISION TECHNIQUES
+%
+% Author: Juan Carlos Miranda. https://github.com/juancarlosmiranda/
+% Date: 2018
+% Update:  December 2023
+%
+% Description:
+% Receive measurements from rectangle number 1 (main figure from acquisition)
+% to make cuts and remove objects that do not belong to oranges. The parameters 
+% xmin,ymin,width,height are received. Creates a mask from an RGB image using 
+% thresholding and the LAB space with a maximum and minimum on each channel. 
+% As a result, an intermediate image is generated, with figures of the fruits, 
+% it is used by other processes. This code was generated with colorThresholder 
+% application on 02-Sep-2017
+%
+%
+% Usage:
+% BRemovalLAB(colourImage, imageNameBR, imageNameF, objectAreaBR, lChannelMin, lChannelMax, aChannelMin, aChannelMax, bChannelMax, bChannelMin,rectangle1_X, rectangle1_Y-2, rectangle1_W, rectangle1_H);
+%
 
-
-
-% Recibe las medidas del cuadro 1 para realizar recortes y eliminar objetos
-% que no pertenecen a las naranjas. Se reciben elos parámetros
-% xmin,ymin,width,height.
-
-% Crea una máscara a partir de una imagen RGB utilizando umbralizacion y el
-% espacio LAB con un máximo y un mínimo en cada canal.
-% como resultado se genera una imagen intermedia, con siluetas de las
-% frutas, la misma es utilizada por otros procesos. 
-% Codigo generado con colorThresholder app on 02-Sep-2017
-
+% Empirical values for the image dataset, mantain this for reference. The
+% values were selected based on colour histogram.
+% lChannelMin = 0.0; 
+% lChannelMax = 96.653; 
+% aChannelMin = -23.548; 
+% aChannelMax = 16.303; 
+% bChannelMin = -28.235; 
+% bChannelMax = -1.169;
+%
 % abrir imagen original
-IRGB=imread(imagenInicialRGB);
+IRGB=imread(rgbColourImage);
 
-% Convertir imagen RGB al espacio CIELAB
+% RGB colour space conversion to CIELAB
 IRGB = im2double(IRGB);
 cform = makecform('srgb2lab', 'AdaptedWhitePoint', whitepoint('D65'));
 I = applycform(IRGB,cform);
 
-% Definir umbrales para canal 1 basados en histograma
-%canalLMin = 0.0;
-%canalLMax = 96.653;
+% Create mask a binary mask according to the histogram thresholds
+BW = (I(:,:,1) >= lChannelMin ) & (I(:,:,1) <= lChannelMax) & ...
+    (I(:,:,2) >= aChannelMin ) & (I(:,:,2) <= aChannelMax) & ...
+    (I(:,:,3) >= bChannelMin ) & (I(:,:,3) <= bChannelMax);
 
-% Definir umbrales para canal 2 basados en histograma
-%canalAMin = -23.548;
-%canalAMax = 16.303;
+% It is reversed again to leave the figure
+reverseMask=1-BW;
 
-% Definir umbrales para canal 3 basados en histograma
-%canalBMin = -28.235;
-%canalBMax = -1.169;
-
-% Crear mascara según los umbrales del historgrama
-BW = (I(:,:,1) >= canalLMin ) & (I(:,:,1) <= canalLMax) & ...
-    (I(:,:,2) >= canalAMin ) & (I(:,:,2) <= canalAMax) & ...
-    (I(:,:,3) >= canalBMin ) & (I(:,:,3) <= canalBMax);
-
-% Inicializar la mascara obtenida con la imagen RGB
-mascaraRGBImagen = IRGB;
-
-% colocar en cero los pixeles considerados como fondo
-mascaraRGBImagen(repmat(~BW,[1 1 3])) = 0;
-
-%figure('Name','Original');imshow(IRGB);
-%figure('Name','Mascara Binaria');imshow(BW);
-%figure('Name','Segmentada');imshow(mascaraRGBImagen);
-
-%Se vuelve a invertir para dejar con unos la silueta
-mascaraInversa=1-BW;
-%figure('Name','inversa');imshow(mascaraInversa);
-
-% Aplicacion de operacion erosion
+% Erosion morphological operation application
 SE = strel('disk', 4);
-IB1 = imerode(mascaraInversa,SE);
+IB1 = imerode(reverseMask,SE);
 
-%% Llenado de agujeros
+% Filling holes in the figure
 IB2 = imfill(IB1,'holes');
 
-%% --------------------------------------
-%% colocar linea pixelada en negro para elimnar ruidos 
-coordenadasAPintar=[xmin, ymin, width, height]; %definicion de la zona linea pixelada en negro
-% separar a las naranjas del cuadro 1, soluciona la superposicion del
-% cuadro 1 y del cuadro 3
-IB2((coordenadasAPintar(2)-2):(coordenadasAPintar(2)+2),coordenadasAPintar(1):(coordenadasAPintar(1)+(coordenadasAPintar(3)-1)))=0;
+% Adds a black line to eliminate noise
+coordinatesToPaint=[xmin, ymin, width, height];
+% definition of the black pixelated line area, separate the oranges from 
+% rectangle 1, solve the overlap of the rectangle 1 and rectangle 3
 
-% elimina ruidos que se encuentran mas abajo del rectangulo inferior
-[filasTotal,columnasTotal]=size(IB2);
-topeFilas=coordenadasAPintar(2)+(coordenadasAPintar(4)-1);
-%IRGB(topeFilas:filasTotal-1,1:columnasTotal-4)=0;
-IB2(topeFilas:filasTotal,1:columnasTotal)=0;
+IB2((coordinatesToPaint(2)-2):(coordinatesToPaint(2)+2),coordinatesToPaint(1):(coordinatesToPaint(1)+(coordinatesToPaint(3)-1)))=0;
 
-%% --------------------------------------
+% noise removal at the bottom of the image
+[totalRows,totalColumns]=size(IB2);
+limitRow=coordinatesToPaint(2)+(coordinatesToPaint(4)-1);
+IB2(limitRow:totalRows,1:totalColumns)=0;
 
-%% Elimina los elementos cuya area es igual al parametro, deja los elementos grandes
-IB3=bwareaopen(IB2,tamanoObjeto);
+% Eliminate elements whose area is equal to the parameter, leave large elements.
+IB3=bwareaopen(IB2,objectSize);
 
 
-%%----------------------------------
-
-
-
-
-
-
-
-%% guardar imagen final con los contorno de la fruta
-imwrite(IB3,imagenNombreFR,'jpg');
+% Save final image with fruit shape/ contour
+imwrite(IB3,imageNameBR,'jpg');
 
 end

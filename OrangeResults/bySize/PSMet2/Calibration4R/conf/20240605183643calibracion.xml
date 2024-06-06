@@ -1,0 +1,25 @@
+<productinfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.mathworks.com/namespace/info/v1/info.xsd">
+<listitem>
+ <label>diametroEsfera</label>
+ <value>61.000000</value>
+ </listitem>
+<listitem>
+ <label>areaCalibracion</label>
+ <value>2922.466566</value>
+ </listitem>
+<listitem>
+ <label>areaPixelesR1</label>
+ <value>22231.000000</value>
+ </listitem>
+<listitem>
+ <label>areaPixelesR2</label>
+ <value>12310.000000</value>
+ </listitem>
+<listitem>
+ <label>areaPixelesR3</label>
+ <value>11793.000000</value>
+ </listitem>
+<listitem>
+ <label>areaPixelesR4</label>
+ <value>11602.000000</value>
+ </listitem>

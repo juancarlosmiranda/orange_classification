@@ -145,7 +145,9 @@ Los scripts citados aquí comparan los métodos propuestos con las marcaciones r
 
 
 ### 3.3. Clasificación según tamaño de fruta (TODO)
-Completar.
+1) Ejecutar ```./orange_classification/bySize/Calibration4R/MainCalibration4R.m``` para calibrar obtener las equivalencias pixel a milímetros.
+
+
 
 ### 3.4. Evaluación de métodos propuestos para clasificación según tamaño de fruta (TODO)
 

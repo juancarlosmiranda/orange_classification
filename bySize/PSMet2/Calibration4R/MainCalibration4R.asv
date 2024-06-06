@@ -64,6 +64,7 @@ imageNameSilhouette4=fullfile(pathCalibration,strcat(imageNameP,'_','sN4.jpg'));
 configurationFile=fullfile(configurationPath,'20170916configuracion.xml'); % Contains coordinates values used for image processing
 execution_time=string(datetime('now','Format','yyyyMMddHHmmss'));
 filenameCalibration='20170916calibracion.xml'; % it use an existent file
+filenameCalibration= strcat(execution_time,'calibracion.xml');
 pathCalibrationFile=fullfile(configurationPath,filenameCalibration);
 pathVectorFile=fullfile(pathResults,'archivoCalibracion.csv'); % file with outpus from this module
 
@@ -129,8 +130,6 @@ delete(pathVectorFile);
 
 %% start calibration
 if(calibrationFlag==TOCALIBRATE)
-    filenameCalibration= strcat(execution_time,'calibracion.xml');
-    pathCalibrationFile=fullfile(configurationPath,filenameCalibration);
     fprintf('\n--- Calibrating with images --- \n');
     ProcessCalibrationImg(pathImagesCalibration, pathCalibration, imageNameP, rectangleList, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax);
     calibrationDef24R(pathSilohuettesCalibration, imageNameP,pathCalibrationFile);

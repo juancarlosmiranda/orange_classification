@@ -53,6 +53,24 @@ Verificar la carpeta bySize/ y byDefects/
 
 bySize
 ---------
+Arreglar cabeceras de archivos.
+Arreglar rutas.
+Traducir nombres de variables.
+Traducir nombres de funciones y cambiar los archivos.
+Hacer el listado con los pasos para ejecución.
+Colocar los nombres de las variables según los módulos
+Agregar para la creación de directorios en settings. Suplantar las cadenas de PATH para tomar de una librería inicial. Sin tener que configurar en cada script.
+Agregar todas las librerías comunes a un directorio /lib, por ejemplo "BRemovalLAB.m".
+
+
+Segunda etapa de refatory
+----------------------------
+Por último, actualizar la fecha del refactory.
+No tiene que quedar variables en castellano.
+Pasar el embellecedor de código.
+Arreglar los nombres de variable del rectangulo en objectDetection2.m. Conviene
+que se arregle el nombre una vez migradas a una directorio común. x,y,w,h
+
 ## Code to verify
 
 Calibration4R/
@@ -65,4 +83,4 @@ Training24R/
 ## Code translated and reviewed
 
 
-Borrar los directorios y crearlos 
+Borrar los directorios y crearlos

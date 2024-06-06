@@ -1,4 +1,4 @@
-function [ ] = ProcessImgSoft(pathImages, outputPath, imageNameP, rectsangleList, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax )
+function [ ] = ProcessImgSoft(pathImages, outputPath, imageNameP, rectangleList, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax )
 %
 % Project: AUTOMATIC CLASSIFICATION OF ORANGES BY SIZE AND DEFECTS USING
 % COMPUTER VISION TECHNIQUES
@@ -32,7 +32,6 @@ initialImage=fullfile(pathImages,imageNameP);
 %% SAVE DIRECTORIES
 outputPathBR=fullfile(outputPath,'br'); % background removal
 outputPathROI=fullfile(outputPath,'roi'); % region of interest
-
 outputPathSiFruits=fullfile(outputPath,'sFrutas'); % fruit silhouettes
 outputPathBaRemoved=fullfile(outputPath,'removido'); % images background removed
 
@@ -46,15 +45,13 @@ imageNameF=fullfile(outputPathROI,strcat(imageNameP,'_','I.jpg')); % prior to in
 imageNameSilhouettesN=fullfile(outputPathSiFruits,strcat(imageNameP,'_','sN'));
 imageNameRemoved=fullfile(outputPathBaRemoved,strcat(imageNameP,'_','rm'));
 
-
-
 %% -- BEGIN IMAGE PROCESSING ----------------------------------
 %% ----- BEGIN defining edges
 % For definition of rectangles PREVIOUSLY CONFIGURED TO DETECT THE IMAGE NUMBER FROM A GENERAL IMAGE WITH MIRRORS
-rectangle1_Y=rectsangleList(1,1);
-rectangle1_X=rectsangleList(1,2);
-rectangle1_H=rectsangleList(1,3);
-rectangle1_W=rectsangleList(1,4);
+rectangle1_Y=rectangleList(1,1);
+rectangle1_X=rectangleList(1,2);
+rectangle1_H=rectangleList(1,3);
+rectangle1_W=rectangleList(1,4);
 
 fprintf('BR -> Background segmentation --> \n'); % output an image with 4 silhouettes
 BRemovalLAB(initialImage, imageNameBR, imageNameF, objectAreaBR, LchannelMin, LchannelMax, AchannelMin, AchannelMax, BchannelMin, BchannelMax,rectangle1_Y, rectangle1_X-2, rectangle1_H, rectangle1_W);
@@ -65,7 +62,7 @@ backgroundRemoval4(initialImage, imageNameBR, imageNameROI);
 
 %% Working with cropped ROIs
 fprintf('BR -> Detection of objects in frames. Cropping ROI and ROI silhouettes --> \n'); % output 4 images of an object each assigns numbers of objects according to membership in the box
-objectDetection2( imageNameBR, imageNameROI, imageNameSilhouettesN, imageNameRemoved, rectsangleList ); 
+objectDetection2( imageNameBR, imageNameROI, imageNameSilhouettesN, imageNameRemoved, rectangleList ); 
 
 %% -- END IMAGE PROCESSING ----------------------------------
 

@@ -46,58 +46,6 @@ imageFormat='.jpg';
 imageFilter=strcat('*',imageFormat);
 
 %% dataset hierarchy
-%% dataset hierarchy
-%
-%|__/orange_classification/
-%   |__/OrangeResults/
-%   |   |__/byDefects/
-%   |   |    |__/PSMet2/
-%   |   |        |__/SegMarkExp/
-%   |   |        |    |__/tmpToLearn/
-%   |   |        |       |__/IBR/
-%   |   |        |       |__/IROI/
-%   |   |        |       |__/MROI/
-%   |   |        |       |__/ROICalyxC/
-%   |   |        |       |__/ROICalyxBin/
-%   |   |        |       |__/ROIDefBin/
-%   |   |        |       |__/ISFrutas/
-%   |   |        |       |__/IRM/
-%   |   |        |       |__/MRM/
-%   |   |        |       |__/MDefColor/
-%   |   |        |       |__/MCalyxColor/
-%   |   |        |       |__/MCalyxBin/
-%   |   |        |       |__/MDefBin/
-%   |   |        |       |__/cCalyx/
-%   |   |        |       |__/cDefectos/
-%   |   |        |
-%   |   |        |__/SegMarkExpExtraction/
-%   |   |        |    |__/output/
-%   |   |        |   
-%   |   |        |__/FruitEvaluation/
-%   |   |        |    |__/conf/
-%   |   |        |    |__/output/
-%   |   |        |    |__/tmpToLearn/
-%   |   |        |       |__/br/
-%   |   |        |       |__/roi/
-%   |   |        |       |__/sFrutas/
-%   |   |        |       |__/removido/
-%   |   |        |       |__/sDefectos/
-%   |   |        |       |__/contornos/
-%   |   |        |       |__/defectos/
-%   |   |        |       |__/cDefectos/
-%   |   |        |       |__/deteccion/
-%   |   |        | 
-%   |
-%   |
-%   |__/DATASET/
-%   |      |__/inputToLearn/ -> RGB images
-%   |      |__/inputMarked/ -> RGB images with masks
-%   |
-%   |__/PREPROCESSED_DATASET/
-%          |__/inputTest -> folder with images for tests
-%          |__/inputTraining -> folder with images for training.
-%
-%
 
 %% MainSetCreator.m - Creating preprocessed dataset
 [status,msg] = mkdir(PREPROCESSED_DATASET);
@@ -306,6 +254,91 @@ SDMet3PathTPFPFNBin=fullfile(CompareSDMet3Path,'TPFPFNBin');
 [status,msg] = mkdir(SDMet3PathTPBin);
 [status,msg] = mkdir(SDMet3PathTNBin);
 [status,msg] = mkdir(SDMet3PathTPFPFNBin);
+
+%% Size classification modules
+% MainCalibration4R.m
+
+%% dataset hierarchy
+%
+%|__/orange_classification/
+%   |__/OrangeResults/
+%   |   |__/byDefects/
+%   |   |    |__/PSMet2/
+%   |   |        |__/SegMarkExp/
+%   |   |        |    |__/tmpToLearn/
+%   |   |        |       |__/IBR/
+%   |   |        |       |__/IROI/
+%   |   |        |       |__/MROI/
+%   |   |        |       |__/ROICalyxC/
+%   |   |        |       |__/ROICalyxBin/
+%   |   |        |       |__/ROIDefBin/
+%   |   |        |       |__/ISFrutas/
+%   |   |        |       |__/IRM/
+%   |   |        |       |__/MRM/
+%   |   |        |       |__/MDefColor/
+%   |   |        |       |__/MCalyxColor/
+%   |   |        |       |__/MCalyxBin/
+%   |   |        |       |__/MDefBin/
+%   |   |        |       |__/cCalyx/
+%   |   |        |       |__/cDefectos/
+%   |   |        |
+%   |   |        |__/SegMarkExpExtraction/
+%   |   |        |    |__/output/
+%   |   |        |   
+%   |   |        |__/FruitEvaluation/
+%   |   |        |    |__/conf/
+%   |   |        |    |__/output/
+%   |   |        |    |__/tmpToLearn/
+%   |   |        |       |__/br/
+%   |   |        |       |__/roi/
+%   |   |        |       |__/sFrutas/
+%   |   |        |       |__/removido/
+%   |   |        |       |__/sDefectos/
+%   |   |        |       |__/contornos/
+%   |   |        |       |__/defectos/
+%   |   |        |       |__/cDefectos/
+%   |   |        |       |__/deteccion/
+%   |   |         
+%   |   |__/bySize/
+%   |   |    |__/PSMet2/
+%   |   |        |__/Calibration4R/
+%   |   |        |    |__/conf/
+%   |   |        |    |__/calibration/
+%   |   |        |       |__/br/
+%   |   |        |       |__/removido/
+%   |   |        |       |__/roi/
+%   |   |        |       |__/sFrutas/
+%   |
+%   |
+%   |__/DATASET/
+%   |      |__/inputToLearn/ -> RGB images
+%   |      |__/inputMarked/ -> RGB images with masks
+%   |
+%   |__/PREPROCESSED_DATASET/
+%          |__/inputTest -> folder with images for tests
+%          |__/inputTraining -> folder with images for training.
+%
+%
+
+
+calibration4RPath=fullfile(RESULTS_ROOT,'bySize','PSMet2','Calibration4R');
+calibration4RconfigurationPath=fullfile(calibration4RPath,'conf');
+calibration4RpathCalibration=fullfile(calibration4RPath,'calibration'); %se utiliza para situar las imagenes de calibracion
+calibration4RpathSilohuettesCalibration=fullfile(calibration4RpathCalibration,'sFrutas');
+calibration4RpathResults=fullfile(calibration4RPath,'output');%se guardan los resultados
+
+calibration4Rpathbr=fullfile(calibration4RpathCalibration,'br');
+calibration4Rpathroi=fullfile(calibration4RpathCalibration,'roi');
+calibration4RpathsFrutas=fullfile(calibration4RpathCalibration,'sFrutas');
+calibration4Rpathremovido=fullfile(calibration4RpathCalibration,'removido');
+
+[status,msg] = mkdir(calibration4RconfigurationPath);
+[status,msg] = mkdir(calibration4RpathResults);
+
+[status,msg] = mkdir(calibration4Rpathbr);
+[status,msg] = mkdir(calibration4Rpathroi);
+[status,msg] = mkdir(calibration4RpathsFrutas);
+[status,msg] = mkdir(calibration4Rpathremovido);
 
 
 %% Printing summary report
