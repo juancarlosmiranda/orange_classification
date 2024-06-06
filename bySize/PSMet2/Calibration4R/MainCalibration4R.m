@@ -25,6 +25,8 @@ Se trabaja con una equivalencia para las 4 vistas.
 %% Initial parameter setting
 clc; clear all; close all;
 
+currentFile = mfilename( 'fullpath' );
+[pathstr,currentFilenameScript,par_03] = fileparts( currentFile );
 %% Setting script operating parameters
 % IMPORTANT!!! CONFIGURE HERE THE MAIN FOLDER FOR YOUR PROJECT
 % HOME=fullfile('C:','Users','Usuari','development','orange_classification'); % for Windows systems
@@ -39,9 +41,9 @@ pathImagesCalibration=fullfile(DATASET,'inputToCalibrate');
 pathImagesSamples=fullfile(DATASET,'inputToCalibrate');
 
 configurationPath=fullfile(calibration4RPath,'conf');
-pathCalibration=fullfile(calibration4RPath,'calibration'); %se utiliza para situar las imagenes de calibracion
+pathCalibration=fullfile(calibration4RPath,'calibration'); % It is used to locate the calibration images
 pathSilohuettesCalibration=fullfile(pathCalibration,'sFrutas');
-pathResults=fullfile(calibration4RPath,'output');%se guardan los resultados
+pathResults=fullfile(calibration4RPath,'output');
 
 imageNameP='calibracion_001.jpg';
 fprintf('\n 1) Copy the obtained calibration file to the directory %s \n',pathImagesCalibration);

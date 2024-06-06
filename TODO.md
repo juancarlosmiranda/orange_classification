@@ -71,6 +71,21 @@ Pasar el embellecedor de código.
 Arreglar los nombres de variable del rectangulo en objectDetection2.m. Conviene
 que se arregle el nombre una vez migradas a una directorio común. x,y,w,h
 
+Ejemplo de relative path. https://la.mathworks.com/matlabcentral/answers/250997-how-to-use-relative-path-to-use-matlab-file-in-another-computer
+currentFile = mfilename( 'fullpath' );
+
+[pathstr,currentFilenameScript,par_03] = fileparts( currentFile );
+Sería terminar de organizar el c´ódigo y resolver lo del path en la segunda vuelta.
+
+ojo_eh=addpath(fullfile(pathstr,'..','..','..'))
+
+ojo_eh=fullfile(pathstr,'..','..','..')
+[pathstr,currentFilenameScript,par_03] = fileparts( ojo_eh );
+ojo_eh=fullfile(pathstr,'..','..','..', 'libs')
+
+https://stackoverflow.com/questions/36060074/how-to-get-relative-path-to-folder-containing-a-m-file
+
+
 ## Code to verify
 
 Calibration4R/

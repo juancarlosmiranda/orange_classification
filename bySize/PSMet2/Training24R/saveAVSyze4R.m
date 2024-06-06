@@ -12,15 +12,12 @@ if (fileIDTest==-1)
     fprintf('\n CREATING FILE WITH FEATURES \n');
     fprintf(fileID,'%6s \n',rowHeader);% agrega la cabecera
     fprintf(fileID,'%6s',rowToAdd);
-
 else
     fprintf('ADDING DATA TO THE EXISTING FILE \n');
     fclose(fileIDTest);% close reading handler, the file is created
-    fprintf(fileID,'%6s',rowToAdd);
-    
+    fprintf(fileID,'%6s',rowToAdd);    
 end %end file testing
     
-    fclose(fileID);    %close file
+fclose(fileID);    %close file
 
 end %
-

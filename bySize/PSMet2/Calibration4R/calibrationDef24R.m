@@ -1,12 +1,10 @@
 function [output_args]=calibrationDef24R(pathCalibracion, nombreImagenP,archivoCalibracion)
-%% calibracion de valores
-%clc; clear all; close all;
 
 diametermm=0.0;
 calibrationAreamm=0.0;
 
 
-%% caracteristicas geometricas
+%% geometric features
 % rectangle 1
 areaPxR1=0;
 diameterPxR1=0;
@@ -86,7 +84,7 @@ fprintf('1 pixel^2 R1= %f mm^2\n', equivalence1mmSquaredR1);
 fprintf('1 pixel lineal R1= %f mm\n', equivalence1mmR1);
 fprintf('\n -------------------------------- \n');
 
-%% impresion de archivo
+%% file template
 fileHeader=sprintf('<productinfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.mathworks.com/namespace/info/v1/info.xsd">\n');
 stringDiameter=sprintf('<listitem>\n <label>diametroEsfera</label>\n <value>%f</value>\n </listitem>\n',diametermm);
 stringCalibrationArea=sprintf('<listitem>\n <label>areaCalibracion</label>\n <value>%f</value>\n </listitem>\n',calibrationAreamm);
